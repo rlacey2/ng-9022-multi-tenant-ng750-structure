@@ -2,7 +2,7 @@
 <div class="workspace-wrapper d-flex flex-column position-relative h-100 w-100">
 
   <!-- LEVEL 2: View Level Header -->
-  <header class="bg-white border-bottom px-4 py-3 d-flex align-items-center justify-content-between flex-shrink-0" style="height: 60px;">
+  <header class="bg-white border-bottom zzpx-4 zpy-3 d-flex align-items-center justify-content-between flex-shrink-0" style="height: 60px;">
     <div class="d-flex align-items-center gap-2">
       @if (isMobile() && hasLeftSidebar()) {
         <button (click)="toggleLeft()" class="btn btn-sm btn-outline-secondary me-2">☰</button>
@@ -43,7 +43,7 @@
     <main class="main-workspace-content flex-grow-1 overflow-y-scroll bg-light position-relative" style="scrollbar-gutter: stable;">
       <ng-content select="[main-content]"></ng-content>
     </main>
-
+ 
     <!-- Column 3: Right Sidebar (Houses the Hidden Options Panel) -->
     @if (hasRightSidebar()) {
       <aside class="bg-white border-start d-flex flex-column component-sidebar-node"
@@ -54,7 +54,7 @@
         <!-- Premium Nested Configuration Module Panel Box -->
         <div class="p-3 border-bottom bg-light">
           <div class="d-flex align-items-center justify-content-between">
-            <h6 class="fw-bold text-dark text-uppercase small mb-0">⚙️ View Workspace Settings</h6>
+       
             @if (isMobile()) {
               <button (click)="toggleRight()" class="btn-close btn-sm" aria-label="Close"></button>
             }
@@ -62,35 +62,7 @@
         </div>
 
         <div class="p-3 flex-grow-1">
-          <!-- Dynamic Bootstrap Switch Options Control Form Stack -->
-          <div class="card border-0 bg-light p-3 rounded-3 mb-3">
-            <label class="form-label text-muted fw-bold small mb-3 text-uppercase tracking-wider">Layout Modifiers</label>
-            
-            <!-- 1. Header Launch Buttons Switch -->
-            <div class="form-check form-switch mb-3">
-              <input class="form-check-input" type="checkbox" id="switchHeaderTriggers"
-                     [checked]="headerLevelTriggers()" (change)="toggleHeaderTriggers()">
-              <label class="form-check-label small fw-medium text-dark" for="switchHeaderTriggers">Elevate Launch Buttons</label>
-              <div class="form-text extra-small text-muted">Moves sidebar trigger actions into the core top header menu layout on mobile.</div>
-            </div>
-
-            <!-- 2. Touch Overlay Close Switch -->
-            <div class="form-check form-switch mb-3">
-              <input class="form-check-input" type="checkbox" id="switchOverlayClose"
-                     [checked]="overlayCloseAllowed()" (change)="toggleOverlayClose()">
-              <label class="form-check-label small fw-medium text-dark" for="switchOverlayClose">Backdrop Overlay Close</label>
-              <div class="form-text extra-small text-muted">Tapping anywhere on the dark background mask will collapse open panel menus.</div>
-            </div>
-
-            <!-- 3. Context Inspector / Runtime Variable Display Switch -->
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="switchInspectorView"
-                     [checked]="showInspector()" (change)="toggleInspector()">
-              <label class="form-check-label small fw-medium text-dark" for="switchInspectorView">Context Variable Inspector</label>
-              <div class="form-text extra-small text-muted">Displays running variable states inside the bottom panel layout.</div>
-            </div>
-          </div>
-
+ 
           <!-- Dynamic Injection Slot for custom view inspectors -->
           <div class="custom-inspector-content mt-2">
             <ng-content select="[right-sidebar]"></ng-content>
