@@ -1,0 +1,28 @@
+/* src/app/shared/components/workspace-view/workspace-view.component.scss */
+.component-sidebar-node {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #ffffff !important;
+
+  &.sidebar-floating {
+    position: absolute !important;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    box-shadow: none;
+
+    &.sidebar-open {
+      transform: translateX(0) !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+    }
+  }
+
+  // Handle right-sidebar mirror projection transformation rules
+  &:nth-of-type(2).sidebar-floating {
+    right: 0;
+    transform: translateX(100%);
+    
+    &.sidebar-open {
+      transform: translateX(0) !important;
+    }
+  }
+}

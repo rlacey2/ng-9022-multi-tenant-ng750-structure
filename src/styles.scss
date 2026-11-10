@@ -1,0 +1,107 @@
+/* src/styles.scss */
+@import 'bootstrap/scss/bootstrap';
+
+// 1. Central Design System Fallbacks
+:root {
+  --primary-color: #0d6efd;
+  --secondary-color: #6c757d;
+}
+
+// 2. High-Fidelity Global Navigation Layer Namespace
+.navbar-application-hub {
+  // Binds the entire background container to your active tenant primary color smoothly
+  background-color: var(--primary-color) !important;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+
+  // Nested constraints for inner navigation link list items
+  .nav-item {
+    .nav-link {
+      color: rgba(255, 255, 255, 0.85) !important;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      border: 1px solid transparent;
+
+      // Clean Hover Highlighting Strategy
+      &.hover-highlight {
+        transition: all 0.2s ease-in-out;
+        
+        &:hover, &:focus {
+          background-color: rgba(255, 255, 255, 0.15) !important;
+          color: #ffffff !important;
+          border-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+
+      // Active Route State Mapping Rule
+      &.active-nav-link {
+        background-color: #ffffff !important;
+        // Forces font color contrast to map directly to the tenant's exact color profile context
+        color: var(--primary-color) !important; 
+        font-weight: 700 !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+        border-color: #ffffff !important;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  // Nested scope placeholder for future expansion elements (e.g., brand tags, user menus)
+  .navbar-brand {
+    transition: transform 0.2s ease;
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+}
+
+// 3. Keep your utility helper definitions solid for core layout bodies
+.btn-tenant-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  
+  &:hover {
+    filter: brightness(85%);
+  }
+}
+
+.text-tenant-primary {
+  color: var(--primary-color) !important;
+}
+.text-tenant-primary {
+  color: var(--primary-color) !important;
+}
+
+.bg-tenant-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.badge-tenant {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--primary-color) !important;
+  border: 1px solid var(--primary-color);
+}
+
+.tenant-card-accent {
+  border-top: 4px solid var(--primary-color) !important;
+}
+
+
+/*
+give your active tab highlights a clean, polished appearance that coordinates beautifully with  multi-tenant branding 
+*/
+.hover-highlight {
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    opacity: 1 !important;
+  }
+}
+
+/* Explicit style modifier when the active link route matches the current layout view */
+.active-nav-link {
+  background-color: #ffffff !important;
+  color: #212529 !important; /* Crisp dark font overlay color contrast */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+}

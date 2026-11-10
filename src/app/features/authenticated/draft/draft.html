@@ -1,0 +1,60 @@
+<!-- src/app/features/authenticated/components/draft/draft.component.html -->
+<app-workspace-view pageTitle="Draft" [hasLeftSidebar]="true" [hasRightSidebar]="true">
+
+  <!-- LEVEL 2 HEADER CUSTOM ACTION BUTTONS (Injected into toolbar) -->
+  <div header-actions>
+    <button class="btn btn-sm btn-light border shadow-sm me-2" (click)="onClearForm()">Clear Matrix</button>
+    <button class="btn btn-sm btn-tenant-primary shadow-sm" (click)="onSaveDraft()">Save Changes</button>
+  </div>
+
+
+  <!-- 3-PART GRID: COLUMN 1 (Left Sidebar) -->
+  <!-- Direct Event Binding to local host component methods works seamlessly -->
+  <div left-sidebar class="p-3">
+    <h5 class="fs-6 text-uppercase tracking-wider fw-bold text-muted mb-3">Workspace Index</h5>
+    <div class="list-group list-group-flush gap-1">
+      <button class="list-group-item list-group-item-action border-0 rounded small" (click)="loadRecordNode('REC-1001')">📄 Node Entry Alpha</button>
+      <button class="list-group-item list-group-item-action border-0 rounded small" (click)="loadRecordNode('REC-1002')">📄 Node Entry Beta</button>
+      <button class="list-group-item list-group-item-action border-0 rounded small text-danger fw-semibold mt-3" (click)="onDeleteNode()">🗑️ Delete Selection</button>
+    </div>
+  </div>
+
+  <!-- 3-PART GRID: COLUMN 2 (Main Scrollable View Body Content) -->
+  <div main-content class="p-4">
+    <div class="card border-0 shadow-sm p-4 bg-white mb-3" style="min-height: 600px;">
+
+  <!-- LEVEL 3 STICKY NOTIFICATION BADGE ROW -->
+  <div level-3-badge class="bg-warning-subtle text-warning-emphasis py-1 px-3 border-bottom text-center small fw-semibold" style="background-color: #fff3cd !important;">
+    ⚠️ Operational Feedback Log Node: Workspace context status synced successfully.
+  </div>
+
+  <!-- LEVEL 4 STICKY METADATA INFO BAR -->
+  <div level-4-record class="bg-white text-muted border-bottom py-2 px-3 small d-flex gap-4" style="background-color: #ffffff !important;">
+    <div><strong>Record Entity ID:</strong> #REC-20261110</div>
+    <div><strong>Schema Signature:</strong> ACTIVE_DRAFT_NODE</div>
+  </div>
+
+
+
+
+      <h5 class="fw-bold text-dark">Primary Content Canvas</h5>
+      <p class="text-secondary small">Main record form properties edit area goes here.</p>
+    </div>
+  </div>
+
+  <!-- 3-PART GRID: COLUMN 3 (Right Sidebar) -->
+  <!-- Modifying component property parameters directly from the layout drawer works seamlessly -->
+  <div right-sidebar class="p-3">
+    <h5 class="fs-6 text-uppercase tracking-wider fw-bold text-muted mb-3">Context Inspector</h5>
+    <div class="card p-3 border-0 bg-light shadow-sm mb-3">
+      <label class="form-label text-muted fw-bold extra-small text-uppercase mb-2">Workspace Variable Logs</label>
+      <button class="btn btn-xs btn-outline-secondary w-100 mb-2 py-1 small" (click)="onRefreshLogs()">🔄 Refresh Live Logs</button>
+      
+      <!-- Safe direct binding display of host model parameters -->
+      <div class="bg-white border rounded p-2 mt-2 extra-small font-monospace">
+        <div>Running State: {{ currentStatus }}</div>
+      </div>
+    </div>
+  </div>
+
+</app-workspace-view>

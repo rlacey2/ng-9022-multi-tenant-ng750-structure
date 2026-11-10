@@ -1,0 +1,25 @@
+    .sidebar-floating { position: absolute !important; background: white; transition: transform 0.25s ease-in-out; shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .sidebar-floating:not(.sidebar-open):not(.sidebar-open-right) { transform: translateX(-100%); }
+    .sidebar-open { transform: translateX(0) !important; }
+    .sidebar-open-right { transform: translateX(0) !important; position: absolute !important; }
+    @media (max-width: 767.98px) {
+      aside:not(.sidebar-open):not(.sidebar-open-right) { display: none !important; }
+    }
+
+    /* src/app/layouts/auth-layout/auth-layout.component.scss */
+
+.center-view-scroll-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+  // Enforces scrolling on the inner layout panel so headers lock correctly
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  // Prevents layout shift or flicker when separate sidebars toggle scroll bars
+  scrollbar-gutter: stable;
+  
+  // Smooth scroll performance across platforms
+  -webkit-overflow-scrolling: touch; 
+}
