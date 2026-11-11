@@ -2,7 +2,7 @@
 <app-workspace-view pageTitle="CMS">
 
   <!-- Column 1: Left Workspace Activities Sidebar -->
-  <div left-sidebar class="list-group list-group-flush p-2 gap-1">
+  <div left-sidebar #leftSidebarRef class="list-group list-group-flush p-2 gap-1">
     <button class="btn btn-outline-primary btn-sm text-start py-2">Clear</button>
     <button class="btn btn-outline-primary btn-sm text-start py-2">New ▾</button>
     <button class="btn btn-tenant-primary text-start py-2 shadow-sm">Save</button>
@@ -71,7 +71,7 @@
   </div>
 
   <!-- Column 3: Right Workspace Inspector Sidebar -->
-  <div right-sidebar class="p-3">
+  <div right-sidebar #rightSidebarRef class="p-3">
     <h6 class="fw-bold text-dark text-uppercase small mb-3">Preview Matrix</h6>
     <div class="d-flex gap-2 mb-3">
       <button class="btn btn-xs btn-outline-secondary w-50 py-1">Open</button>

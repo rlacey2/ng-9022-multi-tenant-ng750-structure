@@ -105,3 +105,19 @@ give your active tab highlights a clean, polished appearance that coordinates be
   color: #212529 !important; /* Crisp dark font overlay color contrast */
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
 }
+
+.portal-container-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  pointer-events: none; // Disables layout blocking on desktop viewports
+  z-index: 1100;
+  
+  & > * {
+    pointer-events: auto; // Restores sidebar click tracking functionality on mobile
+  }
+}
+
+#global-left-sidebar-portal { left: 0; }
+#global-right-sidebar-portal { right: 0; }

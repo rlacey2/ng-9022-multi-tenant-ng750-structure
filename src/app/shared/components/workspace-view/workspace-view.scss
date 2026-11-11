@@ -1,28 +1,65 @@
 /* src/app/shared/components/workspace-view/workspace-view.component.scss */
-.component-sidebar-node {
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  background-color: #ffffff !important;
 
+.workspace-wrapper {
+  height: 100%;
+}
+
+.matrix-body-row {
+  position: relative;
+  width: 100%;
+}
+
+/* BASE RULES: Applied to both sidebars uniformly */
+.component-sidebar-node {
+  width: 260px;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  background-color: #ffffff !important;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0; // Ensures columns maintain strict desktop widths
+  z-index: 10;
+
+  /* FLOATING ENFORCEMENT LAYER: 
+     Triggers automatically on mobile viewports OR when header options are active */
   &.sidebar-floating {
     position: absolute !important;
     top: 0;
     bottom: 0;
-    transform: translateX(-100%);
-    box-shadow: none;
+    height: 100%;
+    z-index: 1035 !important; // Sits safely above the dim backdrop layer
 
+    /* UNIFIED SLIDE-OUT CONTROLLER:
+       Listens directly to the [class.sidebar-open] flag bound in your template */
     &.sidebar-open {
       transform: translateX(0) !important;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
     }
   }
+}
 
-  // Handle right-sidebar mirror projection transformation rules
-  &:nth-of-type(2).sidebar-floating {
-    right: 0;
-    transform: translateX(100%);
-    
-    &.sidebar-open {
-      transform: translateX(0) !important;
-    }
+/* 🧭 DIRECTIONAL EXTRACTION UTILITIES */
+
+// Left Sidebar Directional Offsets: Hidden off-screen to the left by default
+aside:first-of-type.sidebar-floating {
+  left: 0 !important;
+  right: auto !important;
+  transform: translateX(-100%);
+}
+
+// Right Sidebar Directional Offsets: Hidden off-screen to the right by default
+aside:last-of-type {
+  width: 290px !important; // Extra padding layout considerations for text forms
+
+  &.sidebar-floating {
+    right: 0 !important;
+    left: auto !important;
+    transform: translateX(100%); // Pull off-screen to the right side
   }
+}
+
+/* Smooth mobile momentum scrolling inside panels */
+.main-workspace-content,
+.component-sidebar-node {
+  -webkit-overflow-scrolling: touch;
 }

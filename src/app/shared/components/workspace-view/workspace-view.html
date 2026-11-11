@@ -1,11 +1,12 @@
 <!-- src/app/shared/components/workspace-view/workspace-view.component.html -->
-<div class="workspace-wrapper d-flex flex-column position-relative h-100 w-100">
+<div class="workspace-wrapper d-flex flex-column position-relative h-100 w-100 overflow-hidden bg-white" style="height: 100%;">
 
   <!-- LEVEL 2: View Level Header -->
-  <header class="bg-white border-bottom zzpx-4 zpy-3 d-flex align-items-center justify-content-between flex-shrink-0" style="height: 60px;">
+  <header class="bg-white border-bottom px-4 d-flex align-items-center justify-content-between flex-shrink-0" style="height: 60px; z-index: 1045; position: relative;">
     <div class="d-flex align-items-center gap-2">
-      @if (isMobile() && hasLeftSidebar()) {
-        <button (click)="toggleLeft()" class="btn btn-sm btn-outline-secondary me-2">☰</button>
+      <!-- 🛠️ RESTORED SIDEBAR L NAVIGATION TRIGGER BUTTON -->
+      @if (isMobile() && hasLeftSidebar() && !globalSettings.headerLaunchButtons()) {
+        <button (click)="toggleLeft()" class="btn btn-outline-secondary btn-sm me-2 fw-semibold shadow-sm">Sidebar L</button>
       }
       <h1 class="h5 mb-0 fw-bold text-dark">{{ pageTitle() }}</h1>
     </div>
@@ -13,78 +14,33 @@
     <div class="d-flex align-items-center gap-2">
       <ng-content select="[header-actions]"></ng-content>
       
-      <!-- Right Sidebar Gear Toggle Button (Always visible if right sidebar is enabled) -->
-      @if (hasRightSidebar()) {
-        <button (click)="toggleRight()" class="btn btn-sm btn-outline-secondary" title="View Options">⚙️ Options</button>
+      <!-- 🛠️ RESTORED SIDEBAR R INSPECTOR TRIGGER BUTTON -->
+      @if (hasRightSidebar() && !globalSettings.headerLaunchButtons()) {
+        <button (click)="toggleRight()" class="btn btn-outline-secondary btn-sm fw-semibold shadow-sm" title="View Options">Sidebar R</button>
       }
     </div>
   </header>
 
-  <!-- LEVEL 3 & 4 STICKY COMPONENT BLOCK -->
-  <div class="sticky-headers-wrapper flex-shrink-0 position-relative" style="z-index: 1020;">
-    <ng-content select="[level-3-badge]"></ng-content>
-    <ng-content select="[level-4-record]"></ng-content>
-  </div>
-
   <!-- THE 3-PART GRID VIEW MATRIX FRAMEWORK -->
-  <div class="matrix-body-row d-flex flex-grow-1 position-relative overflow-hidden" style="height: calc(100% - 60px);">
+  <div class="matrix-body-row d-flex flex-grow-1 position-relative overflow-hidden w-100" style="height: calc(100% - 60px);">
     
-    <!-- Column 1: Left Sidebar -->
-    @if (hasLeftSidebar()) {
-      <aside class="bg-white border-end d-flex flex-column component-sidebar-node"
-             [class.sidebar-floating]="isMobile()"
-             [class.sidebar-open]="leftSidebarOpen()"
-             style="width: 260px; z-index: 1035; height: 100%; overflow-y: scroll; scrollbar-gutter: stable;">
-        <ng-content select="[left-sidebar]"></ng-content>
-      </aside>
-    }
+    <!-- Column 1: Left Projection slot wrapper -->
+    <ng-content select="[left-sidebar]"></ng-content>
 
-    <!-- Column 2: Main Content (Scroll Container) -->
-    <main class="main-workspace-content flex-grow-1 overflow-y-scroll bg-light position-relative" style="scrollbar-gutter: stable;">
+    <!-- Column 2: Main Scroll Body Container -->
+    <main class="main-workspace-content flex-grow-1 overflow-y-auto bg-light position-relative h-100" style="scrollbar-gutter: stable; height: 100%;">
       <ng-content select="[main-content]"></ng-content>
     </main>
  
-    <!-- Column 3: Right Sidebar (Houses the Hidden Options Panel) -->
-    @if (hasRightSidebar()) {
-      <aside class="bg-white border-start d-flex flex-column component-sidebar-node"
-             [class.sidebar-floating]="isMobile()"
-             [class.sidebar-open]="rightSidebarOpen()"
-             style="width: 290px; z-index: 1035; height: 100%; overflow-y: scroll; scrollbar-gutter: stable;">
-        
-        <!-- Premium Nested Configuration Module Panel Box -->
-        <div class="p-3 border-bottom bg-light">
-          <div class="d-flex align-items-center justify-content-between">
-       
-            @if (isMobile()) {
-              <button (click)="toggleRight()" class="btn-close btn-sm" aria-label="Close"></button>
-            }
-          </div>
-        </div>
+    <!-- Column 3: Right Side Inspector slot wrapper -->
+    <ng-content select="[right-sidebar]"></ng-content>
 
-        <div class="p-3 flex-grow-1">
- 
-          <!-- Dynamic Injection Slot for custom view inspectors -->
-          <div class="custom-inspector-content mt-2">
-            <ng-content select="[right-sidebar]"></ng-content>
-          </div>
-        </div>
-
-      </aside>
-    }
-
-    <!-- Mobile Backdrop Mask Element -->
-    @if (isMobile() && (leftSidebarOpen() || rightSidebarOpen())) {
+    <!-- OPAQUE BACKDROP MASK MAPPED DIRECTLY IN APP LAYER BOUNDS -->
+    @if (globalSettings.touchOverlayClose() && (leftSidebarOpen() || rightSidebarOpen()) && (isMobile() || globalSettings.headerLaunchButtons())) {
       <div class="sidebar-backdrop position-absolute top-0 start-0 w-100 h-100" 
-           (click)="handleOverlayClick()"
-           style="background-color: rgba(0,0,0,0.4); z-index: 1030;">
+           (click)="closeBoth()"
+           style="background-color: rgba(0,0,0,0.4); z-index: 1035; cursor: pointer; transition: opacity 0.2s ease;">
       </div>
-    }
-
-    <!-- Fallback Floating Launch Action Button (Hidden if header triggers are toggled active) -->
-    @if (isMobile() && !leftSidebarOpen() && hasLeftSidebar() && !headerLevelTriggers()) {
-      <button (click)="toggleLeft()" class="btn btn-tenant-primary btn-float-launcher position-absolute shadow" style="bottom: 20px; start: 20px; z-index: 1025;">
-        ☰ Navigation
-      </button>
     }
   </div>
 </div>
