@@ -26,7 +26,6 @@ export class WorkspaceViewComponent {
   constructor() {
     this.checkScreenSize();
 
-    // 🚀 THE ANIMATION & ACCESSIBILITY CORE FIX: Inject smooth cubic transitions and pure white blocks
     effect(() => {
       const mobile = this.isMobile() || this.globalSettings.headerLaunchButtons();
       const leftOpen = this.leftSidebarOpen();
@@ -36,7 +35,6 @@ export class WorkspaceViewComponent {
       const rightNode = this.projectedRight()?.nativeElement;
 
       if (leftNode) {
-        // Enforce solid, opaque background plates unconditionally to fix the transparency issue
         leftNode.style.backgroundColor = '#ffffff'; 
         
         if (mobile) {
@@ -45,9 +43,11 @@ export class WorkspaceViewComponent {
           leftNode.style.bottom = '0';
           leftNode.style.left = '0';
           leftNode.style.height = '100%';
-          leftNode.style.width = '260px';
+          // 🚀 READ GLOBALLY SET CSS VARIABLES DIRECTLY
+          leftNode.style.width = 'var(--sidebar-left-width)';
           leftNode.style.zIndex = '1040';
-          leftNode.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)'; // Restore smooth slide speed
+          leftNode.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)'; 
+          // Uses the exact CSS variable variable width token to compute slide out boundaries
           leftNode.style.transform = leftOpen ? 'translateX(0)' : 'translateX(-100%)';
           leftNode.style.boxShadow = leftOpen ? '4px 0 15px rgba(0,0,0,0.15)' : 'none';
         } else {
@@ -56,7 +56,7 @@ export class WorkspaceViewComponent {
           leftNode.style.bottom = '';
           leftNode.style.left = '';
           leftNode.style.height = '100%';
-          leftNode.style.width = '260px';
+          leftNode.style.width = 'var(--sidebar-left-width)'; // Desktop Inline Width
           leftNode.style.zIndex = '10';
           leftNode.style.transform = 'translateX(0)';
           leftNode.style.boxShadow = 'none';
@@ -65,7 +65,7 @@ export class WorkspaceViewComponent {
       }
 
       if (rightNode) {
-        rightNode.style.backgroundColor = '#f8f9fa'; // Solid light gray plate for right context drawer
+        rightNode.style.backgroundColor = '#f8f9fa'; 
         
         if (mobile) {
           rightNode.style.position = 'absolute';
@@ -73,9 +73,11 @@ export class WorkspaceViewComponent {
           rightNode.style.bottom = '0';
           rightNode.style.right = '0';
           rightNode.style.height = '100%';
-          rightNode.style.width = '290px';
+          // 🚀 READ GLOBALLY SET CSS VARIABLES DIRECTLY
+          rightNode.style.width = 'var(--sidebar-right-width)';
           rightNode.style.zIndex = '1040';
-          rightNode.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)'; // Restore smooth slide speed
+          rightNode.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)'; 
+          // Uses the exact CSS variable variable width token to compute slide out boundaries
           rightNode.style.transform = rightOpen ? 'translateX(0)' : 'translateX(100%)';
           rightNode.style.boxShadow = rightOpen ? '-4px 0 15px rgba(0,0,0,0.15)' : 'none';
         } else {
@@ -84,7 +86,7 @@ export class WorkspaceViewComponent {
           rightNode.style.bottom = '';
           rightNode.style.right = '';
           rightNode.style.height = '100%';
-          rightNode.style.width = '290px';
+          rightNode.style.width = 'var(--sidebar-right-width)'; // Desktop Inline Width
           rightNode.style.zIndex = '10';
           rightNode.style.transform = 'translateX(0)';
           rightNode.style.boxShadow = 'none';
@@ -94,6 +96,7 @@ export class WorkspaceViewComponent {
     });
   }
 
+  // ... keep remaining resize checks and sidebar handlers identical ...
   @HostListener('window:resize')
   onResize() { this.checkScreenSize(); }
 

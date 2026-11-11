@@ -1,10 +1,10 @@
 <!-- src/app/shared/components/workspace-view/workspace-view.component.html -->
 <div class="workspace-wrapper d-flex flex-column position-relative h-100 w-100 overflow-hidden bg-white" style="height: 100%;">
 
-  <!-- LEVEL 2: View Level Header -->
-  <header class="bg-white border-bottom px-4 d-flex align-items-center justify-content-between flex-shrink-0" style="height: 60px; z-index: 1045; position: relative;">
+  <!-- LEVEL 2: View Level Header (Reads global header variable height via css calculation safely) -->
+  <header class="bg-white border-bottom px-4 d-flex align-items-center justify-content-between flex-shrink-0" 
+          style="height: var(--global-header-height); z-index: 1025; position: relative;">
     <div class="d-flex align-items-center gap-2">
-      <!-- 🛠️ RESTORED SIDEBAR L NAVIGATION TRIGGER BUTTON -->
       @if (isMobile() && hasLeftSidebar() && !globalSettings.headerLaunchButtons()) {
         <button (click)="toggleLeft()" class="btn btn-outline-secondary btn-sm me-2 fw-semibold shadow-sm">Sidebar L</button>
       }
@@ -13,29 +13,24 @@
     
     <div class="d-flex align-items-center gap-2">
       <ng-content select="[header-actions]"></ng-content>
-      
-      <!-- 🛠️ RESTORED SIDEBAR R INSPECTOR TRIGGER BUTTON -->
-      @if (hasRightSidebar() && !globalSettings.headerLaunchButtons()) {
+      @if (isMobile() && hasRightSidebar() && !globalSettings.headerLaunchButtons()) {
         <button (click)="toggleRight()" class="btn btn-outline-secondary btn-sm fw-semibold shadow-sm" title="View Options">Sidebar R</button>
       }
     </div>
   </header>
 
   <!-- THE 3-PART GRID VIEW MATRIX FRAMEWORK -->
-  <div class="matrix-body-row d-flex flex-grow-1 position-relative overflow-hidden w-100" style="height: calc(100% - 60px);">
+  <div class="matrix-body-row d-flex flex-grow-1 position-relative overflow-hidden w-100" 
+       style="height: calc(100% - var(--global-header-height));">
     
-    <!-- Column 1: Left Projection slot wrapper -->
     <ng-content select="[left-sidebar]"></ng-content>
 
-    <!-- Column 2: Main Scroll Body Container -->
     <main class="main-workspace-content flex-grow-1 overflow-y-auto bg-light position-relative h-100" style="scrollbar-gutter: stable; height: 100%;">
       <ng-content select="[main-content]"></ng-content>
     </main>
  
-    <!-- Column 3: Right Side Inspector slot wrapper -->
     <ng-content select="[right-sidebar]"></ng-content>
 
-    <!-- OPAQUE BACKDROP MASK MAPPED DIRECTLY IN APP LAYER BOUNDS -->
     @if (globalSettings.touchOverlayClose() && (leftSidebarOpen() || rightSidebarOpen()) && (isMobile() || globalSettings.headerLaunchButtons())) {
       <div class="sidebar-backdrop position-absolute top-0 start-0 w-100 h-100" 
            (click)="closeBoth()"

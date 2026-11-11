@@ -10,7 +10,8 @@
 
   <!-- 3-PART GRID: COLUMN 1 (Left Sidebar) -->
   <!-- Direct Event Binding to local host component methods works seamlessly -->
-  <div left-sidebar class="p-3">
+ <div left-sidebar #leftSidebarRef class="list-group list-group-flush p-2 gap-1" style="width: var(--sidebar-left-width);">
+
     <h5 class="fs-6 text-uppercase tracking-wider fw-bold text-muted mb-3">Workspace Index</h5>
     <div class="list-group list-group-flush gap-1">
       <button class="list-group-item list-group-item-action border-0 rounded small" (click)="loadRecordNode('REC-1001')">📄 Node Entry Alpha</button>
@@ -45,7 +46,7 @@
 
   <!-- 3-PART GRID: COLUMN 3 (Right Sidebar) -->
   <!-- Modifying component property parameters directly from the layout drawer works seamlessly -->
-  <div right-sidebar class="p-3">
+  <div right-sidebar #rightSidebarRef class="p-3" style="width: var(--sidebar-right-width);">
     <h5 class="fs-6 text-uppercase tracking-wider fw-bold text-muted mb-3">Context Inspector</h5>
     <div class="card p-3 border-0 bg-light shadow-sm mb-3">
       <label class="form-label text-muted fw-bold extra-small text-uppercase mb-2">Workspace Variable Logs</label>

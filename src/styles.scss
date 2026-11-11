@@ -2,55 +2,73 @@
 @import 'bootstrap/scss/bootstrap';
 
 // 1. Central Design System Fallbacks
+/* Dynamic Multi-Tenant Company Branding */
 :root {
   --primary-color: #0d6efd;
   --secondary-color: #6c757d;
+ 
+
+  /* 📏 CORE LAYOUT FRAME GEOMETRY GEOMETRY VARIABLES */
+  --global-header-height: 60px;
+  --sidebar-left-width: 140px;
+  --sidebar-right-width: 140px;
+}
+
+/* EXAMPLE OF USING THE VARIANT ATTRIBUTES IN SCSS CALC OPERATIONS */
+.auth-layout-wrapper {
+  // Calculates exact viewport heights to prevent vertical page breaking
+  height: calc(100vh - var(--global-header-height));
+  overflow: hidden;
+}
+
+.navbar-application-hub {
+  height: var(--global-header-height) !important;
 }
 
 // 2. High-Fidelity Global Navigation Layer Namespace
+/* Updated High-Fidelity Global Navigation Layer Namespace Selector */
 .navbar-application-hub {
-  // Binds the entire background container to your active tenant primary color smoothly
   background-color: var(--primary-color) !important;
   transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  height: var(--global-header-height) !important;
 
-  // Nested constraints for inner navigation link list items
+  // 🚀 FIXED: Mobile Responsive Collapse Opaque Layer Guard Block
+  // 991.98px is Bootstrap's exact lg threshold break line where the burger expands
+  @media (max-width: 991.98px) {
+    .navbar-collapse {
+      background-color: var(--primary-color) !important; // Forces solid matching background color
+      padding: 1rem;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
+      margin-top: 8px;
+      z-index: 1050;
+      position: relative;
+    }
+  }
+
+  // Nested navigation items remain clean and functional
   .nav-item {
     .nav-link {
       color: rgba(255, 255, 255, 0.85) !important;
       font-weight: 500;
-      letter-spacing: 0.3px;
       border: 1px solid transparent;
 
-      // Clean Hover Highlighting Strategy
       &.hover-highlight {
         transition: all 0.2s ease-in-out;
-        
         &:hover, &:focus {
           background-color: rgba(255, 255, 255, 0.15) !important;
           color: #ffffff !important;
-          border-color: rgba(255, 255, 255, 0.1);
         }
       }
 
-      // Active Route State Mapping Rule
       &.active-nav-link {
         background-color: #ffffff !important;
-        // Forces font color contrast to map directly to the tenant's exact color profile context
-        color: var(--primary-color) !important; 
+        color: var(--primary-color) !important; // Inverts text color to match active tenant hex profile
         font-weight: 700 !important;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
         border-color: #ffffff !important;
-        transform: translateY(0);
       }
-    }
-  }
-
-  // Nested scope placeholder for future expansion elements (e.g., brand tags, user menus)
-  .navbar-brand {
-    transition: transform 0.2s ease;
-    &:hover {
-      transform: scale(1.02);
     }
   }
 }

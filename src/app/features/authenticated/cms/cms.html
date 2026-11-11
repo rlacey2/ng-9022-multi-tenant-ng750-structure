@@ -2,9 +2,37 @@
 <app-workspace-view pageTitle="CMS">
 
   <!-- Column 1: Left Workspace Activities Sidebar -->
-  <div left-sidebar #leftSidebarRef class="list-group list-group-flush p-2 gap-1">
+  <div left-sidebar #leftSidebarRef class="list-group list-group-flush p-2 gap-1" style="width: var(--sidebar-left-width);">
     <button class="btn btn-outline-primary btn-sm text-start py-2">Clear</button>
-    <button class="btn btn-outline-primary btn-sm text-start py-2">New ▾</button>
+   
+    <!-- src/app/features/authenticated/components/cms/cms.component.html (or left-sidebar block) -->
+
+<div class="dropdown">
+  <!-- The primary trigger button matching your exact custom padding and styling rules -->
+  <button 
+    class="btn btn-outline-primary btn-sm text-start py-2 w-100 dropdown-toggle shadow-sm" 
+    type="button" 
+    id="newActionDropdown" 
+    data-bs-toggle="dropdown" 
+    aria-expanded="false">
+    New
+  </button>
+  
+  <!-- The nested options panel card list container -->
+  <ul class="dropdown-menu shadow p-2 mt-1 rounded-3 w-100" aria-labelledby="newActionDropdown" style="z-index: 1050;">
+    <li>
+      <button class="dropdown-item rounded py-2 small fw-medium" type="button" (click)="onCreateNew('Alpha')">
+        ➕ New Alpha Node
+      </button>
+    </li>
+    <li>
+      <button class="dropdown-item rounded py-2 small fw-medium" type="button" (click)="onCreateNew('Beta')">
+        ✨ New Beta Matrix
+      </button>
+    </li>
+  </ul>
+</div>
+
     <button class="btn btn-tenant-primary text-start py-2 shadow-sm">Save</button>
     <button class="btn btn-outline-primary btn-sm text-start py-2">Cancel</button>
     <button class="btn btn-outline-primary btn-sm text-start py-2">Duplicate</button>
@@ -71,7 +99,7 @@
   </div>
 
   <!-- Column 3: Right Workspace Inspector Sidebar -->
-  <div right-sidebar #rightSidebarRef class="p-3">
+  <div right-sidebar #rightSidebarRef class="p-3" style="width: var(--sidebar-right-width);">
     <h6 class="fw-bold text-dark text-uppercase small mb-3">Preview Matrix</h6>
     <div class="d-flex gap-2 mb-3">
       <button class="btn btn-xs btn-outline-secondary w-50 py-1">Open</button>
@@ -79,7 +107,7 @@
     </div>
     <div class="list-group list-group-flush gap-1">
       <div class="p-2 bg-warning-subtle rounded small d-flex justify-content-between align-items-center">
-        <span>Block Segment 1</span>
+        <span>01</span>
         <input type="radio" checked name="preview-nodes">
       </div>
     </div>

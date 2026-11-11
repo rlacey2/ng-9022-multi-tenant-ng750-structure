@@ -16,4 +16,11 @@ export class CmsComponent implements OnInit {
   ngOnInit(): void {
     console.log('CmsComponent initialized');
   }
+
+onCreateNew(type:string) {
+  alert(type)
+}
+
+
+
 }
