@@ -8,12 +8,9 @@ import { WorkspaceSettingsService } from '../../core/services/workspace-settings
 import { FallbackImgDirective } from '../../shared/directives/fallback-img.directive';
 import { ThemeService } from '../../core/http/theme.service';
 import { AuthService } from '../../core/auth/services/auth.service';
+import { AppNavigationLink } from '../../shared/models/shared.models';
 
-interface AppNavigationLink {
-  label: string;
-  path: string;
-  authenticatedOnly: boolean;
-}
+
 
 @Component({
   selector: 'app-auth-layout',
@@ -22,6 +19,7 @@ interface AppNavigationLink {
   templateUrl: './auth-layout.html',
   styleUrls: ['./auth-layout.scss']
 })
+
 export class AuthLayoutComponent {
   protected themeService = inject(ThemeService);
   protected settingsService = inject(WorkspaceSettingsService);
@@ -35,7 +33,7 @@ export class AuthLayoutComponent {
   // Data-Driven Navigation Configuration Menu List Architecture 
   // 'Events' has authenticatedOnly set to false, locking it permanently at the top of the order
   readonly navigationLinks: AppNavigationLink[] = [
-    { label: '📅 Events', path: '/app/events', authenticatedOnly: false },
+    { label: '📅 Events', path: '/events', authenticatedOnly: false },
     { label: 'Status', path: '/app/status', authenticatedOnly: true },
     { label: 'Admin', path: '/app/admin', authenticatedOnly: true },
     { label: 'CMS', path: '/app/cms', authenticatedOnly: true },

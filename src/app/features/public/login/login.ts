@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../core/auth/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,4 +9,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
-export class LoginComponent {}
+export class LoginComponent {
+   protected authService = inject(AuthService);
+}

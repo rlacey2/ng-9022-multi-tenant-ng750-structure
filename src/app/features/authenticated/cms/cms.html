@@ -33,10 +33,25 @@
   </ul>
 </div>
 
-    <button class="btn btn-tenant-primary text-start py-2 shadow-sm">Save</button>
+   <button class="btn btn-outline-primary text-start py-2 shadow-sm">Save</button>
     <button class="btn btn-outline-primary btn-sm text-start py-2">Cancel</button>
     <button class="btn btn-outline-primary btn-sm text-start py-2">Duplicate</button>
     <button class="btn btn-outline-primary btn-sm text-start py-2">Delete</button>
+  </div>
+
+    <!-- Column 3: Right Workspace Inspector Sidebar -->
+  <div right-sidebar #rightSidebarRef class="p-3" style="width: var(--sidebar-right-width);">
+    <h6 class="fw-bold text-dark text-uppercase small mb-3">Preview Matrix</h6>
+    <div class="d-flex gap-2 mb-3">
+      <button class="btn btn-xs btn-outline-secondary w-50 py-1">Open</button>
+      <button class="btn btn-xs btn-outline-secondary w-50 py-1">Close</button>
+    </div>
+    <div class="list-group list-group-flush gap-1">
+      <div class="p-2 bg-warning-subtle rounded small d-flex justify-content-between align-items-center">
+        <span>01</span>
+        <input type="radio" checked name="preview-nodes">
+      </div>
+    </div>
   </div>
 
   <!-- Column 2: REPLACING THE ENTIRE [main-content] ELEMENT HOOK FOR STICKY INSIDE-COLUMN RETENTION -->
@@ -98,19 +113,6 @@
 
   </div>
 
-  <!-- Column 3: Right Workspace Inspector Sidebar -->
-  <div right-sidebar #rightSidebarRef class="p-3" style="width: var(--sidebar-right-width);">
-    <h6 class="fw-bold text-dark text-uppercase small mb-3">Preview Matrix</h6>
-    <div class="d-flex gap-2 mb-3">
-      <button class="btn btn-xs btn-outline-secondary w-50 py-1">Open</button>
-      <button class="btn btn-xs btn-outline-secondary w-50 py-1">Close</button>
-    </div>
-    <div class="list-group list-group-flush gap-1">
-      <div class="p-2 bg-warning-subtle rounded small d-flex justify-content-between align-items-center">
-        <span>01</span>
-        <input type="radio" checked name="preview-nodes">
-      </div>
-    </div>
-  </div>
+
 
 </app-workspace-view>

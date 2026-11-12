@@ -1,10 +1,13 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { UserProfile, AuthTokenPayload } from '../models/auth.models';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  private router = inject(Router);
   // Reactive internal state signals
   private currentUserSignal = signal<UserProfile | null>(null);
   private tokenSignal = signal<string | null>(null);
@@ -26,11 +29,15 @@ export class AuthService {
       email: 'rlacey@system-node.internal',
       role: 'Admin'
     });
+     this.router.navigate(['/app/status']);
   }
 
   logout() {
     this.tokenSignal.set(null);
     this.currentUserSignal.set(null);
+
+        // Redirect immediately to the login component upon logout
+    this.router.navigate(['/login']);
   }
 
   // Handy runtime helper for testing responsive menu flags directly on screen canvases

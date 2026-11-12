@@ -1,62 +1,83 @@
-<!-- src/app/features/authenticated/components/draft/draft.component.html -->
-<app-workspace-view pageTitle="Draft" [hasLeftSidebar]="true" [hasRightSidebar]="true">
+<!-- src/app/features/authenticated/components/cms/cms.component.html -->
+<app-workspace-view pageTitle="Draft">
 
-  <!-- LEVEL 2 HEADER CUSTOM ACTION BUTTONS (Injected into toolbar) -->
-  <div header-actions>
-    <button class="btn btn-sm btn-light border shadow-sm me-2" (click)="onClearForm()">Clear Matrix</button>
-    <button class="btn btn-sm btn-tenant-primary shadow-sm" (click)="onSaveDraft()">Save Changes</button>
-  </div>
-
-
-  <!-- 3-PART GRID: COLUMN 1 (Left Sidebar) -->
-  <!-- Direct Event Binding to local host component methods works seamlessly -->
- <div left-sidebar #leftSidebarRef class="list-group list-group-flush p-2 gap-1" style="width: var(--sidebar-left-width);">
-
-    <h5 class="fs-6 text-uppercase tracking-wider fw-bold text-muted mb-3">Workspace Index</h5>
-    <div class="list-group list-group-flush gap-1">
-      <button class="list-group-item list-group-item-action border-0 rounded small" (click)="loadRecordNode('REC-1001')">📄 Node Entry Alpha</button>
-      <button class="list-group-item list-group-item-action border-0 rounded small" (click)="loadRecordNode('REC-1002')">📄 Node Entry Beta</button>
-      <button class="list-group-item list-group-item-action border-0 rounded small text-danger fw-semibold mt-3" (click)="onDeleteNode()">🗑️ Delete Selection</button>
-    </div>
-  </div> 
-
-  <!-- 3-PART GRID: COLUMN 2 (Main Scrollable View Body Content) -->
-  <div main-content class="p-4">
-    <div class="card border-0 shadow-sm p-4 bg-white mb-3" style="min-height: 600px;">
-
-  <!-- LEVEL 3 STICKY NOTIFICATION BADGE ROW -->
-  <div level-3-badge class="bg-warning-subtle text-warning-emphasis py-1 px-3 border-bottom text-center small fw-semibold" style="background-color: #fff3cd !important;">
-    ⚠️ Operational Feedback Log Node: Workspace context status synced successfully.
-  </div>
-
-  <!-- LEVEL 4 STICKY METADATA INFO BAR -->
-  <div level-4-record class="bg-white text-muted border-bottom py-2 px-3 small d-flex gap-4" style="background-color: #ffffff !important;">
-    <div><strong>Record Entity ID:</strong> #REC-20261110</div>
-    <div><strong>Schema Signature:</strong> ACTIVE_DRAFT_NODE</div>
-  </div>
-
+  <!-- Column 1: Left Workspace Activities Sidebar -->
+  <div left-sidebar #leftSidebarRef class="list-group list-group-flush p-2 gap-1" style="width: var(--sidebar-left-width);">
+    <button class="btn btn-outline-primary btn-sm text-start py-2">Clear</button>
+   
+    <!-- src/app/features/authenticated/components/cms/cms.component.html (or left-sidebar block) -->
  
-
-
-
-      <h5 class="fw-bold text-dark">Primary Content Canvas</h5>
-      <p class="text-secondary small">Main record form properties edit area goes here.</p>
-    </div>
+    
+     <button class="btn btn-outline-primary text-start py-2 shadow-sm">Save</button>
+    <button class="btn btn-outline-primary btn-sm text-start py-2">Cancel</button>
+    <button class="btn btn-outline-primary btn-sm text-start py-2">Validation</button>
+   
   </div>
 
-  <!-- 3-PART GRID: COLUMN 3 (Right Sidebar) -->
-  <!-- Modifying component property parameters directly from the layout drawer works seamlessly -->
-  <div right-sidebar #rightSidebarRef class="p-3" style="width: var(--sidebar-right-width);">
-    <h5 class="fs-6 text-uppercase tracking-wider fw-bold text-muted mb-3">Context Inspector</h5>
-    <div class="card p-3 border-0 bg-light shadow-sm mb-3">
-      <label class="form-label text-muted fw-bold extra-small text-uppercase mb-2">Workspace Variable Logs</label>
-      <button class="btn btn-xs btn-outline-secondary w-100 mb-2 py-1 small" (click)="onRefreshLogs()">🔄 Refresh Live Logs</button>
+    <!-- Column 3: Right Workspace Inspector Sidebar -->
+  <div right-sidebar #rightSidebarRef class="list-group list-group-flush p-2 gap-1" style="width: var(--sidebar-right-width);">
+ <button class="btn btn-outline-primary btn-sm text-start py-2">Reports</button>
+  </div>
+
+  <!-- Column 2: REPLACING THE ENTIRE [main-content] ELEMENT HOOK FOR STICKY INSIDE-COLUMN RETENTION -->
+  <div main-content class="w-100 h-100 position-relative">
+    
+    <!-- 🛑 SOLID STICKY CONTAINER: Encapsulates Level 3 & 4 inside the scroll zone -->
+    <div class="sticky-top w-100 border-bottom pt-2 pb-1" style="z-index: 1020; top: 0; background-color: #ffffff !important;">
       
-      <!-- Safe direct binding display of host model parameters -->
-      <div class="bg-white border rounded p-2 mt-2 extra-small font-monospace">
-        <div>Running State: {{ currentStatus }}</div>
+      <!-- LEVEL 3 STICKY NOTIFICATION BADGE ROW -->
+      <div class="px-3 mb-2 d-flex gap-2">
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold">Status Override</span>
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold">Public Now</span>
       </div>
+
+      <!-- LEVEL 4 STICKY METADATA INFO BAR -->
+      <!-- Styled matching your yellow corporate matrix framework card -->
+      <div class="p-2 border rounded-3 mx-3 d-flex gap-3 shadow-sm" style="background-color: #e9edc9 !important; border-color: #ccd5ae !important;">
+        <div class="flex-grow-1">
+          <label class="extra-small text-muted d-block fw-bold mb-1 text-uppercase tracking-wider">Name*</label>
+          <div class="fw-bold text-dark fs-5">0 Credit Card</div>
+        </div>
+        <div class="px-3 border-start border-end text-center" style="min-width: 85px;">
+          <label class="extra-small text-muted d-block fw-bold mb-1 text-uppercase tracking-wider">EventId</label>
+          <div class="fw-bold text-dark fs-5">103</div>
+        </div>
+        <div style="min-width: 240px;">
+          <label class="extra-small text-muted d-block fw-bold mb-1 text-uppercase tracking-wider">Event Status*</label>
+          <div class="fw-bold text-dark fs-5">3) Released To Public ▾</div>
+        </div>
+      </div>
+
     </div>
+
+    <!-- THE ACTUAL CONTENT PANELS IN THE TIMELINE FLOW -->
+    <div class="p-3 d-flex flex-column gap-2">
+      
+      <div class="card border-0 p-3 bg-purple-subtle text-dark rounded-3 d-flex justify-content-between flex-row align-items-center shadow-sm">
+        <span class="fw-bold">1) Configuration</span>
+        <span class="small text-muted font-monospace d-none d-md-inline">14/03/2025:12:01AM - 31/12/2036:1:01AM</span>
+      </div>
+      
+      <div class="card border-0 p-3 bg-purple-subtle text-dark rounded-3 shadow-sm d-flex justify-content-between flex-row align-items-center">
+        <span class="fw-bold">2) Template Theme / Banner Image</span>
+        <span class="text-muted">▾</span>
+      </div>
+      
+      <div class="card border-0 p-3 bg-purple-subtle text-dark rounded-3 shadow-sm d-flex justify-content-between flex-row align-items-center">
+        <span class="fw-bold">3) Overview Information</span>
+        <span class="text-muted">▾</span>
+      </div>
+      
+      <!-- Added extensive padding margin rule below footer element to demonstrate sticky functionality -->
+      <div class="card border-0 p-3 bg-purple-subtle text-dark rounded-3 shadow-sm d-flex justify-content-between flex-row align-items-center" style="margin-bottom: 900px;">
+        <span class="fw-bold">4) Footer Information</span>
+        <span class="text-muted">▾</span>
+      </div>
+
+    </div>
+
   </div>
+
+
 
 </app-workspace-view>

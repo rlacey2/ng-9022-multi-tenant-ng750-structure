@@ -3,6 +3,8 @@ import { Component, input, signal, HostListener, inject, contentChild, ElementRe
 import { CommonModule } from '@angular/common';
 import { WorkspaceSettingsService } from '../../../core/services/workspace-settings.service';
 
+ 
+
 @Component({
   selector: 'app-workspace-view',
   standalone: true,

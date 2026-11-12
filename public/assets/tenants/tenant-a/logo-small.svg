@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <defs>
+    <!-- Matching gradient to the large logo -->
+    <linearGradient id="apexGradSmall" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff7043" />
+      <stop offset="100%" stop-color="#ff5722" />
+    </linearGradient>
+    <filter id="shadowSmall" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <!-- Rounded container background for the icon -->
+  <rect width="80" height="80" rx="16" fill="url(#apexGradSmall)" filter="url(#shadowSmall)"/>
+  
+  <!-- Geometric "A" Polygon Shape -->
+  <polygon points="40,18 58,54 48,54 40,36 32,54 22,54" fill="#ffffff" />
+  <polygon points="34,44 46,44 40,32" fill="#ffffff" opacity="0.9" />
+</svg>

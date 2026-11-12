@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ThemeService } from '../../core/http/theme.service';
+import { AuthService } from '../../core/auth/services/auth.service';
+import { AppNavigationLink } from '../../shared/models/shared.models';
+import { WorkspaceSettingsService } from '../../core/services/workspace-settings.service';
 
 @Component({
   selector: 'app-public-layout',
@@ -17,9 +20,12 @@ import { ThemeService } from '../../core/http/theme.service';
     @media (max-width: 767.98px) {
       aside:not(.sidebar-open):not(.sidebar-open-right) { display: none !important; }
     }
-  `]
+  `] 
 })
+
 export class PublicLayoutComponent {
+    protected settingsService = inject(WorkspaceSettingsService);
+  authService = inject(AuthService)
   themeService = inject(ThemeService);
   leftSidebarOpen = signal(false);
   rightSidebarOpen = signal(false);
@@ -33,4 +39,12 @@ export class PublicLayoutComponent {
 
   @HostListener('window:resize')
   onResize() { if (!this.isMobile()) { this.closeBothSidebars(); } }
+
+  readonly navigationLinks: AppNavigationLink[] = [
+    { label: '📅 Events', path: '/events', authenticatedOnly: false },
+    { label: 'Login', path: '/login', authenticatedOnly: false },
+ 
+  ];
+
+
 }

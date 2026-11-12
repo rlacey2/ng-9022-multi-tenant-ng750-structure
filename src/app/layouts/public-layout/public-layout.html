@@ -1,105 +1,112 @@
- 
-<!-- Level 1: Application-level Global Header (Themed) -->
-<header class="navbar navbar-dark navbar-application-hub shadow-sm sticky-top" style="z-index: 1040;">
-  <div class="container-fluid d-flex align-items-center justify-content-between px-3" style="height: 60px;">
+<!-- src/app/layouts/public-layout/public-layout.component.html -->
+
+<!-- Level 1: Application-level Global Header (Themed with responsive burger collapse) -->
+<header class="navbar navbar-expand-lg navbar-dark navbar-application-hub shadow-sm sticky-top" style="z-index: 1040;">
+  <div class="container-fluid px-3" style="min-height: 60px;">
+    
+    <!-- Branding Hub Node -->
     <div class="d-flex align-items-center gap-2">
-      <!-- Responsive Logo Shell Configuration -->
       <picture>
         <source media="(min-width: 768px)" [srcset]="themeService.logoLarge()">
-        <img [src]="themeService.logoSmall()" alt="Tenant Branding" class="img-fluid" style="max-height: 40px; object-fit: contain;">
+        <img [src]="themeService.logoSmall()" appFallbackImg alt="Tenant Branding" class="img-fluid" style="max-height: 40px; object-fit: contain;">
       </picture>
-      <span class="navbar-brand mb-0 h1 fs-5 ms-2 fw-bold text-white">{{  themeService.currentTheme()?.meta?.cId  }}</span>
+      <span class="navbar-brand mb-0 h1 fs-5 ms-2 fw-bold text-white d-none d-sm-inline-block">
+        {{ themeService.currentTheme()?.meta?.cId }}
+      </span>
+    </div>
 
-  
-    </div>
+    <!-- Mobile Burger Toggle Button for Navbar Items -->
+    <button class="navbar-toggler ms-auto me-2 border-0" type="button" data-bs-toggle="collapse" data-bs-target="#appHeaderNavbar" aria-controls="appHeaderNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
     
-    <!-- Mobile Sidebar Trigger Placement Hook Option -->
-    <div class="d-flex gap-2 d-md-none" *ngIf="headerLevelTriggers">
-      <button class="btn btn-sm btn-light" (click)="toggleLeftSidebar()">☰ L</button>
-      <button class="btn btn-sm btn-light" (click)="toggleRightSidebar()">R ☰</button>
+    <!-- Collapsible Wrapper for responsive layout distributions -->
+    <div class="collapse navbar-collapse" id="appHeaderNavbar">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1 pt-2 pt-lg-0">
+        <!-- Render data-driven links cleanly depending on visibility settings -->
+        @for (link of navigationLinks; track link.path) {
+          @if (!link.authenticatedOnly || (link.authenticatedOnly && authService.isAuthenticated())) {
+            <li class="nav-item">
+              <a class="nav-link px-3 py-2 text-white font-medium rounded opacity-90 transition-all hover-highlight" 
+                 [routerLink]="link.path" 
+                 routerLinkActive="active-nav-link fw-bold bg-white text-dark">
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        }
+      </ul>
     </div>
+
+    <!-- Actions & Config Dropdown Tray (Kept clear of burger menus to prevent overlap layout bugs) -->
+    <div class="d-flex align-items-center gap-2 ms-auto pt-2 pt-lg-0">
+
+      <!-- INTERACTIVE DEMO AUTH TOGGLE BUTTON -->
+      <button 
+        class="btn btn-sm px-3 fw-bold shadow-sm transition-all text-white border"
+        [ngClass]="authService.isAuthenticated() ? 'btn-danger' : 'btn-success'"
+        (click)="authService.toggleAuthenticationState()">
+        {{ authService.isAuthenticated() ? '🔒 Simulate Logout' : '🔑 Simulate Login' }}
+      </button>    
+      
+ 
+
+      <!-- Elevated Header Level Sidebar Triggers on Mobile Viewports -->
+      @if (settingsService.headerLaunchButtons()) {
+        <div class="d-flex gap-1 d-md-none">
+          <button class="btn btn-sm btn-light fw-bold shadow-sm" (click)="toggleLeftSidebar()">☰ L</button>
+          <button class="btn btn-sm btn-light fw-bold shadow-sm" (click)="toggleRightSidebar()">R ☰</button>
+        </div>
+      }
+    </div>
+
   </div>
 </header>
 
-<!-- Main Wrapper Layer handling layout bounds -->
-<div class="d-flex flex-column" style="height: calc(100vh - 60px); overflow: hidden;">
+<!-- Main Layout Frame Wrapper -->
+<div class="d-flex flex-column" style="height: calc(100vh - 60px); overflow: hidden; position: relative;">
   
-  <!-- Level 2: View level Header (Static Title and View-relative action ribbon) -->
-  <div class="bg-white border-bottom py-2 px-3 d-flex align-items-center justify-content-between shadow-sm flex-shrink-0">
+  <!-- 🚀 INTEGRATED GLOBAL PORTAL SLOTS: 
+       These act as target receptors for teleporting inner sidebars to the top layer layout 
+       on mobile viewports, entirely fixing inner constraint rendering blocks! -->
+  <div id="global-left-sidebar-portal" class="portal-container-wrapper"></div>
+  <div id="global-right-sidebar-portal" class="portal-container-wrapper"></div>
+
+  <!-- Level 2: View level Header -->
+  <div class="bg-white border-bottom zzpy-2 zzpx-3 d-flex align-items-center justify-content-between shadow-sm flex-shrink-0">
     <div class="d-flex align-items-center gap-2">
-      <!-- Standard Float Launch Buttons (if not overridden to Header level) -->
-      <button class="btn btn-outline-secondary btn-sm d-md-none" *ngIf="!headerLevelTriggers" (click)="toggleLeftSidebar()">Sidebar L</button>
-      <h2 class="h5 mb-0 fw-bold text-dark">Active Dashboard Canvas Workspace</h2>
+      @if (!settingsService.headerLaunchButtons()) {
+        <button class="btn btn-outline-secondary btn-sm d-md-none" (click)="toggleLeftSidebar()">Sidebar L</button>
+      }
     </div>
+
     <div class="d-flex gap-2">
-      <button class="btn btn-sm btn-tenant-primary">View Action Token</button>
-      <button class="btn btn-outline-secondary btn-sm d-md-none" *ngIf="!headerLevelTriggers" (click)="toggleRightSidebar()">Sidebar R</button>
+      @if (!settingsService.headerLaunchButtons()) {
+        <button class="btn btn-outline-secondary btn-sm d-md-none" (click)="toggleRightSidebar()">Sidebar R</button>
+      }
     </div>
   </div>
 
-  <!-- Level 3: Optional Feedback Badge Row (Sticky) -->
-  <div class="bg-warning-subtle text-warning-emphasis py-1 px-3 border-bottom text-center small fw-semibold flex-shrink-0 sticky-top" style="z-index: 1020;">
-    ⚠️ Operational Feedback Log Node: Workspace context status synced successfully.
+  <!-- Level 3 Sticky Badge Notice or messages global messages -->
+  <div class="bg-warning-subtle text-warning-emphasis zzpy-1 zzpx-3 border-bottom text-center small fw-semibold flex-shrink-0 sticky-top" 
+       style="z-index: 1020; top: 0; background-color: #fff3cd !important;">
+    ⚠️ could use this for messages like microsoft
   </div>
 
-  <!-- Level 4: Optional Entity Record Header Row (Sticky) -->
-  <div class="bg-light text-muted border-bottom py-2 px-3 small d-flex gap-4 flex-shrink-0 sticky-top" style="z-index: 1020;">
-    <div><strong>Record Entity ID:</strong> #REC-20261110</div>
-    <div><strong>Schema Signature:</strong> ACTIVE_DRAFT_NODE</div>
-    <div><strong>System Mod User:</strong> rl Lacey System Node</div>
-  </div>
-
-  <!-- Main View Container: Multi-Column Separate Scroll Zones with structural scrollbar allowance -->
+  <!-- Main Work Matrix Panels -->
   <div class="d-flex flex-row flex-grow-1 position-relative" style="overflow: hidden;">
     
-    <!-- Backdrop Overlay Module for floating responsive states -->
-    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-md-none" 
-         style="z-index: 1030;" 
-         *ngIf="overlayCloseAllowed && (leftSidebarOpen() || rightSidebarOpen())"
-         (click)="closeBothSidebars()">
-    </div>
-
-    <!-- 3 Part View Matrix Column 1: Left Sidebar -->
-    <aside class="bg-white border-end d-flex flex-column"
-           [class.sidebar-floating]="isMobile()"
-           [class.sidebar-open]="leftSidebarOpen()"
-           style="width: 260px; z-index: 1035; height: 100%; overflow-y: scroll; scrollbar-gutter: stable;">
-      <div class="p-3">
-        <h5 class="fs-6 text-uppercase tracking-wider fw-bold text-muted mb-3">Navigation Node Hub</h5>
-        <ul class="nav flex-column gap-2">
-          <li class="nav-item"><a class="nav-link p-2 bg-light rounded text-dark font-medium small" routerLink="/app/status">Status Portal</a></li>
-          <li class="nav-item"><a class="nav-link p-2 bg-light rounded text-dark font-medium small" routerLink="/app/admin">Admin Panel</a></li>
-          <li class="nav-item"><a class="nav-link p-2 bg-light rounded text-dark font-medium small" routerLink="/app/cms">Content CMS Node</a></li>
-          <li class="nav-item"><a class="nav-link p-2 bg-light rounded text-dark font-medium small" routerLink="/app/draft">Draft Matrix</a></li>
-        </ul>
+    <!-- Mobile Screen Dark Backdrop Layer -->
+    @if (settingsService.touchOverlayClose() && (leftSidebarOpen() || rightSidebarOpen()) && isMobile()) {
+      <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50" 
+           style="z-index: 1030;" (click)="closeBothSidebars()">
       </div>
-    </aside>
+    }
 
-    <!-- 3 Part View Matrix Column 2: Main View Body -->
+    <!-- Core Frame Router Target Content Area -->
     <main class="flex-grow-1 bg-white p-0" style="overflow-y: scroll; scrollbar-gutter: stable; height: 100%;">
       <router-outlet></router-outlet>
     </main>
-
-    <!-- 3 Part View Matrix Column 3: Right Sidebar -->
-    <aside class="bg-light border-start d-flex flex-column"
-           [class.sidebar-floating]="isMobile()"
-           [class.sidebar-open-right]="rightSidebarOpen()"
-           style="width: 280px; z-index: 1035; height: 100%; overflow-y: scroll; scrollbar-gutter: stable; right: 0;">
-      <div class="p-3">
-        <h5 class="fs-6 text-uppercase tracking-wider fw-bold text-muted mb-3">Context Inspector</h5>
-        <div class="card p-3 border-0 bg-white shadow-sm mb-3">
-          <label class="form-label small text-muted fw-bold text-uppercase">Runtime Variable Toggle</label>
-          <div class="form-check form-switch mb-2 small">
-            <input class="form-check-input" type="checkbox" id="triggerSwitch" [(ngModel)]="headerLevelTriggers">
-            <label class="form-check-input-label" for="triggerSwitch">Header Launch Buttons</label>
-          </div>
-          <div class="form-check form-switch small">
-            <input class="form-check-input" type="checkbox" id="overlaySwitch" [(ngModel)]="overlayCloseAllowed">
-            <label class="form-check-input-label" for="overlaySwitch">Touch Overlay Close</label>
-          </div>
-        </div>
-      </div>
-    </aside>
 
   </div>
 </div>
