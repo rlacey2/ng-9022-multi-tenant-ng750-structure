@@ -1,3 +1,70 @@
+
+<!-- src/app/features/authenticated/components/events/events.component.html -->
+<app-workspace-view pageTitle="Events">
+
+  <!-- Column 1: Left Workspace Activities Sidebar -->
+  <div left-sidebar #leftSidebarRef class="list-group list-group-flush p-2 gap-1" style="width: var(--sidebar-left-width);">
+  
+    <!-- src/app/features/authenticated/components/events/events.component.html (or left-sidebar block) -->
+  
+     <button class="btn btn-outline-primary text-start py-2 shadow-sm">Instructions</button>
+ 
+   
+  </div>
+
+    <!-- Column 3: Right Workspace Inspector Sidebar -->
+  <div right-sidebar #rightSidebarRef class="list-group list-group-flush p-2 gap-1" style="width: var(--sidebar-right-width);">
+ <button class="btn btn-outline-warning btn-sm text-start py-2">Select Event</button>
+  </div>
+
+  <!-- Column 2: REPLACING THE ENTIRE [main-content] ELEMENT HOOK FOR STICKY INSIDE-COLUMN RETENTION -->
+  <div main-content class="w-100 h-100 position-relative">
+    
+    <!-- 🛑 SOLID STICKY CONTAINER: Encapsulates Level 3 & 4 inside the scroll zone -->
+    <div class="sticky-top w-100 border-bottom pt-2 pb-1" style="z-index: 1020; top: 0; background-color: #ffffff !important;">
+      
+      <!-- LEVEL 3 STICKY NOTIFICATION BADGE ROW --> <!-- optional here-->
+      <div class="px-3 mb-2 d-flex gap-2">ddddddd
+        </div>
+
+      <!-- LEVEL 4 STICKY METADATA INFO BAR -->
+      <!-- Styled matching your yellow corporate matrix framework card -->
+      <div class="p-2 border rounded-3 mx-3 d-flex gap-3 shadow-sm" style="background-color: #e9edc9 !important; border-color: #ccd5ae !important;">
+  
+        <div class="flex-grow-1">
+       event name<br>ssssssssssssssssssssssss
+        </div>
+
+        <div class="px-3 border-start border-end text-center" style="min-width: 85px;">
+          <label class="extra-small text-muted d-block fw-bold mb-1 text-uppercase tracking-wider">EventId</label>
+          <div class="fw-bold text-dark fs-5">103</div>
+        </div>
+    
+      </div>
+
+    </div>
+ 
+    <!-- THE ACTUAL CONTENT -->
+    <div class="workspace-scroll-body p-3 d-flex flex-column gap-2">
+      
+   
+      
+      <h1>Events</h1>
+      
+ 
+  
+
+    </div>
+
+  </div>
+
+
+
+</app-workspace-view>
+
+
+
+
 <div class="events-container">
   <h1>EventsComponent Works!</h1>
 </div>
