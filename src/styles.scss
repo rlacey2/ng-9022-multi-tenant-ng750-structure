@@ -139,3 +139,10 @@ give your active tab highlights a clean, polished appearance that coordinates be
 
 #global-left-sidebar-portal { left: 0; }
 #global-right-sidebar-portal { right: 0; }
+
+/* src/styles.scss */
+.workspace-scroll-body {
+  position: relative;
+  z-index: 1; // Guarantees content always slides underneath sticky headers (z-index: 1020)
+  padding-bottom: 3rem; // Adds breathing room below the final card when scrolling
+}

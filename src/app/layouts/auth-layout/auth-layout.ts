@@ -3,43 +3,36 @@ import { Component, inject, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
  
-import { WorkspaceSettingsService } from '../../core/services/workspace-settings.service';
+import {  WorkspaceSettingsService } from '../../core/services/workspace-settings.service';
  
 import { FallbackImgDirective } from '../../shared/directives/fallback-img.directive';
 import { ThemeService } from '../../core/http/theme.service';
 import { AuthService } from '../../core/auth/services/auth.service';
 import { AppNavigationLink } from '../../shared/models/shared.models';
-
-
-
+import { GlobalHeaderComponent } from '../../shared/components/global-header/global-header';
+import { NavigationService } from '../../core/services/navigation.service.ts';
+ 
 @Component({
   selector: 'app-auth-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule, FallbackImgDirective],
+  imports: [CommonModule, RouterModule,  GlobalHeaderComponent],
   templateUrl: './auth-layout.html',
   styleUrls: ['./auth-layout.scss']
 })
 
 export class AuthLayoutComponent {
+
   protected themeService = inject(ThemeService);
   protected settingsService = inject(WorkspaceSettingsService);
   protected authService = inject(AuthService);
+   
 
   // Responsive layout state tracking signals
   isMobile = signal<boolean>(false);
   leftSidebarOpen = signal<boolean>(false);
   rightSidebarOpen = signal<boolean>(false);
 
-  // Data-Driven Navigation Configuration Menu List Architecture 
-  // 'Events' has authenticatedOnly set to false, locking it permanently at the top of the order
-  readonly navigationLinks: AppNavigationLink[] = [
-    { label: '📅 Events', path: '/events', authenticatedOnly: false },
-    { label: 'Status', path: '/app/status', authenticatedOnly: true },
-    { label: 'Admin', path: '/app/admin', authenticatedOnly: true },
-    { label: 'CMS', path: '/app/cms', authenticatedOnly: true },
-    { label: 'Draft', path: '/app/draft', authenticatedOnly: true }
-  ];
-
+ 
   constructor() {
     this.checkScreenSize();
   }

@@ -4,13 +4,14 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ThemeService } from '../../core/http/theme.service';
 import { AuthService } from '../../core/auth/services/auth.service';
-import { AppNavigationLink } from '../../shared/models/shared.models';
+ 
 import { WorkspaceSettingsService } from '../../core/services/workspace-settings.service';
+import { GlobalHeaderComponent } from '../../shared/components/global-header/global-header';
 
 @Component({
   selector: 'app-public-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, FormsModule],
+  imports: [CommonModule, RouterOutlet,  FormsModule, GlobalHeaderComponent],
   templateUrl: './public-layout.html',
   styles: [`
     .sidebar-floating { position: absolute !important; background: white; transition: transform 0.25s ease-in-out; shadow: 0 4px 12px rgba(0,0,0,0.1); }
@@ -25,6 +26,7 @@ import { WorkspaceSettingsService } from '../../core/services/workspace-settings
 
 export class PublicLayoutComponent {
     protected settingsService = inject(WorkspaceSettingsService);
+      
   authService = inject(AuthService)
   themeService = inject(ThemeService);
   leftSidebarOpen = signal(false);
@@ -40,11 +42,6 @@ export class PublicLayoutComponent {
   @HostListener('window:resize')
   onResize() { if (!this.isMobile()) { this.closeBothSidebars(); } }
 
-  readonly navigationLinks: AppNavigationLink[] = [
-    { label: '📅 Events', path: '/events', authenticatedOnly: false },
-    { label: 'Login', path: '/login', authenticatedOnly: false },
  
-  ];
-
 
 }

@@ -20,7 +20,10 @@
   </div>
 
   <!-- Column 2: REPLACING THE ENTIRE [main-content] ELEMENT HOOK FOR STICKY INSIDE-COLUMN RETENTION -->
-  <div main-content class="w-100 h-100 position-relative">
+ <!-- ❌ h-100 cuts the parent container short, causing sticky items to push off at the bottom -->
+<!-- ✅ min-h-100 lets the parent grow with the content so sticky items stay locked all the way to the bottom -->
+
+  <div main-content class="w-100 min-h-100 position-relative">
     
     <!-- 🛑 SOLID STICKY CONTAINER: Encapsulates Level 3 & 4 inside the scroll zone -->
     <div class="sticky-top w-100 border-bottom pt-2 pb-1" style="z-index: 1020; top: 0; background-color: #ffffff !important;">

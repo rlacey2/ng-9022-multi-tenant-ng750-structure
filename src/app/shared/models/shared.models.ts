@@ -1,5 +1,8 @@
+export type NavVisibility = 'always' | 'publicOnly' | 'authenticatedOnly';
+
+
 export interface AppNavigationLink {
   label: string;
   path: string;
-  authenticatedOnly: boolean;
+  visibility: NavVisibility;
 }

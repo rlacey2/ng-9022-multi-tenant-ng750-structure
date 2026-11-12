@@ -1,90 +1,11 @@
 <!-- src/app/layouts/auth-layout/auth-layout.component.html -->
 
 <!-- Level 1: Application-level Global Header (Themed with responsive burger collapse) -->
-<header class="navbar navbar-expand-lg navbar-dark navbar-application-hub shadow-sm sticky-top" style="z-index: 1040;">
-  <div class="container-fluid px-3" style="min-height: 60px;">
-    
-    <!-- Branding Hub Node -->
-    <div class="d-flex align-items-center gap-2">
-      <picture>
-        <source media="(min-width: 768px)" [srcset]="themeService.logoLarge()">
-        <img [src]="themeService.logoSmall()" appFallbackImg alt="Tenant Branding" class="img-fluid" style="max-height: 40px; object-fit: contain;">
-      </picture>
-      <span class="navbar-brand mb-0 h1 fs-5 ms-2 fw-bold text-white d-none d-sm-inline-block">
-        {{ themeService.currentTheme()?.meta?.cId }}
-      </span>
-    </div>
-
-    <!-- Mobile Burger Toggle Button for Navbar Items -->
-    <button class="navbar-toggler ms-auto me-2 border-0" type="button" data-bs-toggle="collapse" data-bs-target="#appHeaderNavbar" aria-controls="appHeaderNavbar" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <!-- Collapsible Wrapper for responsive layout distributions -->
-    <div class="collapse navbar-collapse" id="appHeaderNavbar">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1 pt-2 pt-lg-0">
-        <!-- Render data-driven links cleanly depending on visibility settings -->
-        @for (link of navigationLinks; track link.path) {
-          @if (!link.authenticatedOnly || (link.authenticatedOnly && authService.isAuthenticated())) {
-            <li class="nav-item">
-              <a class="nav-link px-3 py-2 text-white font-medium rounded opacity-90 transition-all hover-highlight" 
-                 [routerLink]="link.path" 
-                 routerLinkActive="active-nav-link fw-bold bg-white text-dark">
-                {{ link.label }}
-              </a>
-            </li>
-          }
-        }
-      </ul>
-    </div>
-
-    <!-- Actions & Config Dropdown Tray (Kept clear of burger menus to prevent overlap layout bugs) -->
-    <div class="d-flex align-items-center gap-2 ms-auto pt-2 pt-lg-0">
-
-      <!-- INTERACTIVE DEMO AUTH TOGGLE BUTTON -->
-      <button 
-        class="btn btn-sm px-3 fw-bold shadow-sm transition-all text-white border"
-        [ngClass]="authService.isAuthenticated() ? 'btn-danger' : 'btn-success'"
-        (click)="authService.toggleAuthenticationState()">
-        {{ authService.isAuthenticated() ? '🔒 Simulate Logout' : '🔑 Simulate Login' }}
-      </button>    
-      
-      <!-- LEVEL 1 GLOBAL CONFIGURATION DROPDOWN -->
-      <div class="dropdown">
-        <button class="btn btn-sm btn-light dropdown-toggle px-3 fw-semibold shadow-sm text-dark" 
-                type="button" id="globalSettingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          ⚙️ Options
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end shadow-lg p-3 mt-2 rounded-3" style="width: 310px; z-index: 1060;" aria-labelledby="globalSettingsDropdown">
-          <li><h6 class="dropdown-header text-uppercase text-dark px-0 small mb-2 tracking-wider">Global Frame Modifiers</h6></li>
-          <li class="px-2 py-1">
-            <div class="form-check form-switch m-0">
-              <input class="form-check-input" type="checkbox" id="headerButtonsMenu"
-                     [checked]="settingsService.headerLaunchButtons()" (change)="settingsService.toggleHeaderLaunchButtons()">
-              <label class="form-check-label small fw-semibold text-dark" for="headerButtonsMenu">Header Launch Buttons</label>
-            </div>
-          </li>
-          <li class="px-2 py-1 mt-2">
-            <div class="form-check form-switch m-0">
-              <input class="form-check-input" type="checkbox" id="overlayCloseMenu"
-                     [checked]="settingsService.touchOverlayClose()" (change)="settingsService.toggleTouchOverlayClose()">
-              <label class="form-check-label small fw-semibold text-dark" for="overlayCloseMenu">Touch Overlay Close</label>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Elevated Header Level Sidebar Triggers on Mobile Viewports -->
-      @if (settingsService.headerLaunchButtons()) {
-        <div class="d-flex gap-1 d-md-none">
-          <button class="btn btn-sm btn-light fw-bold shadow-sm" (click)="toggleLeftSidebar()">☰ L</button>
-          <button class="btn btn-sm btn-light fw-bold shadow-sm" (click)="toggleRightSidebar()">R ☰</button>
-        </div>
-      }
-    </div>
-
-  </div>
-</header>
+<!-- Inside public-layout.component.html  -->
+<app-global-header 
+    (toggleLeft)="toggleLeftSidebar()" 
+  (toggleRight)="toggleRightSidebar()">
+</app-global-header>
 
 <!-- Main Layout Frame Wrapper -->
 <div class="d-flex flex-column" style="height: calc(100vh - 60px); overflow: hidden; position: relative;">
