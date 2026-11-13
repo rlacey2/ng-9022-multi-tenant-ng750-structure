@@ -21,10 +21,6 @@
   overflow: hidden;
 }
 
-.navbar-application-hub {
-  height: var(--global-header-height) !important;
-}
-
 // 2. High-Fidelity Global Navigation Layer Namespace
 /* Updated High-Fidelity Global Navigation Layer Namespace Selector */
 .navbar-application-hub {
@@ -145,4 +141,9 @@ give your active tab highlights a clean, polished appearance that coordinates be
   position: relative;
   z-index: 1; // Guarantees content always slides underneath sticky headers (z-index: 1020)
   padding-bottom: 3rem; // Adds breathing room below the final card when scrolling
+}
+
+/* Guarantee all dropdown menus sit above sticky headers and floating sidebars */
+.dropdown-menu {
+  z-index: 1080 !important;
 }

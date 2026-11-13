@@ -3,17 +3,19 @@
 <!-- Level 1: Application-level Global Header (Themed with responsive burger collapse) -->
 <!-- Inside auth-layout.component.html  -->
 <app-global-header 
-    (toggleLeft)="toggleLeftSidebar()" 
-  (toggleRight)="toggleRightSidebar()">
+(toggleLeft)="toggleLeftSidebar()"
+(toggleRight)="toggleRightSidebar()">
 </app-global-header>
 
- 
 
-<div class="d-flex flex-column" style="height: calc(100vh - var(--global-header-height)); overflow: hidden; position: relative;">
-  
+
+<div class="d-flex flex-column"
+  style="height: calc(100vh - var(--global-header-height)); overflow: hidden; position: relative;">
+
   <!-- Optional Global Message Row -->
-  <div class="bg-warning-subtle text-warning-emphasis py-1 px-3 border-bottom text-center small fw-semibold flex-shrink-0" 
-       style="background-color: #fff3cd !important;">
+  <div
+    class="bg-warning-subtle text-warning-emphasis py-1 px-3 border-bottom text-center small fw-semibold flex-shrink-0"
+    style="background-color: #fff3cd !important;">
     ⚠️ Global system announcements appear here
   </div>
 

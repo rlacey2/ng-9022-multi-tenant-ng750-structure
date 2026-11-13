@@ -1,5 +1,5 @@
 <!-- src/app/shared/components/global-header/global-header.component.html -->
-<header class="navbar navbar-expand-lg navbar-dark navbar-application-hub shadow-sm sticky-top" style="z-index: 1040;">
+<header class="navbar navbar-expand-lg navbar-dark navbar-application-hub shadow-sm sticky-top p-0" style="z-index: 1040;">
   <div class="container-fluid px-3">
 
     <!-- 1. Left: Tenant Branding & Logo -->
@@ -84,7 +84,7 @@
 
     <!-- 4. Collapsible Menu Links (Full width below on mobile, middle slot on desktop via order-lg-2) -->
     <div class="collapse navbar-collapse order-lg-2" id="appHeaderNavbar">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1 pt-2 pt-lg-0">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1  ">
         @for (link of navService.visibleLinks(); track link.path) {
         <li class="nav-item">
           <a class="nav-link px-2 py-1 text-white font-medium rounded hover-highlight" [routerLink]="link.path"

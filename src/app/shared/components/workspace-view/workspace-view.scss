@@ -18,7 +18,7 @@
   background-color: #ffffff !important;
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0; // Ensures columns maintain strict desktop widths
-  z-index: 10;
+  z-index: 1025; // Sits safely above the sticky header in view - level 3
 
   /* FLOATING ENFORCEMENT LAYER: 
      Triggers automatically on mobile viewports OR when header options are active */

@@ -87,7 +87,7 @@ export class WorkspaceViewComponent implements OnDestroy {
             leftNode.style.top = '';
             leftNode.style.bottom = '';
             leftNode.style.left = '';
-            leftNode.style.zIndex = '10';
+            leftNode.style.zIndex = '1025'; // to be above the sticky
             leftNode.style.transition = '';
             leftNode.style.transform = 'translateX(0)';
             leftNode.style.boxShadow = 'none';
@@ -118,7 +118,7 @@ export class WorkspaceViewComponent implements OnDestroy {
             rightNode.style.top = '';
             rightNode.style.bottom = '';
             rightNode.style.right = '';
-            rightNode.style.zIndex = '10';
+            rightNode.style.zIndex =  '1025'; // to be above the sticky
             rightNode.style.transition = '';
             rightNode.style.transform = 'translateX(0)';
             rightNode.style.boxShadow = 'none';
