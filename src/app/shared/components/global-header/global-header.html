@@ -2,7 +2,7 @@
 <header class="navbar navbar-expand-lg navbar-dark navbar-application-hub shadow-sm sticky-top" style="z-index: 1040;">
   <div class="container-fluid px-3">
     
-    <!-- Tenant Branding & Logo -->
+    <!-- 1. Left: Tenant Branding & Logo -->
     <div class="d-flex align-items-center gap-2">
       <picture>
         <source media="(min-width: 768px)" [srcset]="themeService.logoLarge()">
@@ -13,13 +13,45 @@
       </span>
     </div>
 
-    <!-- Mobile Burger Toggle Button -->
-    <button class="navbar-toggler ms-auto me-2 border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#appHeaderNavbar" aria-controls="appHeaderNavbar" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- 2. Right-Side Actions (Pushed right via ms-auto on mobile, ordered last on desktop via order-lg-3) -->
+    <div class="d-flex align-items-center gap-2 ms-auto me-2 me-lg-0 order-lg-3">
+
+      <button 
+        class="btn btn-sm px-3 fw-bold shadow-sm transition-all text-white border"
+        [ngClass]="authService.isAuthenticated() ? 'btn-danger' : 'btn-success'"
+        (click)="authService.toggleAuthenticationState()">
+        {{ authService.isAuthenticated() ? '🔒 Simulate Logout' : '🔑 Simulate Login' }}
+      </button>    
+      
+      <div class="dropdown">
+        <button class="btn btn-sm btn-light dropdown-toggle px-3 fw-semibold shadow-sm text-dark" 
+                type="button" id="globalSettingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          ⚙️ Options
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow-lg p-3 mt-2 rounded-3" style="width: 310px; z-index: 1060;" aria-labelledby="globalSettingsDropdown">
+          <!-- Dropdown items -->
+        </ul>
+      </div>
+
+      @if (settingsService.headerLaunchButtons() && (settingsService.activeLeftSidebar() || settingsService.activeRightSidebar())) {
+        <div class="d-flex gap-1 d-lg-none">
+          @if (settingsService.activeLeftSidebar()) {
+            <button class="btn btn-sm btn-light fw-bold shadow-sm" (click)="settingsService.triggerLeftSidebar()">☰ L</button>
+          }
+          @if (settingsService.activeRightSidebar()) {
+            <button class="btn btn-sm btn-light fw-bold shadow-sm" (click)="settingsService.triggerRightSidebar()">R ☰</button>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- 3. Far Right: Mobile Burger Toggle (No ms-auto, sits flush on the right edge) -->
+    <button class="navbar-toggler border-0 shadow-none order-lg-4" type="button" data-bs-toggle="collapse" data-bs-target="#appHeaderNavbar" aria-controls="appHeaderNavbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     
-    <!-- Collapsible Navigation Links (Driven by NavigationService) -->
-    <div class="collapse navbar-collapse" id="appHeaderNavbar">
+    <!-- 4. Collapsible Menu Links (Full width below on mobile, middle slot on desktop via order-lg-2) -->
+    <div class="collapse navbar-collapse order-lg-2" id="appHeaderNavbar">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1 pt-2 pt-lg-0">
         @for (link of navService.visibleLinks(); track link.path) {
           <li class="nav-item">
@@ -31,57 +63,6 @@
           </li>
         }
       </ul>
-    </div>
-
-    <!-- Right-Side Actions: Auth Simulator, Layout Options & Elevated Triggers -->
-    <div class="d-flex align-items-center gap-2 ms-auto pt-2 pt-lg-0">
-
-      <!-- Demo Auth Toggle Button -->
-      <button 
-        class="btn btn-sm px-3 fw-bold shadow-sm transition-all text-white border"
-        [ngClass]="authService.isAuthenticated() ? 'btn-danger' : 'btn-success'"
-        (click)="authService.toggleAuthenticationState()">
-        {{ authService.isAuthenticated() ? '🔒 Simulate Logout' : '🔑 Simulate Login' }}
-      </button>    
-      
-      <!-- Global Layout Configuration Dropdown -->
-      <div class="dropdown">
-        <button class="btn btn-sm btn-light dropdown-toggle px-3 fw-semibold shadow-sm text-dark" 
-                type="button" id="globalSettingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          ⚙️ Options
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end shadow-lg p-3 mt-2 rounded-3" style="width: 310px; z-index: 1060;" aria-labelledby="globalSettingsDropdown">
-          <li><h6 class="dropdown-header text-uppercase text-dark px-0 small mb-2 tracking-wider">Global Frame Modifiers</h6></li>
-          <li class="px-2 py-1">
-            <div class="form-check form-switch m-0">
-              <input class="form-check-input" type="checkbox" id="headerButtonsMenu"
-                     [checked]="settingsService.headerLaunchButtons()" (change)="settingsService.toggleHeaderLaunchButtons()">
-              <label class="form-check-label small fw-semibold text-dark" for="headerButtonsMenu">Header Launch Buttons</label>
-            </div>
-          </li>
-          <li class="px-2 py-1 mt-2">
-            <div class="form-check form-switch m-0">
-              <input class="form-check-input" type="checkbox" id="overlayCloseMenu"
-                     [checked]="settingsService.touchOverlayClose()" (change)="settingsService.toggleTouchOverlayClose()">
-              <label class="form-check-label small fw-semibold text-dark" for="overlayCloseMenu">Touch Overlay Close</label>
-            </div>
-          </li>
-        </ul>
-      </div>
- 
-      <!-- Elevated Sidebar Launchers for Mobile -->
-
-@if (settingsService.headerLaunchButtons() && (settingsService.activeLeftSidebar() || settingsService.activeRightSidebar())) {
-  <div class="d-flex gap-1 d-lg-none">
-    @if (settingsService.activeLeftSidebar()) {
-      <button class="btn btn-sm btn-light fw-bold shadow-sm" (click)="settingsService.triggerLeftSidebar()">☰ L</button>
-    }
-    @if (settingsService.activeRightSidebar()) {
-      <button class="btn btn-sm btn-light fw-bold shadow-sm" (click)="settingsService.triggerRightSidebar()">R ☰</button>
-    }
-  </div>
-}
- 
     </div>
 
   </div>
