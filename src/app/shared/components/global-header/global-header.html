@@ -28,8 +28,23 @@
                 type="button" id="globalSettingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
           ⚙️ Options
         </button>
-        <ul class="dropdown-menu dropdown-menu-end shadow-lg p-3 mt-2 rounded-3" style="width: 310px; z-index: 1060;" aria-labelledby="globalSettingsDropdown">
-          <!-- Dropdown items -->
+            <!-- Dropdown items -->
+                <ul class="dropdown-menu dropdown-menu-end shadow-lg p-3 mt-2 rounded-3" style="width: 310px; z-index: 1060;" aria-labelledby="globalSettingsDropdown">
+          <li><h6 class="dropdown-header text-uppercase text-dark px-0 small mb-2 tracking-wider">Global Frame Modifiers</h6></li>
+          <li class="px-2 py-1">
+            <div class="form-check form-switch m-0">
+              <input class="form-check-input" type="checkbox" id="headerButtonsMenu"
+                     [checked]="settingsService.headerLaunchButtons()" (change)="settingsService.toggleHeaderLaunchButtons()">
+              <label class="form-check-label small fw-semibold text-dark" for="headerButtonsMenu">Header Launch Buttons</label>
+            </div>
+          </li>
+          <li class="px-2 py-1 mt-2">
+            <div class="form-check form-switch m-0">
+              <input class="form-check-input" type="checkbox" id="overlayCloseMenu"
+                     [checked]="settingsService.touchOverlayClose()" (change)="settingsService.toggleTouchOverlayClose()">
+              <label class="form-check-label small fw-semibold text-dark" for="overlayCloseMenu">Touch Overlay Close</label>
+            </div>
+          </li>
         </ul>
       </div>
 
