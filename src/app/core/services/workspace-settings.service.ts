@@ -8,7 +8,10 @@ export class WorkspaceSettingsService {
   readonly headerLaunchButtons = signal<boolean>(false);
   readonly touchOverlayClose = signal<boolean>(true);
 
-  // Counters used to broadcast header button clicks to the active workspace view
+  // Tracks exact sidebar presence on whichever page is currently rendered
+  readonly activeLeftSidebar = signal<boolean>(false);
+  readonly activeRightSidebar = signal<boolean>(false);
+
   readonly leftTriggerCount = signal<number>(0);
   readonly rightTriggerCount = signal<number>(0);
 
@@ -16,6 +19,11 @@ export class WorkspaceSettingsService {
   toggleRuntimeVariableToggle() { this.runtimeVariableToggle.update(v => !v); }
   toggleHeaderLaunchButtons() { this.headerLaunchButtons.update(v => !v); }
   toggleTouchOverlayClose() { this.touchOverlayClose.update(v => !v); }
+
+  setSidebarPresence(left: boolean, right: boolean) {
+    this.activeLeftSidebar.set(left);
+    this.activeRightSidebar.set(right);
+  }
 
   triggerLeftSidebar() { this.leftTriggerCount.update(c => c + 1); }
   triggerRightSidebar() { this.rightTriggerCount.update(c => c + 1); }
