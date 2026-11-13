@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
  
 
-export const PUBLIC_ROUTES: Routes = [
+export const PUBLIC_ROUTES: Routes = [ 
   { path: '', redirectTo: 'events', pathMatch: 'full' },
   { path: 'events', loadComponent: () => import('./events/events').then(m => m.EventsComponent) },
   { path: 'login', loadComponent: () => import('./login/login').then(m => m.LoginComponent) },
