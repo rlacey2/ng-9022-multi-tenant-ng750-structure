@@ -1,56 +1,25 @@
 <!-- src/app/layouts/auth-layout/auth-layout.component.html -->
 
 <!-- Level 1: Application-level Global Header (Themed with responsive burger collapse) -->
-<!-- Inside public-layout.component.html  -->
+<!-- Inside auth-layout.component.html  -->
 <app-global-header 
     (toggleLeft)="toggleLeftSidebar()" 
   (toggleRight)="toggleRightSidebar()">
 </app-global-header>
 
-<!-- Main Layout Frame Wrapper -->
-<div class="d-flex flex-column" style="height: calc(100vh - 60px); overflow: hidden; position: relative;">
+ 
+
+<div class="d-flex flex-column" style="height: calc(100vh - var(--global-header-height)); overflow: hidden; position: relative;">
   
-  <!-- 🚀 INTEGRATED GLOBAL PORTAL SLOTS: 
-       These act as target receptors for teleporting inner sidebars to the top layer layout 
-       on mobile viewports, entirely fixing inner constraint rendering blocks! -->
-  <div id="global-left-sidebar-portal" class="portal-container-wrapper"></div>
-  <div id="global-right-sidebar-portal" class="portal-container-wrapper"></div>
-
-  <!-- Level 2: View level Header -->
-  <div class="bg-white border-bottom zzpy-2 zzpx-3 d-flex align-items-center justify-content-between shadow-sm flex-shrink-0">
-    <div class="d-flex align-items-center gap-2">
-      @if (!settingsService.headerLaunchButtons()) {
-        <button class="btn btn-outline-secondary btn-sm d-md-none" (click)="toggleLeftSidebar()">Sidebar L</button>
-      }
-    </div>
-
-    <div class="d-flex gap-2">
-      @if (!settingsService.headerLaunchButtons()) {
-        <button class="btn btn-outline-secondary btn-sm d-md-none" (click)="toggleRightSidebar()">Sidebar R</button>
-      }
-    </div>
+  <!-- Optional Global Message Row -->
+  <div class="bg-warning-subtle text-warning-emphasis py-1 px-3 border-bottom text-center small fw-semibold flex-shrink-0" 
+       style="background-color: #fff3cd !important;">
+    ⚠️ Global system announcements appear here
   </div>
 
-  <!-- Level 3 Sticky Badge Notice or messages global messages -->
-  <div class="bg-warning-subtle text-warning-emphasis zzpy-1 zzpx-3 border-bottom text-center small fw-semibold flex-shrink-0 sticky-top" 
-       style="z-index: 1020; top: 0; background-color: #fff3cd !important;">
-    ⚠️ could use this for messages like microsoft
-  </div>
+  <!-- Core Router Outlet (WorkspaceViewComponent renders its own Level 2 header & buttons inside here) -->
+  <main class="flex-grow-1 bg-white p-0" style="overflow: hidden; height: 100%;">
+    <router-outlet></router-outlet>
+  </main>
 
-  <!-- Main Work Matrix Panels -->
-  <div class="d-flex flex-row flex-grow-1 position-relative" style="overflow: hidden;">
-    
-    <!-- Mobile Screen Dark Backdrop Layer -->
-    @if (settingsService.touchOverlayClose() && (leftSidebarOpen() || rightSidebarOpen()) && isMobile()) {
-      <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50" 
-           style="z-index: 1030;" (click)="closeBothSidebars()">
-      </div>
-    }
-
-    <!-- Core Frame Router Target Content Area -->
-    <main class="flex-grow-1 bg-white p-0" style="overflow-y: scroll; scrollbar-gutter: stable; height: 100%;">
-      <router-outlet></router-outlet>
-    </main>
-
-  </div>
 </div>

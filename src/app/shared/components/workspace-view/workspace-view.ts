@@ -1,5 +1,5 @@
 // src/app/shared/components/workspace-view/workspace-view.component.ts
-import { Component, input, signal, HostListener, inject, contentChild, ElementRef, effect } from '@angular/core';
+import { Component, input, signal, HostListener, inject, contentChild, ElementRef, effect, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WorkspaceSettingsService } from '../../../core/services/workspace-settings.service';
 
@@ -27,6 +27,24 @@ export class WorkspaceViewComponent {
 
   constructor() {
     this.checkScreenSize();
+
+/*
+so it opens/closes its sidebars whenever those Level 1 buttons are clicked:
+*/
+
+effect(() => {
+  if (this.globalSettings.leftTriggerCount() > 0) {
+    untracked(() => this.toggleLeft());
+  }
+});
+
+effect(() => {
+  if (this.globalSettings.rightTriggerCount() > 0) {
+    untracked(() => this.toggleRight());
+  }
+});
+
+
 
     effect(() => {
       const mobile = this.isMobile() || this.globalSettings.headerLaunchButtons();

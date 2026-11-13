@@ -70,12 +70,12 @@
       </div>
 
       <!-- Elevated Sidebar Launchers for Mobile -->
-      @if (settingsService.headerLaunchButtons()) {
-        <div class="d-flex gap-1 d-md-none">
-          <button class="btn btn-sm btn-light fw-bold shadow-sm" (click)="toggleLeft.emit()">☰ L</button>
-          <button class="btn btn-sm btn-light fw-bold shadow-sm" (click)="toggleRight.emit()">R ☰</button>
-        </div>
-      }
+@if (settingsService.headerLaunchButtons()) {
+  <div class="d-flex gap-1 d-lg-none">
+    <button class="btn btn-sm btn-light fw-bold shadow-sm" (click)="settingsService.triggerLeftSidebar()">☰ L</button>
+    <button class="btn btn-sm btn-light fw-bold shadow-sm" (click)="settingsService.triggerRightSidebar()">R ☰</button>
+  </div>
+}
     </div>
 
   </div>
