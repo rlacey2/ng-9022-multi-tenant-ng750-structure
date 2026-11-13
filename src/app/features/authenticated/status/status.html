@@ -1,122 +1,130 @@
 <app-workspace-view pageTitle="Status">
 
   <!-- Column 2: REPLACING THE ENTIRE [main-content] ELEMENT HOOK FOR STICKY INSIDE-COLUMN RETENTION -->
- <!-- ❌ h-100 cuts the parent container short, causing sticky items to push off at the bottom -->
-<!-- ✅ min-h-100 lets the parent grow with the content so sticky items stay locked all the way to the bottom -->
+  <!-- ❌ h-100 cuts the parent container short, causing sticky items to push off at the bottom -->
+  <!-- ✅ min-h-100 lets the parent grow with the content so sticky items stay locked all the way to the bottom -->
 
   <div main-content class="w-100 min-h-100 position-relative">
-    
+
     <!-- 🛑 SOLID STICKY CONTAINER: Encapsulates Level 3 & 4 inside the scroll zone -->
-    <div class="sticky-top w-100 border-bottom pt-2 pb-1" style="z-index: 1020; top: 0; background-color: #ffffff !important;">
-      
+    <div class="sticky-top w-100 border-bottom pt-2 pb-1"
+      style="z-index: 1020; top: 0; background-color: #ffffff !important;">
+
       <!-- LEVEL 3 STICKY NOTIFICATION BADGE ROW -->
       <div class="px-3 mb-2 d-flex gap-2">
-        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold">Status Override</span>
-        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold">Public Now</span>
+        <span
+          class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold">Status
+          Override</span>
+        <span
+          class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold">Public
+          Now</span>
       </div>
 
       <!-- LEVEL 4 STICKY METADATA INFO BAR -->
       <!-- Styled matching your yellow corporate matrix framework card -->
 
-      <div class="p-2 border rounded-3 mx-3 d-flex gap-3 shadow-sm" style="background-color: #e9edc9 !important; border-color: #ccd5ae !important;">
- 
+      <div class="p-2 border rounded-3 mx-3 d-flex gap-3 shadow-sm"
+        style="background-color: #e9edc9 !important; border-color: #ccd5ae !important;">
+
       </div>
 
     </div>
 
     <!-- THE ACTUAL CONTENT PANELS IN THE TIMELINE FLOW -->
     <div class="workspace-scroll-body p-3 d-flex flex-column gap-2">
-      
-    @if(1) {
-    <div>
-  <article aria-label="headings">
-    <h1>This is 1st level heading</h1>
-    <p>This is a test paragraph.</p>
-    <h2>This is 2nd level heading</h2>
-    <p>This is a test paragraph.</p>
-    <h3>This is 3rd level heading</h3>
-    <p>This is a test paragraph.</p>
-    <h4>This is 4th level heading</h4>
-    <p>This is a test paragraph.</p>
-    <h5>This is 5th level heading</h5>
-    <p>This is a test paragraph.</p>
-    <h6>This is 6th level heading</h6>
-    <p>This is a test paragraph.</p>
-  </article>
-  <article aria-label="headings">
-    <h1>This is 1st level heading</h1>
-    <p>This is a test paragraph.</p>
-    <h2>This is 2nd level heading</h2>
-    <p>This is a test paragraph.</p>
-    <h3>This is 3rd level heading</h3>
-    <p>This is a test paragraph.</p>
-    <h4>This is 4th level heading</h4>
-    <p>This is a test paragraph.</p>
-    <h5>This is 5th level heading</h5>
-    <p>This is a test paragraph.</p>
-    <h6>This is 6th level heading</h6>
-    <p>This is a test paragraph.</p>
-  </article>
-  <article aria-label="headings">
-    <h1>This is 1st level heading</h1>
-    <p>This is a test paragraph.</p>
-    <h2>This is 2nd level heading</h2>
-    <p>This is a test paragraph.</p>
-    <h3>This is 3rd level heading</h3>
-    <p>This is a test paragraph.</p>
-    <h4>This is 4th level heading</h4>
-    <p>This is a test paragraph.</p>
-    <h5>This is 5th level heading</h5>
-    <p>This is a test paragraph.</p>
-    <h6>This is 6th level heading</h6>
-    <p>This is a test paragraph.</p>
-  </article>
-  <article aria-label="headings">
-    <h1>This is 1st level heading</h1>
-    <p>This is a test paragraph.</p>
-    <h2>This is 2nd level heading</h2>
-    <p>This is a test paragraph.</p>
-    <h3>This is 3rd level heading</h3>
-    <p>This is a test paragraph.</p>
-    <h4>This is 4th level heading</h4>
-    <p>This is a test paragraph.</p>
-    <h5>This is 5th level heading</h5>
-    <p>This is a test paragraph.</p>
-    <h6>This is 6th level heading</h6>
-    <p>This is a test paragraph.</p>
-  </article>
-  <article aria-label="headings">
-    <h1>This is 1st level heading</h1>
-    <p>This is a test paragraph.</p>
-    <h2>This is 2nd level heading</h2>
-    <p>This is a test paragraph.</p>
-    <h3>This is 3rd level heading</h3>
-    <p>This is a test paragraph.</p>
-    <h4>This is 4th level heading</h4>
-    <p>This is a test paragraph.</p>
-    <h5>This is 5th level heading</h5>
-    <p>This is a test paragraph.</p>
-    <h6>This is 6th level heading</h6>
-    <p>This is a test paragraph.</p>
-  </article>
-  <article aria-label="headings">
-    <h1>This is 1st level heading</h1>
-    <p>This is a test paragraph.</p>
-    <h2>This is 2nd level heading</h2>
-    <p>This is a test paragraph.</p>
-    <h3>This is 3rd level heading</h3>
-    <p>This is a test paragraph.</p>
-    <h4>This is 4th level heading</h4>
-    <p>This is a test paragraph.</p>
-    <h5>This is 5th level heading</h5>
-    <p>This is a test paragraph.</p>
-    <h6>This is 6th level heading</h6>
-    <p>This is a test paragraph.</p>
-  </article>
-</div>
- }
-  
-    
+
+      <app-status></app-status>
+
+      @if(1) {
+      <div>
+        <article aria-label="headings">
+          <h1>This is 1st level heading</h1>
+          <p>This is a test paragraph.</p>
+          <h2>This is 2nd level heading</h2>
+          <p>This is a test paragraph.</p>
+          <h3>This is 3rd level heading</h3>
+          <p>This is a test paragraph.</p>
+          <h4>This is 4th level heading</h4>
+          <p>This is a test paragraph.</p>
+          <h5>This is 5th level heading</h5>
+          <p>This is a test paragraph.</p>
+          <h6>This is 6th level heading</h6>
+          <p>This is a test paragraph.</p>
+        </article>
+        <article aria-label="headings">
+          <h1>This is 1st level heading</h1>
+          <p>This is a test paragraph.</p>
+          <h2>This is 2nd level heading</h2>
+          <p>This is a test paragraph.</p>
+          <h3>This is 3rd level heading</h3>
+          <p>This is a test paragraph.</p>
+          <h4>This is 4th level heading</h4>
+          <p>This is a test paragraph.</p>
+          <h5>This is 5th level heading</h5>
+          <p>This is a test paragraph.</p>
+          <h6>This is 6th level heading</h6>
+          <p>This is a test paragraph.</p>
+        </article>
+        <article aria-label="headings">
+          <h1>This is 1st level heading</h1>
+          <p>This is a test paragraph.</p>
+          <h2>This is 2nd level heading</h2>
+          <p>This is a test paragraph.</p>
+          <h3>This is 3rd level heading</h3>
+          <p>This is a test paragraph.</p>
+          <h4>This is 4th level heading</h4>
+          <p>This is a test paragraph.</p>
+          <h5>This is 5th level heading</h5>
+          <p>This is a test paragraph.</p>
+          <h6>This is 6th level heading</h6>
+          <p>This is a test paragraph.</p>
+        </article>
+        <article aria-label="headings">
+          <h1>This is 1st level heading</h1>
+          <p>This is a test paragraph.</p>
+          <h2>This is 2nd level heading</h2>
+          <p>This is a test paragraph.</p>
+          <h3>This is 3rd level heading</h3>
+          <p>This is a test paragraph.</p>
+          <h4>This is 4th level heading</h4>
+          <p>This is a test paragraph.</p>
+          <h5>This is 5th level heading</h5>
+          <p>This is a test paragraph.</p>
+          <h6>This is 6th level heading</h6>
+          <p>This is a test paragraph.</p>
+        </article>
+        <article aria-label="headings">
+          <h1>This is 1st level heading</h1>
+          <p>This is a test paragraph.</p>
+          <h2>This is 2nd level heading</h2>
+          <p>This is a test paragraph.</p>
+          <h3>This is 3rd level heading</h3>
+          <p>This is a test paragraph.</p>
+          <h4>This is 4th level heading</h4>
+          <p>This is a test paragraph.</p>
+          <h5>This is 5th level heading</h5>
+          <p>This is a test paragraph.</p>
+          <h6>This is 6th level heading</h6>
+          <p>This is a test paragraph.</p>
+        </article>
+        <article aria-label="headings">
+          <h1>This is 1st level heading</h1>
+          <p>This is a test paragraph.</p>
+          <h2>This is 2nd level heading</h2>
+          <p>This is a test paragraph.</p>
+          <h3>This is 3rd level heading</h3>
+          <p>This is a test paragraph.</p>
+          <h4>This is 4th level heading</h4>
+          <p>This is a test paragraph.</p>
+          <h5>This is 5th level heading</h5>
+          <p>This is a test paragraph.</p>
+          <h6>This is 6th level heading</h6>
+          <p>This is a test paragraph.</p>
+        </article>
+      </div>
+      }
+
+
 
     </div>
 
