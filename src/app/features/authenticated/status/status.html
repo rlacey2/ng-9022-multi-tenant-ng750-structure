@@ -1,26 +1,34 @@
-<div class="status-container">
-  <!-- Level 3: Optional Feedback Badge Row (Sticky at the very top of view) -->
+<app-workspace-view pageTitle="Status">
 
-  <!-- Added 'bg-warning-subtle' with an explicit style override to guarantee 100% background opacity -->
-  <div
-    class="bg-warning-subtle text-warning-emphasis   border-bottom text-center small fw-semibold flex-shrink-0 sticky-top"
-    style="z-index: 1020; top: 0; background-color: #fff3cd !important;">
-    ⚠️ Operational Feedback Log Node: Workspace context status synced successfully.
-  </div>
+  <!-- Column 2: REPLACING THE ENTIRE [main-content] ELEMENT HOOK FOR STICKY INSIDE-COLUMN RETENTION -->
+ <!-- ❌ h-100 cuts the parent container short, causing sticky items to push off at the bottom -->
+<!-- ✅ min-h-100 lets the parent grow with the content so sticky items stay locked all the way to the bottom -->
 
-  <!-- Level 4: Optional Entity Record Header Row (Sticky underneath Level 3) -->
-  <!-- Replaced 'bg-light' with explicit 'bg-white' and a backup solid background-color rule -->
-  <div class="bg-white text-muted border-bottom py-2 px-3 small d-flex gap-4 flex-shrink-0 sticky-top"
-    style="z-index: 1019; top: 32px; background-color: #ffffff !important;">
-    <div><strong>Record Entity ID:</strong> #REC-20261110</div>
-    <div><strong>Schema Signature:</strong> ACTIVE_DRAFT_NODE</div>
-    <div><strong>System Mod User:</strong> rl Lacey System Node</div>
-  </div>
+  <div main-content class="w-100 min-h-100 position-relative">
+    
+    <!-- 🛑 SOLID STICKY CONTAINER: Encapsulates Level 3 & 4 inside the scroll zone -->
+    <div class="sticky-top w-100 border-bottom pt-2 pb-1" style="z-index: 1020; top: 0; background-color: #ffffff !important;">
+      
+      <!-- LEVEL 3 STICKY NOTIFICATION BADGE ROW -->
+      <div class="px-3 mb-2 d-flex gap-2">
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold">Status Override</span>
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold">Public Now</span>
+      </div>
 
-  <h2>{{ title }}</h2>
-  <p>Mock interface for the status feature module.</p>
+      <!-- LEVEL 4 STICKY METADATA INFO BAR -->
+      <!-- Styled matching your yellow corporate matrix framework card -->
 
-  <div>
+      <div class="p-2 border rounded-3 mx-3 d-flex gap-3 shadow-sm" style="background-color: #e9edc9 !important; border-color: #ccd5ae !important;">
+ 
+      </div>
+
+    </div>
+
+    <!-- THE ACTUAL CONTENT PANELS IN THE TIMELINE FLOW -->
+    <div class="workspace-scroll-body p-3 d-flex flex-column gap-2">
+      
+    @if(1) {
+    <div>
   <article aria-label="headings">
     <h1>This is 1st level heading</h1>
     <p>This is a test paragraph.</p>
@@ -106,5 +114,13 @@
     <p>This is a test paragraph.</p>
   </article>
 </div>
+ }
+  
+    
 
-</div>
+    </div>
+
+  </div>
+
+
+</app-workspace-view>

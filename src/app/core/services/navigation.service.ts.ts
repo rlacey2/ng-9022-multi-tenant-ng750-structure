@@ -15,9 +15,10 @@ export class NavigationService {
     { label: '🔑 Login', path: '/login', visibility: 'publicOnly' },
     { label: 'Status', path: '/app/status', visibility: 'authenticatedOnly' },
     { label: 'CMS', path: '/app/cms', visibility: 'authenticatedOnly' },
+
+    { label: 'Admin', path: '/app/admin', visibility: 'authenticatedOnly' },
     { label: 'Draft', path: '/app/draft', visibility: 'authenticatedOnly' },
-    { label: '⚙️ Settings', path: '/app/useraccount', visibility: 'authenticatedOnly' },
-    { label: 'Admin', path: '/app/admin', visibility: 'authenticatedOnly' }
+    { label: '⚙️ Settings', path: '/app/useraccount', visibility: 'authenticatedOnly' } 
   ];
 
   // Automatically updates whenever authService.isAuthenticated() changes
