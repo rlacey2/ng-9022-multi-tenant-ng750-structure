@@ -18,8 +18,8 @@ export class AuthService {
 
   constructor() {
     // Start with a mock active session by default so secure routes load on startup
-    console.log('logout at start')
- //   this.simulateMockLogin();
+    console.log('logout at start or here  this.simulateMockLogin()')
+    this.simulateMockLogin();
   }
 
   simulateMockLogin() {

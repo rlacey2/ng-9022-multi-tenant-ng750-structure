@@ -4,3 +4,88 @@
   border-radius: 4px;
   background-color: #fafafa;
 }
+
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* 1. ROW CONTAINER HOVER (Ease-in-out) */
+.row-strip {
+  display: flex;
+  align-items: center;
+  padding: 4px 6px;
+  background-color: #fffde7;
+  border: 1px solid #fcdb77;
+  border-radius: 4px;
+  transition:
+    background-color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #fff9c4;
+    border-color: #fbc02d;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Error state & error hover */
+  &.error-alert {
+    background-color: #ffebee !important;
+    border-color: #e57373 !important;
+
+    &:hover {
+      background-color: #ffcdd2 !important;
+      border-color: #e53935 !important;
+    }
+  }
+}
+
+/* 2. BASE BUTTON STYLING */
+.index-badge {
+  width: 26px;
+  height: 26px;
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  color: #212529;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out,
+    color 0.2s ease-in-out,
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  /* 3. LEFT ACTION HOVER (Jump to Accordion) */
+  &:first-of-type:hover {
+    background-color: var(--primary-color, #0d6efd);
+    border-color: var(--primary-color, #0d6efd);
+    color: #ffffff;
+    transform: scale(1.06);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  /* 4. RIGHT ACTION HOVER (Toggle Panel Open/Close) */
+  &:last-of-type:hover {
+    background-color: #e3f2fd;
+    border-color: var(--secondary-color, #3f51b5);
+    color: var(--secondary-color, #3f51b5);
+    transform: scale(1.06);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  }
+}

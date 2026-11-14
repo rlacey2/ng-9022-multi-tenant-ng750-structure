@@ -2,76 +2,153 @@
 <app-workspace-view pageTitle="CMS">
 
   <!-- Column 1: Left Workspace Activities Sidebar -->
-  <div left-sidebar #leftSidebarRef class="list-group list-group-flush p-2 gap-1" style="width: var(--sidebar-left-width);">
+  <div left-sidebar #leftSidebarRef class="list-group list-group-flush p-2 gap-1"
+    style="width: var(--sidebar-left-width);">
     <button class="btn btn-outline-primary btn-sm text-start py-2">Clear</button>
-   
+
     <!-- src/app/features/authenticated/components/cms/cms.component.html (or left-sidebar block) -->
 
-<div class="dropdown">
-  <!-- The primary trigger button matching your exact custom padding and styling rules -->
-  <button 
-    class="btn btn-outline-primary btn-sm text-start py-2 w-100 dropdown-toggle shadow-sm" 
-    type="button" 
-    id="newActionDropdown" 
-    data-bs-toggle="dropdown" 
-    aria-expanded="false">
-    New
-  </button>
-  
-  <!-- The nested options panel card list container -->
-  <ul class="dropdown-menu shadow p-2 mt-1 rounded-3 w-100" aria-labelledby="newActionDropdown" style="z-index: 1050;">
-    <li>
-      <button class="dropdown-item rounded py-2 small fw-medium" type="button" (click)="onCreateNew('Alpha')">
-        ➕ New Alpha Node
+    <div class="dropdown">
+      <!-- The primary trigger button matching your exact custom padding and styling rules -->
+      <button class="btn btn-outline-primary btn-sm text-start py-2 w-100 dropdown-toggle shadow-sm" type="button"
+        id="newActionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        New
       </button>
-    </li>
-    <li>
-      <button class="dropdown-item rounded py-2 small fw-medium" type="button" (click)="onCreateNew('Beta')">
-        ✨ New Beta Matrix
-      </button>
-    </li>
-  </ul>
-</div>
 
-   <button class="btn btn-outline-primary text-start py-2 shadow-sm">Save</button>
+      <!-- The nested options panel card list container -->
+      <ul class="dropdown-menu shadow p-2 mt-1 rounded-3 w-100" aria-labelledby="newActionDropdown"
+        style="z-index: 1050;">
+        <li>
+          <button class="dropdown-item rounded py-2 small fw-medium" type="button" (click)="onCreateNew('Alpha')">
+            ➕ New Alpha Node
+          </button>
+        </li>
+        <li>
+          <button class="dropdown-item rounded py-2 small fw-medium" type="button" (click)="onCreateNew('Beta')">
+            ✨ New Beta Matrix
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <button class="btn btn-outline-primary text-start py-2 shadow-sm">Save</button>
     <button class="btn btn-outline-primary btn-sm text-start py-2">Cancel</button>
     <button class="btn btn-outline-primary btn-sm text-start py-2">Duplicate</button>
     <button class="btn btn-outline-primary btn-sm text-start py-2">Delete</button>
   </div>
 
-    <!-- Column 3: Right Workspace Inspector Sidebar -->
-  <div right-sidebar #rightSidebarRef class="p-3" style="width: var(--sidebar-right-width);">
-    <h6 class="fw-bold text-dark text-uppercase small mb-3">Preview Matrix</h6>
-    <div class="d-flex gap-2 mb-3">
-      <button class="btn btn-xs btn-outline-secondary w-50 py-1">Open</button>
-      <button class="btn btn-xs btn-outline-secondary w-50 py-1">Close</button>
+  <!-- Column 3: Right Workspace Inspector Sidebar -->
+  <div right-sidebar #rightSidebarRef class="list-group list-group-flush p-2 gap-1"
+    style="width: var(--sidebar-right-width);">
+
+
+    <button class="btn btn-outline-primary btn-sm text-start py-2">Preview</button>
+
+
+
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-xs btn-outline-secondary w-50 py-1">Store</button>
+      <button class="btn btn-xs btn-outline-secondary w-50 py-1">Recall</button>
     </div>
-    <div class="list-group list-group-flush gap-1">
-      <div class="p-2 bg-warning-subtle rounded small d-flex justify-content-between align-items-center">
-        <span>01</span>
-        <input type="radio" checked name="preview-nodes">
+
+
+    <div class="d-flex gap-2 mb-q">
+      <button class="btn btn-xs btn-outline-secondary w-50 py-1" (click)="setGlobalExpansion(true)">Open</button>
+      <button class="btn btn-xs btn-outline-secondary w-50 py-1" (click)="setGlobalExpansion(false)">Close</button>
+
+
+    </div>
+
+
+
+    <!-- this alternate radio button state has cost 6+ hours trouble shooting with AI
+     lots of AI abbolutes and it was the dynamic mat-icon switch and mat-icon use.
+
+        -->
+
+
+    <!-- ✅ Wrap the loop in an immediate defer block to isolate the injection context thread -->
+    <div class="sidebar-list">
+      @for (n of sectionIds; track n) {
+      <div class="row-strip" [class.error-alert]="invalidSections()[n]">
+
+        <button class="index-badge" (click)="jumpToAccordion(n)">{{ n }}</button>
+        <span class="spacer"></span>
+        <button class="index-badge" (click)="togglePanel(n)">
+          <!-- 
+          hours +6 tracking the issue to the conditional and an issue with mat-cion
+
+              <button mat-icon-button class="radio-state-icon" (click)="togglePanel(n)">
+      <mat-icon [fontIcon]="openStates()[n] ? 'radio_button_checked' : 'radio_button_unchecked'"></mat-icon>
+    </button>
+
+          -->
+          <!-- ✅ Icon names are now 100% static; they will never trigger a registry injection lookup -->
+          <!-- ✅ Bypass Angular's MatIcon registry entirely using native HTML classes -->
+
+          <!-- ✅ Pure SVG markup bypasses fonts and DI registries entirely -->
+          @if (isPanelExpanded(n)) {
+          <!-- ✅ Fully filled center circle when checked -->
+          <svg xmlns="http://w3.org" height="16px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+            <path
+              d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-100q125 0 212.5-87.5T780-480q0-125-87.5-212.5T480-780q-125 0-212.5 87.5T180-480q0 125 87.5 212.5T480-180Zm0-140q67 0 113.5-46.5T640-480q0-67-46.5-113.5T480-640q-67 0-113.5 46.5T320-480q0 67 46.5 113.5T480-320Z" />
+          </svg>
+          } @else {
+          <!-- Empty outer ring when unchecked -->
+          <svg xmlns="http://w3.org" height="16px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+            <path
+              d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-100q125 0 212.5-87.5T780-480q0-125-87.5-212.5T480-780q-125 0-212.5 87.5T180-480q0 125 87.5 212.5T480-180Z" />
+          </svg>
+          }
+        </button>
+
+
+
       </div>
+      }
     </div>
+
+
+
+
+
+
+
+
   </div>
 
+
+
+
+
+
+
+
   <!-- Column 2: REPLACING THE ENTIRE [main-content] ELEMENT HOOK FOR STICKY INSIDE-COLUMN RETENTION -->
- <!-- ❌ h-100 cuts the parent container short, causing sticky items to push off at the bottom -->
-<!-- ✅ min-h-100 lets the parent grow with the content so sticky items stay locked all the way to the bottom -->
+  <!-- ❌ h-100 cuts the parent container short, causing sticky items to push off at the bottom -->
+  <!-- ✅ min-h-100 lets the parent grow with the content so sticky items stay locked all the way to the bottom -->
 
   <div main-content class="w-100 min-h-100 position-relative">
-    
+
     <!-- 🛑 SOLID STICKY CONTAINER: Encapsulates Level 3 & 4 inside the scroll zone -->
-    <div class="sticky-top w-100 border-bottom pt-2 pb-1" style="z-index: 1020; top: 0; background-color: #ffffff !important;">
-      
+    <div class="sticky-top w-100 border-bottom pt-2 pb-1"
+      style="z-index: 1020; top: 0; background-color: #ffffff !important;">
+
       <!-- LEVEL 3 STICKY NOTIFICATION BADGE ROW -->
       <div class="px-3 mb-2 d-flex gap-2">
-        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold">Status Override</span>
-        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold">Public Now</span>
+        <span
+          class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold">Status
+          Override</span>
+        <span
+          class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold">Public
+          Now</span>
       </div>
 
       <!-- LEVEL 4 STICKY METADATA INFO BAR -->
       <!-- Styled matching your yellow corporate matrix framework card -->
-      <div class="p-2 border rounded-3 mx-3 d-flex gap-3 shadow-sm" style="background-color: #e9edc9 !important; border-color: #ccd5ae !important;">
+      <div class="p-2 border rounded-3 mx-3 d-flex gap-3 shadow-sm"
+        style="background-color: #e9edc9 !important; border-color: #ccd5ae !important;">
         <div class="flex-grow-1">
           <label class="extra-small text-muted d-block fw-bold mb-1 text-uppercase tracking-wider">Name*</label>
           <div class="fw-bold text-dark fs-5">0 Credit Card</div>
@@ -89,30 +166,176 @@
     </div>
 
     <!-- THE ACTUAL CONTENT PANELS IN THE TIMELINE FLOW -->
-    <div class="workspace-scroll-body p-3 d-flex flex-column gap-2">
-      
-      <div class="card border-0 p-3 bg-purple-subtle text-dark rounded-3 d-flex justify-content-between flex-row align-items-center shadow-sm">
-        <span class="fw-bold">1) Configuration</span>
-        <span class="small text-muted font-monospace d-none d-md-inline">14/03/2025:12:01AM - 31/12/2036:1:01AM</span>
+
+    @if(1){
+    <div class="accordion-container">
+      <!-- CMS01 -->
+      <div data-id="1" class="panel-node">
+        <mat-expansion-panel [expanded]="isPanelExpanded(1)" (opened)="togglePanel(1,true)"
+          (closed)="togglePanel(1, false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>1) Configuration {{ getAccordionCountText(1) }}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="nested-wrapper">
+            <mat-expansion-panel class="sub-panel">
+              <mat-expansion-panel-header>
+                <mat-panel-title>1.A) Promotion codes</mat-panel-title>
+              </mat-expansion-panel-header>
+              @for (item of eventData().promotionCodes; track item.code) {
+              <div class="item-block">
+                Code: <strong>{{ item.code }}</strong>
+              </div>
+              }
+            </mat-expansion-panel>
+          </div>
+        </mat-expansion-panel>
       </div>
-      
-      <div class="card border-0 p-3 bg-purple-subtle text-dark rounded-3 shadow-sm d-flex justify-content-between flex-row align-items-center">
-        <span class="fw-bold">2) Template Theme / Banner Image</span>
-        <span class="text-muted">▾</span>
-      </div>
-      
-      <div class="card border-0 p-3 bg-purple-subtle text-dark rounded-3 shadow-sm d-flex justify-content-between flex-row align-items-center">
-        <span class="fw-bold">3) Overview Information</span>
-        <span class="text-muted">▾</span>
-      </div>
-      
-      <!-- Added extensive padding margin rule below footer element to demonstrate sticky functionality -->
-      <div class="card border-0 p-3 bg-purple-subtle text-dark rounded-3 shadow-sm d-flex justify-content-between flex-row align-items-center" style="margin-bottom: 900px;">
-        <span class="fw-bold">4) Footer Information</span>
-        <span class="text-muted">▾</span>
+      @if(1){
+      <!-- CMS02 -->
+      <div data-id="2" class="panel-node">
+        <mat-expansion-panel [expanded]="openStates()[2]" (opened)="togglePanel(2, true)"
+          (closed)="togglePanel(2, false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>2) Template Theme / Banner Image {{ getAccordionCountText(2)}}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>Theme: {{ eventData().template_meta.type }}</p>
+        </mat-expansion-panel>
       </div>
 
+      <!-- CMS03 -->
+      <div data-id="3" class="panel-node">
+        <mat-expansion-panel [expanded]="openStates()[3]" (opened)="togglePanel(3, true)"
+          (closed)="togglePanel(3, false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>3) Overview Information {{ getAccordionCountText(3)}}</mat-panel-title>
+          </mat-expansion-panel-header>
+          @for (entry of eventData().overview.data; track entry.text) {
+          <div [innerHTML]="entry.text"></div>
+          }
+        </mat-expansion-panel>
+      </div>
+
+      <!-- CMS04 -->
+      <div data-id="4" class="panel-node">
+        <mat-expansion-panel [expanded]="openStates()[4]" (opened)="togglePanel(4, true)"
+          (closed)="togglePanel(4, false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>4) Footer Information {{ getAccordionCountText(4)}}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>No custom footer variables configured.</p>
+        </mat-expansion-panel>
+      </div>
+
+      <!-- CMS05 -->
+      <div data-id="5" class="panel-node">
+        <mat-expansion-panel [expanded]="openStates()[5]" (opened)="togglePanel(5, true)"
+          (closed)="togglePanel(5, false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>5) Organisation {{ getAccordionCountText(5)}}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>Hierarchy Tag: {{ eventData().organisation.meta.ui_text_to_display }}</p>
+        </mat-expansion-panel>
+      </div>
+
+      <!-- CMS07 -->
+      <div data-id="7" class="panel-node">
+        <mat-expansion-panel [expanded]="openStates()[7]" (opened)="togglePanel(7, true)"
+          (closed)="togglePanel(7, false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>7) Payments {{ getAccordionCountText(7)}}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="nested-wrapper">
+            <mat-expansion-panel class="sub-panel"><mat-expansion-panel-header><mat-panel-title>7.A) Payment
+                  options</mat-panel-title></mat-expansion-panel-header></mat-expansion-panel>
+            <mat-expansion-panel class="sub-panel"><mat-expansion-panel-header><mat-panel-title>7.B) Discount
+                  rules</mat-panel-title></mat-expansion-panel-header></mat-expansion-panel>
+            <mat-expansion-panel class="sub-panel"><mat-expansion-panel-header><mat-panel-title>7.C) Electronic Bank
+                  Transfer Option</mat-panel-title></mat-expansion-panel-header></mat-expansion-panel>
+          </div>
+        </mat-expansion-panel>
+      </div>
+
+      <!-- CMS08 -->
+      <div data-id="8" class="panel-node">
+        <mat-expansion-panel [expanded]="openStates()[8]" (opened)="togglePanel(8,true)"
+          (closed)="togglePanel(8, false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>8) Header / Footer Questions Ad Hoc {{ getAccordionCountText(8) }}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="nested-wrapper">
+            <mat-expansion-panel class="sub-panel">
+              <mat-expansion-panel-header><mat-panel-title>8.H) Header
+                  Questions</mat-panel-title></mat-expansion-panel-header>
+              @for (h of filterFields(eventData().single_meta.optional_fields, 'h'); track h.staticName) {
+              <div class="item-block">
+                {{ h.staticName }}
+              </div>
+              }
+            </mat-expansion-panel>
+            <mat-expansion-panel class="sub-panel">
+              <mat-expansion-panel-header><mat-panel-title>8.F) Footer
+                  Questions</mat-panel-title></mat-expansion-panel-header>
+              @for (f of filterFields(eventData().single_meta.optional_fields, 'f'); track f.staticName) {
+              <div class="item-block">
+                {{ f.staticName }}
+              </div>
+              }
+            </mat-expansion-panel>
+          </div>
+        </mat-expansion-panel>
+      </div>
+
+      <!-- CMS09 -->
+      <div data-id="9" class="panel-node">
+        <mat-expansion-panel [expanded]="openStates()[9]" (opened)="togglePanel(9, true)"
+          (closed)="togglePanel(9, false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>9) Attendee Specific Questions {{ getAccordionCountText(9) }}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="nested-wrapper">
+            <mat-expansion-panel class="sub-panel">
+              <mat-expansion-panel-header><mat-panel-title>9.B) Attendee
+                  Metas</mat-panel-title></mat-expansion-panel-header>
+              @for (opt of eventData().attendees_meta.optional_fields; track opt.id) {
+              <div class="item-block">
+                Field Context Key: {{ opt.id }}
+              </div>
+              }
+            </mat-expansion-panel>
+          </div>
+        </mat-expansion-panel>
+      </div>
+
+      <!-- CMS10 -->
+      <div data-id="10" class="panel-node">
+        <mat-expansion-panel [expanded]="openStates()[10]" (opened)="togglePanel(10, true)"
+          (closed)="togglePanel(10, false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>10) Choices / Offerings / Venues / Workshops {{
+              getAccordionCountText(10)}}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="nested-wrapper">
+            @for (off of eventData().offerings.data; track $index) {
+            <mat-expansion-panel class="sub-panel">
+              <mat-expansion-panel-header>
+                <mat-panel-title>10.{{ $index + 1 }}) Dynamic Configuration Line</mat-panel-title>
+              </mat-expansion-panel-header>
+              @for (l of off.lines; track l.text || $index) {
+              <p>{{ l.text }}</p>
+              }
+            </mat-expansion-panel>
+            }
+          </div>
+        </mat-expansion-panel>
+      </div>
+      }
+
     </div>
+    }
+
+
+
+
 
   </div>
 
