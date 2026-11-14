@@ -8,18 +8,14 @@
 .sidebar-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 2px;
 }
-
-.spacer {
-  flex: 1;
-}
-
+ 
 /* 1. ROW CONTAINER HOVER (Ease-in-out) */
 .row-strip {
   display: flex;
   align-items: center;
-  padding: 4px 6px;
+  padding: 2px 3px;
   background-color: #fffde7;
   border: 1px solid #fcdb77;
   border-radius: 4px;
@@ -48,8 +44,8 @@
 
 /* 2. BASE BUTTON STYLING */
 .index-badge {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   background: #ffffff;
   border: 1px solid #cccccc;
   color: #212529;
