@@ -9,7 +9,7 @@ export const routes: Routes = [
   // 1. Unprotected /consent page sits outside guarded routes so it never loops
   {
     path: 'consent',
-    title: 'Cookie Consent',
+  // title: 'Cookie Consent', stays if enabled
     loadComponent: () =>
       import('./features/public/cookie-guard/cookie-guard').then(
         m => m.CookieGuardComponent
