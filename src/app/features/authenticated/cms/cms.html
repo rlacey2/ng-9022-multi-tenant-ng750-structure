@@ -6,6 +6,8 @@
     style="width: var(--sidebar-left-width);">
     <button class="btn btn-outline-primary btn-sm text-start py-2">Clear</button>
 
+     <button class="btn btn-outline-primary btn-sm text-start py-2" (click)="onCreateNew('Alpha')">New2</button>
+
     <!-- src/app/features/authenticated/components/cms/cms.component.html (or left-sidebar block) -->
 
     <div class="dropdown">
@@ -139,12 +141,12 @@
       <div class="p-2 border rounded-3 mx-3 d-flex gap-3 shadow-sm"
         style="background-color: #e9edc9 !important; border-color: #ccd5ae !important;">
         <div class="flex-grow-1">
-          <label class="extra-small text-muted d-block fw-bold mb-1 text-uppercase tracking-wider">Name*</label>
-          <div class="fw-bold text-dark fs-5">0 Credit Card</div>
+          <label class="extra-small text-muted d-block fw-bold mb-1 text-uppercase tracking-wider">Name</label>
+          <div class="fw-bold text-dark fs-5">{{eventConfiguration().name}}</div>
         </div>
         <div class="px-3 border-start border-end text-center" style="min-width: 85px;">
           <label class="extra-small text-muted d-block fw-bold mb-1 text-uppercase tracking-wider">EventId</label>
-          <div class="fw-bold text-dark fs-5">103</div>
+          <div class="fw-bold text-dark fs-5">{{eventConfiguration().eventId}}</div>
         </div>
         <div style="min-width: 240px;">
           <label class="extra-small text-muted d-block fw-bold mb-1 text-uppercase tracking-wider">Event Status*</label>

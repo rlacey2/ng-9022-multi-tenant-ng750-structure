@@ -10,8 +10,35 @@ export const statusMatcher: UrlMatcher = (segments) => pathMatcher('status', seg
 export const draftMatcher: UrlMatcher = (segments) => pathMatcher('draft', segments);
 export const signinMatcher: UrlMatcher = (segments) => pathMatcher('signin', segments);
 export const checkinMatcher: UrlMatcher = (segments) => pathMatcher('checkin', segments);
-export const cmsMatcher: UrlMatcher = (segments) => pathMatcher('cms', segments);
+ 
 export const adminMatcher: UrlMatcher = (segments) => pathMatcher('admin', segments);
+
+
+export const cmsMatcher: UrlMatcher = (segments: UrlSegment[]) => {
+ console.log('ddddd')
+  // Check the first segment (index 0)
+  if (segments[0]?.path !== 'cms') {
+    return null;
+  }
+
+  // Case 1: /cms
+  if (segments.length === 1) {
+    return { consumed: segments };
+  }
+
+  // Case 2: /cms/123 (binds index 1 to eventId)
+  if (segments.length === 2) {
+    return {
+      consumed: segments,
+      posParams: { eventId: segments[1] },
+    };
+  }
+
+  return null;
+};
+
+
+
 
 export const AUTH_ROUTES: Routes = [
   {

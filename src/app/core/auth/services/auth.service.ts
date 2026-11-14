@@ -23,14 +23,15 @@ export class AuthService {
   }
 
   simulateMockLogin() {
+    console.log('simulateMockLogin()')
     this.tokenSignal.set('mock-jwt-token-string');
     this.currentUserSignal.set({
       id: 'USR-7721',
-      username: 'rl Lacey',
+      username: 'rlacey',
       email: 'rlacey@system-node.internal',
       role: 'Admin'
     });
-     this.router.navigate(['/app/status']);
+ //    this.router.navigate(['/status']);
   }
 
   logout() {

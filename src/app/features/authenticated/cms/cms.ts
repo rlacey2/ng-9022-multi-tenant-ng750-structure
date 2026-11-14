@@ -1,10 +1,13 @@
-import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { WorkspaceViewComponent } from '../../../shared/components/workspace-view/workspace-view';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormMapperChangeTracker } from '../../../shared/utils/FormMapperChangeTracker';
 import { MatExpansionModule  } from '@angular/material/expansion';
 import { MatIconModule  } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { EventConfigurationService } from '../../../core/services/event-configuration.service';
+import { Router } from '@angular/router';
+import { EventConfigurationModel } from '../../../shared/models/shared.models';
 
 // Use a unique storage key (optionally include the route or feature name)
 const PANEL_STATE_STORAGE_KEY = 'cms_panel_open_states';
@@ -25,8 +28,18 @@ const PANEL_STATE_STORAGE_KEY = 'cms_panel_open_states';
 })
 export class CmsComponent implements OnInit {
  
+    private router = inject(Router);
+   protected readonly eventService = inject(EventConfigurationService);
 
-  protected readonly eventConfiguration = signal({
+
+  // 2. Wire directly to the service's working signal (replaces your local signal({...}))
+   protected readonly eventConfiguration:any = this.eventService.eventConfiguration;
+
+  // Optional: Expose the "Before" snapshot and diff signals directly to your template
+  protected readonly baselineEvent = this.eventService.baselineEvent;
+  protected readonly hasUnsavedChanges = this.eventService.hasUnsavedChanges;
+
+  protected readonly zzzzzeventConfiguration  = signal({
     name: "0 New Seminar mvjx7hfi",
     eventId: 521,
     eventStatus: "3) Released as Promotion",
@@ -178,16 +191,60 @@ protected sectionHasError(n: number): boolean {
 }
 
 
+  // 1. Automatically receives 'eventId' from the route (transforms string | undefined to number | undefined)
+  readonly eventId = input<number | undefined, string | undefined>(undefined, {
+    transform: (val:any) => {
+      if (!val) return undefined;
+      const parsed = Number(val);
+      return Number.isNaN(parsed) ? undefined : parsed;
+    },
+  });
 
 
-  constructor() { }
+  constructor() { 
+       // 2. Reacts automatically whenever eventId changes; cleans up automatically on destroy
+    effect(() => {
+      const id = this.eventId();
+      if (id !== undefined) {
+        this.eventService.loadEventById(id).subscribe();
+      }
+    });
+  
+
+  }
 
    
   ngOnInit(): void {
        console.log('CmsComponent initialized');
     // Automatically check localStorage on component load/render
     this.recallPanelStates();
+
   }
+
+
+  // Source 1: Called when user picks an event from your Search Dialog
+  onSelectFromSearchDialog(selectedEventId: number, forceRefresh = false): void {
+    // Updating the URL keeps browser history in sync and triggers paramMap above,
+    // or call loadEventById(selectedEventId, forceRefresh) directly if not changing the URL
+    this.router.navigate(['/cms', selectedEventId]);
+  }
+
+  // Force bypasses cache and hits the server API
+  onForceRefresh(): void {
+    const currentId = this.eventConfiguration().eventId;
+    if (currentId !== null) {
+      this.eventService.loadEventById(currentId, true).subscribe();
+    }
+  }
+ 
+  // Source 3: Called by your "New" sidebar menu (Alpha / Beta)
+  onCreateNew(type: 'Alpha' | 'Beta'): void {
+    console.log('onCreateNew')
+    this.eventService.initNewEvent({ name: `New ${type} Event` });
+    this.router.navigate(['/cms']);
+  }
+
+  
 
     /**
    * Saves the current boolean map from openStates() to localStorage
@@ -231,15 +288,10 @@ protected sectionHasError(n: number): boolean {
       console.error('Failed to recall panel states from localStorage:', error);
     }
   }
-
-
-onCreateNew(type:string) {
-  alert(type)
-}
-
+ 
   // ✅ Safe, non-looping count string evaluator
 protected getAccordionCountText(id: number): string {
-  const data = this.eventConfiguration();
+  const data:any = this.eventConfiguration();
   
   const countStats = (arr: any[]) => {
     const total = arr?.length || 0;
