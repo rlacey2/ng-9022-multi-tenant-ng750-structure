@@ -168,8 +168,8 @@ give your active tab highlights a clean, polished appearance that coordinates be
     z-index: 1050;
     /* Smooth cubic-bezier ease with a brief 0.15s hover delay */
     transition:
-      opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.15s,
-      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+      opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.35s,
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.35s;
   }
 
   &:hover,
