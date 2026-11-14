@@ -170,7 +170,7 @@
               <mat-expansion-panel-header>
                 <mat-panel-title>1.A) Promotion codes</mat-panel-title>
               </mat-expansion-panel-header>
-              @for (item of eventData().promotionCodes; track item.code) {
+              @for (item of eventConfiguration().promotionCodes; track item.code) {
               <div class="item-block">
                 Code: <strong>{{ item.code }}</strong>
               </div>
@@ -187,7 +187,7 @@
           <mat-expansion-panel-header>
             <mat-panel-title>2) Template Theme / Banner Image {{ getAccordionCountText(2)}}</mat-panel-title>
           </mat-expansion-panel-header>
-          <p>Theme: {{ eventData().template_meta.type }}</p>
+          <p>Theme: {{ eventConfiguration().template_meta.type }}</p>
         </mat-expansion-panel>
       </div>
 
@@ -198,7 +198,7 @@
           <mat-expansion-panel-header>
             <mat-panel-title>3) Overview Information {{ getAccordionCountText(3)}}</mat-panel-title>
           </mat-expansion-panel-header>
-          @for (entry of eventData().overview.data; track entry.text) {
+          @for (entry of eventConfiguration().overview.data; track entry.text) {
           <div [innerHTML]="entry.text"></div>
           }
         </mat-expansion-panel>
@@ -222,7 +222,7 @@
           <mat-expansion-panel-header>
             <mat-panel-title>5) Organisation {{ getAccordionCountText(5)}}</mat-panel-title>
           </mat-expansion-panel-header>
-          <p>Hierarchy Tag: {{ eventData().organisation.meta.ui_text_to_display }}</p>
+          <p>Hierarchy Tag: {{ eventConfiguration().organisation.meta.ui_text_to_display }}</p>
         </mat-expansion-panel>
       </div>
 
@@ -255,7 +255,7 @@
             <mat-expansion-panel class="sub-panel">
               <mat-expansion-panel-header><mat-panel-title>8.H) Header
                   Questions</mat-panel-title></mat-expansion-panel-header>
-              @for (h of filterFields(eventData().single_meta.optional_fields, 'h'); track h.staticName) {
+              @for (h of filterFields(eventConfiguration().single_meta.optional_fields, 'h'); track h.staticName) {
               <div class="item-block">
                 {{ h.staticName }}
               </div>
@@ -264,7 +264,7 @@
             <mat-expansion-panel class="sub-panel">
               <mat-expansion-panel-header><mat-panel-title>8.F) Footer
                   Questions</mat-panel-title></mat-expansion-panel-header>
-              @for (f of filterFields(eventData().single_meta.optional_fields, 'f'); track f.staticName) {
+              @for (f of filterFields(eventConfiguration().single_meta.optional_fields, 'f'); track f.staticName) {
               <div class="item-block">
                 {{ f.staticName }}
               </div>
@@ -285,7 +285,7 @@
             <mat-expansion-panel class="sub-panel">
               <mat-expansion-panel-header><mat-panel-title>9.B) Attendee
                   Metas</mat-panel-title></mat-expansion-panel-header>
-              @for (opt of eventData().attendees_meta.optional_fields; track opt.id) {
+              @for (opt of eventConfiguration().attendees_meta.optional_fields; track opt.id) {
               <div class="item-block">
                 Field Context Key: {{ opt.id }}
               </div>
@@ -304,7 +304,7 @@
               getAccordionCountText(10)}}</mat-panel-title>
           </mat-expansion-panel-header>
           <div class="nested-wrapper">
-            @for (off of eventData().offerings.data; track $index) {
+            @for (off of eventConfiguration().offerings.data; track $index) {
             <mat-expansion-panel class="sub-panel">
               <mat-expansion-panel-header>
                 <mat-panel-title>10.{{ $index + 1 }}) Dynamic Configuration Line</mat-panel-title>

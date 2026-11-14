@@ -26,7 +26,7 @@ const PANEL_STATE_STORAGE_KEY = 'cms_panel_open_states';
 export class CmsComponent implements OnInit {
  
 
-  protected readonly eventData = signal({
+  protected readonly eventConfiguration = signal({
     name: "0 New Seminar mvjx7hfi",
     eventId: 521,
     eventStatus: "3) Released as Promotion",
@@ -239,7 +239,7 @@ onCreateNew(type:string) {
 
   // ✅ Safe, non-looping count string evaluator
 protected getAccordionCountText(id: number): string {
-  const data = this.eventData();
+  const data = this.eventConfiguration();
   
   const countStats = (arr: any[]) => {
     const total = arr?.length || 0;
