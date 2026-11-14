@@ -381,7 +381,7 @@ private openDifference(): void {
     this.eventConfiguration(),   // right
   {
     masterOrder: EVENT_MASTER_ORDER,
-    saveOptions: 'all' // can only update the current eventConfiguration 
+    saveOptions: 'right' // can only update the current eventConfiguration 
   }
   ).subscribe(result => {
 
@@ -397,6 +397,7 @@ private openDifference(): void {
 */
     if (result.saved === 'right') {
       console.log('LATER ensure this works correctly for eventForm')
+      alert('wire this in to signal logic')
       this.eventConfiguration.set(result.right!);
     }
 

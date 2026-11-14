@@ -39,58 +39,80 @@
 
     <div class="toolbar-actions">
 
-
       <div class="diff-dialog-actions">
 
 
-        @if (data.saveOptions !== 'none') {
+@if (data.saveOptions !== 'none') {
 
-        <button mat-flat-button color="primary" type="button" [matMenuTriggerFor]="saveMenu" class="btn btn-outline-primary btn-sm text-start py-2 w-100 dropdown-toggle shadow-sm">
+  <div class="dropdown">
 
-          @if (data.saveOptions === 'both') {
-          Save Both
-          } @else if (data.saveOptions === 'left') {
-          Save Left
-          } @else if (data.saveOptions === 'right') {
-          Save Right
-          } @else {
-          Save
-          }
-          <mat-icon>arrow_drop_down</mat-icon>
+    <button
+      class="btn btn-outline-primary btn-sm text-start py-2 w-100 dropdown-toggle shadow-sm"
+      type="button"
+      id="diffSaveDropdown"
+      data-bs-toggle="dropdown"
+      aria-expanded="false">
 
-        </button>
+      @if (data.saveOptions === 'both') {
+        Save Both
+      } @else if (data.saveOptions === 'left') {
+        Save {{ data.leftLabel }}
+      } @else if (data.saveOptions === 'right') {
+        Save {{ data.rightLabel }}
+      } @else {
+        Save
+      }
 
-        <mat-menu #saveMenu="matMenu">
+    </button>
 
-          @if (data.saveOptions === 'all' || data.saveOptions === 'both') {
-          <button mat-menu-item (click)="saveChanges('both')">
+    <ul
+      class="dropdown-menu shadow p-2 mt-1 rounded-3 w-100"
+      aria-labelledby="diffSaveDropdown"
+      style="z-index: 1050;">
+
+      @if (data.saveOptions === 'all' || data.saveOptions === 'both') {
+        <li>
+          <button
+            class="dropdown-item rounded py-2 small fw-medium"
+            type="button"
+            (click)="saveChanges('both')">
             Save Both
           </button>
-          }
+        </li>
+      }
 
-          @if (data.saveOptions === 'all' || data.saveOptions === 'left') {
-          <button mat-menu-item (click)="saveChanges('left')">
+      @if (data.saveOptions === 'all' || data.saveOptions === 'left') {
+        <li>
+          <button
+            class="dropdown-item rounded py-2 small fw-medium"
+            type="button"
+            (click)="saveChanges('left')">
             Save {{ data.leftLabel }}
           </button>
-          }
+        </li>
+      }
 
-          @if (data.saveOptions === 'all' || data.saveOptions === 'right') {
-          <button mat-menu-item (click)="saveChanges('right')">
+      @if (data.saveOptions === 'all' || data.saveOptions === 'right') {
+        <li>
+          <button
+            class="dropdown-item rounded py-2 small fw-medium"
+            type="button"
+            (click)="saveChanges('right')">
             Save {{ data.rightLabel }}
           </button>
-          }
+        </li>
+      }
 
-        </mat-menu>
+    </ul>
 
-        }
+  </div>
+
+}
 
         <button mat-button type="button" class="cancel-button" (click)="cancel()">
           Cancel
         </button>
       </div>
-
-
-
 
     </div>
   </header>
