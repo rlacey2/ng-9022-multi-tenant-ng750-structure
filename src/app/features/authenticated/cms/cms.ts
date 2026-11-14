@@ -1,10 +1,14 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { WorkspaceViewComponent } from '../../../shared/components/workspace-view/workspace-view';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormMapperChangeTracker } from '../../../shared/utils/FormMapperChangeTracker';
 import { MatExpansionModule  } from '@angular/material/expansion';
 import { MatIconModule  } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+
+// Use a unique storage key (optionally include the route or feature name)
+const PANEL_STATE_STORAGE_KEY = 'cms_panel_open_states';
+
 
 @Component({
   selector: 'app-cms',
@@ -20,7 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
     ],
 })
 export class CmsComponent implements OnInit {
-  title = 'cms component works!';
+ 
 
   protected readonly eventData = signal({
     name: "0 New Seminar mvjx7hfi",
@@ -58,6 +62,7 @@ export class CmsComponent implements OnInit {
 
 
 
+ private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
 
   // 20261107 20:30:12: Root form tracker instance managing overall document edits
@@ -177,9 +182,56 @@ protected sectionHasError(n: number): boolean {
 
   constructor() { }
 
+   
   ngOnInit(): void {
-    console.log('CmsComponent initialized');
+       console.log('CmsComponent initialized');
+    // Automatically check localStorage on component load/render
+    this.recallPanelStates();
   }
+
+    /**
+   * Saves the current boolean map from openStates() to localStorage
+   */
+  storePanelStates(): void {
+    if (!this.isBrowser) return;
+
+    try {
+      const serialized = JSON.stringify(this.openStates());
+      localStorage.setItem(PANEL_STATE_STORAGE_KEY, serialized);
+    } catch (error) {
+      console.error('Failed to store panel states to localStorage:', error);
+    }
+  }
+
+  /**
+   * Reads saved boolean states from localStorage and updates the openStates signal
+   */
+  recallPanelStates(): void {
+    if (!this.isBrowser) return;
+
+    try {
+      const raw = localStorage.getItem(PANEL_STATE_STORAGE_KEY);
+      if (!raw) return;
+
+      const parsed = JSON.parse(raw);
+
+      // Validate that the parsed data is a plain object before applying to the signal
+      if (typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)) {
+        const sanitized: Record<number, boolean> = {};
+
+        for (const id of this.sectionIds) {
+          if (typeof parsed[id] === 'boolean') {
+            sanitized[id] = parsed[id];
+          }
+        }
+
+        this.openStates.set(sanitized);
+      }
+    } catch (error) {
+      console.error('Failed to recall panel states from localStorage:', error);
+    }
+  }
+
 
 onCreateNew(type:string) {
   alert(type)
