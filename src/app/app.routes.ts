@@ -1,14 +1,49 @@
+// src/app/app.routes.ts
 import { Routes } from '@angular/router';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout';
+import { cookieConsentGuard } from './core/guards/cookie.guard';
+import { authGuard } from './core/guards/auth.guard';
+ 
 
 export const routes: Routes = [
+  // 1. Unprotected /consent page sits outside guarded routes so it never loops
+  {
+    path: 'consent',
+    title: 'Cookie Consent',
+    loadComponent: () =>
+      import('./features/public/cookie-guard/cookie-guard').then(
+        m => m.CookieGuardComponent
+      )
+  },
+
+  // 2. Single unified layout shell for all root-level URLs (/events, /login, /cms, /admin)
   {
     path: '',
-    loadComponent: () => import('./layouts/public-layout/public-layout').then(m => m.PublicLayoutComponent),
-    loadChildren: () => import('./features/public/public.routes').then(m => m.PUBLIC_ROUTES)
+    component: AuthLayoutComponent,
+    canActivate: [cookieConsentGuard],
+    canActivateChild: [cookieConsentGuard],
+    children: [
+      // Default landing redirect
+      { path: '', redirectTo: 'events', pathMatch: 'full' },
+
+      // Public routes (Protected only by cookieConsentGuard)
+      {
+        path: '',
+        loadChildren: () =>
+          import('./features/public/public.routes').then(m => m.PUBLIC_ROUTES)
+      },
+
+      // Authenticated routes at the same root level (/cms, /admin, /draft, /status)
+      {
+        path: '',
+        canActivate: [authGuard],
+        canActivateChild: [authGuard],
+        loadChildren: () =>
+          import('./features/authenticated/auth.routes').then(m => m.AUTH_ROUTES)
+      }
+    ]
   },
-  {
-    path: 'app',
-    loadComponent: () => import('./layouts/auth-layout/auth-layout').then(m => m.AuthLayoutComponent),
-    loadChildren: () => import('./features/authenticated/auth.routes').then(m => m.AUTH_ROUTES)
-  }
+
+  // Catch-all fallback
+  { path: '**', redirectTo: 'events' }
 ];

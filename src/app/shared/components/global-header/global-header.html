@@ -3,16 +3,22 @@
   <div class="container-fluid px-3">
 
     <!-- 1. Left: Tenant Branding & Logo -->
-    <div class="d-flex align-items-center gap-2">
-      <picture>
-        <source media="(min-width: 768px)" [srcset]="themeService.logoLarge()">
-        <img [src]="themeService.logoSmall()" appFallbackImg alt="Tenant Branding" class="img-fluid"
-          style="max-height: 40px; object-fit: contain;">
-      </picture>
-      <span class="navbar-brand mb-0 h1 fs-5 ms-2 fw-bold text-white d-none d-sm-inline-block">
-        {{ themeService.currentTheme()?.meta?.cId }}
-      </span>
-    </div>
+  <!-- Hover wrapper around the tenant logo -->
+  <div class="brand-cookie-trigger position-relative d-inline-flex align-items-center">
+    <picture class="d-flex align-items-center m-0">
+      <source media="(min-width: 768px)" [srcset]="themeService.logoLarge()">
+      <img [src]="themeService.logoSmall()" appFallbackImg alt="Tenant Branding" class="img-fluid" style="max-height: 36px; object-fit: contain;">
+    </picture>
+
+    <!-- Minimal floating button revealed on hover or keyboard focus -->
+    <button type="button"
+            (click)="resetCookies()"
+            class="brand-cookie-btn btn btn-dark btn-sm rounded-pill shadow-sm px-2 py-0"
+            title="Reset Cookie Preferences"
+            aria-label="Reset Cookie Preferences">
+      🍪 Cookies
+    </button>
+  </div>
 
     <!-- 2. Right-Side Actions (Pushed right via ms-auto on mobile, ordered last on desktop via order-lg-3) -->
     <div class="d-flex align-items-center gap-2 ms-auto me-2 me-lg-0 order-lg-3">

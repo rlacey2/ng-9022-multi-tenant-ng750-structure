@@ -147,3 +147,43 @@ give your active tab highlights a clean, polished appearance that coordinates be
 .dropdown-menu {
   z-index: 1080 !important;
 }
+
+
+.brand-cookie-trigger {
+  picture img {
+    transition: opacity 0.35s ease, filter 0.35s ease;
+  }
+
+  .brand-cookie-btn {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /* Start slightly lower and scaled down for a gentle upward float */
+    transform: translate(-50%, -25%) scale(0.92);
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    font-size: 0.7rem;
+    line-height: 1.4;
+    z-index: 1050;
+    /* Smooth cubic-bezier ease with a brief 0.15s hover delay */
+    transition:
+      opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.15s,
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+  }
+
+  &:hover,
+  &:focus-within {
+    /* Gently soften the logo behind the floating pill for better contrast */
+    picture img {
+      opacity: 0.45;
+      filter: blur(1px);
+    }
+
+    .brand-cookie-btn {
+      opacity: 0.96;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+}

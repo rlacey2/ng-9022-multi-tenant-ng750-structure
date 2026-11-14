@@ -1,0 +1,31 @@
+@if (cookieService.requiresConsentDecision()) {
+  <div class="backdrop" role="presentation">
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="cookie-title" aria-describedby="cookie-description">
+      <div class="eyebrow">YOUR PRIVACY</div>
+      <h2 id="cookie-title">Choose your cookie preferences</h2>
+      <p id="cookie-description">We use essential cookies to make this application work. Please make an explicit choice below. Optional categories are only included when this application has them enabled.</p>
+      <div class="cookie-category">
+        <div><strong>Essential cookies</strong><p>Required for core application functionality.</p></div>
+        <span class="always-on">Always on</span>
+      </div>
+      @if (analyticsFeatureEnabled) {
+        <div class="cookie-category"><div><strong>Analytics cookies</strong><p>Help us understand how the application is used.</p></div><span class="optional">Optional</span></div>
+      }
+      @if (marketingFeatureEnabled) {
+        <div class="cookie-category"><div><strong>Marketing cookies</strong><p>Support advertising or marketing integrations.</p></div><span class="optional">Optional</span></div>
+      }
+      @if (!cookieService.hasConsentFeatures()) {
+        <p class="footnote">No optional cookie categories are enabled. Your choice is still required after a reset; select the button below to confirm that you understand this application will use essential cookies only.</p>
+        <div class="actions">
+          <button class="primary" type="button" (click)="confirmEssentialOnly()">Confirm essential-only cookies</button>
+        </div>
+      } @else {
+        <div class="actions">
+          <button class="secondary" type="button" (click)="rejectNonEssential()">Reject optional</button>
+          <button class="primary" type="button" (click)="acceptAll()">Accept all</button>
+        </div>
+      }
+      <p class="footnote">Your explicit choice is saved in localStorage and a browser cookie. You can reset it from XXXX.</p>
+    </section>
+  </div>
+}
