@@ -8,6 +8,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { EventConfigurationService } from '../../../core/services/event-configuration.service';
 import { Router } from '@angular/router';
 import { EventConfigurationModel } from '../../../shared/models/shared.models';
+import { DiffViewerService } from '../../../shared/undecided/diff-viewer/services/diff-viewer.service';
+import { EVENT_MASTER_ORDER } from '../../../shared/undecided/diff-viewer/config/diff-viewer.config';
+
 
 // Use a unique storage key (optionally include the route or feature name)
 const PANEL_STATE_STORAGE_KEY = 'cms_panel_open_states';
@@ -29,6 +32,7 @@ const PANEL_STATE_STORAGE_KEY = 'cms_panel_open_states';
 export class CmsComponent implements OnInit {
  
     private router = inject(Router);
+      private readonly diffViewer = inject(DiffViewerService);
    protected readonly eventService = inject(EventConfigurationService);
 
 
@@ -71,7 +75,7 @@ export class CmsComponent implements OnInit {
     }
   });
 
-
+ 
 
 
 
@@ -352,6 +356,52 @@ protected jumpToAccordion(id: number): void {
   }, 150); // 150ms accommodates Material expansion animations
 }
 
+
+onActionJSON(action:string) {
+
+switch(action) {
+   case 'diff':
+    this.openDifference()
+     break;
+   case 'copy':
+    alert('do copy')
+     break;
+   case 'paste':
+    alert('do paste')
+     break;
+
+}
+ 
+}
+
+private openDifference(): void {
+
+  this.diffViewer.openDifference(
+    this.baselineEvent(),       // left
+    this.eventConfiguration(),   // right
+  {
+    masterOrder: EVENT_MASTER_ORDER,
+    saveOptions: 'all' // can only update the current eventConfiguration 
+  }
+  ).subscribe(result => {
+
+    if (!result) {
+      return;
+    } 
+
+    // Update only the event(s) returned by the dialog.
+/*
+    if (result.saved === 'left' || result.saved === 'both') {
+      this.leftEvent.set(result.left!);
+    }
+*/
+    if (result.saved === 'right') {
+      console.log('LATER ensure this works correctly for eventForm')
+      this.eventConfiguration.set(result.right!);
+    }
+
+  });
+}
 
 
 }

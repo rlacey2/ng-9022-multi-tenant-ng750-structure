@@ -1,0 +1,154 @@
+<div class="dialog-shell">
+  <header class="dialog-toolbar">
+    <div class="title-block">
+      <h1>Difference viewer</h1>
+      <!--
+<div class="diff-metadata">
+
+  <div class="diff-side-metadata">
+
+    <strong>{{ leftMetadata()['model_type'] || '-' }}</strong>
+
+    @if (leftChangedFields()['model_type']) {
+      <span class="model-type-changed">*</span>
+    }
+
+    <span>eventId: {{ leftMetadata()['eventId'] ?? '—' }}</span>
+    <span>cId: {{ leftMetadata()['cId'] ?? '—' }}</span>
+
+  </div>
+
+  <div class="diff-side-metadata">
+
+    <strong>{{ rightMetadata()['model_type'] || '-' }}</strong>
+
+    @if (rightChangedFields()['model_type']) {
+      <span class="model-type-changed">*</span>
+    }
+
+    <span>eventId: {{ rightMetadata()['eventId'] ?? '—' }}</span>
+    <span>cId: {{ rightMetadata()['cId'] ?? '—' }}</span>
+
+  </div>
+
+</div>
+-->
+
+    </div>
+
+
+    <div class="toolbar-actions">
+
+
+      <div class="diff-dialog-actions">
+
+
+        @if (data.saveOptions !== 'none') {
+
+        <button mat-flat-button color="primary" type="button" [matMenuTriggerFor]="saveMenu" class="btn btn-outline-primary btn-sm text-start py-2 w-100 dropdown-toggle shadow-sm">
+
+          @if (data.saveOptions === 'both') {
+          Save Both
+          } @else if (data.saveOptions === 'left') {
+          Save Left
+          } @else if (data.saveOptions === 'right') {
+          Save Right
+          } @else {
+          Save
+          }
+          <mat-icon>arrow_drop_down</mat-icon>
+
+        </button>
+
+        <mat-menu #saveMenu="matMenu">
+
+          @if (data.saveOptions === 'all' || data.saveOptions === 'both') {
+          <button mat-menu-item (click)="saveChanges('both')">
+            Save Both
+          </button>
+          }
+
+          @if (data.saveOptions === 'all' || data.saveOptions === 'left') {
+          <button mat-menu-item (click)="saveChanges('left')">
+            Save {{ data.leftLabel }}
+          </button>
+          }
+
+          @if (data.saveOptions === 'all' || data.saveOptions === 'right') {
+          <button mat-menu-item (click)="saveChanges('right')">
+            Save {{ data.rightLabel }}
+          </button>
+          }
+
+        </mat-menu>
+
+        }
+
+        <button mat-button type="button" class="cancel-button" (click)="cancel()">
+          Cancel
+        </button>
+      </div>
+
+
+
+
+    </div>
+  </header>
+
+  <div class="editor-labels">
+
+    <div class="d-flex gap-2">
+  
+      <button mat-flat-button color="primary" (click)="copySide('left')" [disabled]="!ready()" style="height:24px">
+      <!-- Copy Icon (Overlapping Documents) -->
+      <svg xmlns="http://w3.org" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary flex-shrink-0 me-1">
+        <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+      </svg>
+      <span>Copy</span>
+      </button>
+    <div><span class="side-dot left-dot"></span>{{ data.leftLabel }} </div>
+
+    </div>
+
+    <div class="d-flex gap-2">
+
+   
+      <button mat-flat-button color="primary" (click)="copySide('right')" [disabled]="!ready()" style="height:24px">
+      <!-- Copy Icon (Overlapping Documents) -->
+      <svg xmlns="http://w3.org" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary flex-shrink-0 me-1">
+        <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+      </svg>
+      <span>Copy</span>
+      </button>
+         <div><span class="side-dot right-dot"></span>{{ data.rightLabel }}</div>
+    </div>
+    
+  </div>
+
+  <div class="editor-area">
+    <div #editorHost class="editor-host" [class.editor-hidden]="!ready()"></div>
+    @if (!ready() && !loadError()) {
+    <div class="editor-message"><span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Loading Monaco
+      editor…</div>
+    }
+    @if (loadError(); as error) {
+    <div class="editor-message error-message">
+      <mat-icon>error_outline</mat-icon>
+      <div><strong>Monaco could not be loaded</strong>
+        <p>{{ error }}</p>
+        <p>Check the network connection and allow the cdnjs.cloudflare.com CDN.</p>
+      </div>
+    </div>
+    }
+  </div>
+
+  @if (saveError(); as error) {
+  <div class="save-error" role="alert"><mat-icon>warning</mat-icon>{{ error }}</div>
+  }
+  <footer class="dialog-footer">
+    <span>Keys are normalised before display. Unlisted keys are sorted alphabetically; array order is retained.</span>
+    <span>Edits are returned to Alpha only when you select <strong>Save both</strong>.</span>
+  </footer>
+</div>
