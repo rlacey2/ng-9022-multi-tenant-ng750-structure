@@ -29,34 +29,34 @@
       style="z-index: 1020; top: 0; background-color: #ffffff !important;">
 
       <!-- LEVEL 3 STICKY NOTIFICATION BADGE ROW --> <!-- optional here-->
-      <div class="px-3 mb-2 d-flex gap-2">put in locked or t55 here
+      <div class="px-3 mb-2 d-flex gap-2">
 
 
         <!--
 CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
 -->
         <!-- are there any Admin GLOBAL message -->
-         <div class="d-flex justify-content-center  rounded bg-danger-subtle p-2">
+
+       
+        
+       <div class="ms-md-5 me-md-5">
           <!-- ability to display a system wide message to public users all events -->
           <!-- 20200313 COVID, sent home from work the day before and implemented this to warn users -->
 
           @if (t55_messages()['training']; as welcomeMsg) {
-          <div [innerHTML]="welcomeMsg"></div>
+        
+          <div class="p2" [innerHTML]="welcomeMsg" [ariaLabel]="'System Message'"> </div>
           }
- 
 
           @if (( ! eventsPublicService.eventsEnabledToPublic() )) {
-          <div class="d-flex justify-content-center  rounded bg-danger-subtle p2">
+          <div class="d-flex justify-content-center  rounded bg-danger-subtle p2"
+            [ariaLabel]="'Locked for administration tasks'">
             <h3>Locked for administration tasks.</h3>
           </div>
           }
 
-
-
         </div>
-
-
-
+        
 
 
 
@@ -84,10 +84,42 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
     <div class="workspace-scroll-body p-3 d-flex flex-column gap-2">
 
 
+      <!-- main page body @else is render the event, @if() messages needed for this eventId -->
 
-      <h1>Events</h1>
+      <!--  @if (( (eventsAvailable$ | async) && (eventsEnabledToPublic$ | async))) { -->
+      @if ( eventsPublicService.eventsEnabledToPublic()) { <!-- 20260501 refactored -->
 
-      @if(1) {
+
+               @if (ui.eventsListLength() === 0 || t3ui.eventIdUnavailable()) {
+
+        <div class="d-flex  justify-content-center  rounded bg-warning-subtle p2"
+            [ariaLabel]="'Warnings'">
+
+            <div class="d-flex flex-column " role="alert" aria-live="polite" 
+            [hidden]="ui.eventsListLength() > 0"   > 
+
+                    <h1>Information:</h1>
+
+                    <h2>
+                      <div>Event Unavailable / Invalid</div>
+
+                    </h2>
+
+                    @if (formMeta.t3_meta.isPromotion) {
+                    <h2>
+                      A promotion must be current
+                    </h2>
+                    }
+                    </div>
+          </div>
+ 
+ 
+                }
+
+                @else{
+
+                <!-- main public rendering of event area -->
+                       @if(1) {
       <div>
         <article aria-label="headings">
           <h1>This is 1st level heading</h1>
@@ -175,6 +207,16 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
         </article>
       </div>
       }
+
+
+                }
+
+ 
+
+      }
+
+
+
 
 
     </div>

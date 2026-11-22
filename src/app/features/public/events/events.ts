@@ -8,28 +8,48 @@ import { SafeHtml } from '@angular/platform-browser';
 import { PublicAPIService } from '../../../core/services/public/public-api.service';
 import { MessageResponseT55 } from '../../../core/models/message.response.model';
 import { EventsPublicService } from '../../../shared/services/events-public.service';
+import { EventUiStore } from './events.ui.store';
+import { T3UiStore } from './t3.ui.store';
 
 @Component({
   selector: 'app-events',
   standalone: true,
   imports: [CommonModule, WorkspaceViewComponent],
   templateUrl: './events.html',
-  styleUrl: './events.scss'
+  styleUrl: './events.scss',
+  providers: [EventUiStore, T3UiStore]
 })
-export class EventsComponent {
 
+export class EventsComponent {
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly sanitizer = inject(DomSanitizer);
 
   private tenantService = inject(TenantService);
   private publicAPIService = inject(PublicAPIService)
   private eventsPublicService = inject(EventsPublicService)
 
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly sanitizer = inject(DomSanitizer);
+  readonly ui = inject(EventUiStore);
+
+readonly t3ui = inject(T3UiStore);
+
+   
 
   msMessageRefreshTime = 300000; // 5 minutes unless hard requery for long-term static messages
 
   // 1. Signal holding a map of tag -> sanitized HTML
   readonly t55_messages = signal<Record<string, SafeHtml | string>>({});
+
+
+
+  // formMeta are business values used or required by the UI view to separate from some class this.* properties
+   
+  formMeta: any = { // techincal debt from angularjs version
+    eventOffset: -1, eventId: '-1', eventsListLength: -1, paymentIntent: { id: null }, paymentIntentAmount: -1,
+    showChoices: false,
+    t3_meta: {} // this.ecT3CurrentService.initaliseT3Meta() // some values will need to be changed depending on parent
+  };
+
+
  
 
   constructor() {
