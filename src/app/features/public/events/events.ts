@@ -1,5 +1,5 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, DestroyRef, effect, inject, input, linkedSignal, signal } from '@angular/core';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { WorkspaceViewComponent } from '../../../shared/components/workspace-view/workspace-view';
@@ -10,6 +10,8 @@ import { MessageResponseT55 } from '../../../core/models/message.response.model'
 import { EventsPublicService } from '../../../shared/services/events-public.service';
 import { EventUiStore } from './events.ui.store';
 import { T3UiStore } from './t3.ui.store';
+import { Router } from '@angular/router';
+import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-events',
@@ -21,6 +23,21 @@ import { T3UiStore } from './t3.ui.store';
 })
 
 export class EventsComponent {
+
+  // 1. SINGLE SOURCE OF TRUTH FOR EVENT ID
+  // Automatically updates from: initial route, browser URL edits, or router.navigate()
+  // Requires `withComponentInputBinding()` in app.config.ts
+  eventId = input<string>(); // Note: URL params are always strings, not numbers
+
+  // Optional: If you still have other route params (like promotion codes)
+  // you can bind them as inputs too:
+  promoCode = input<string>();
+
+
+
+
+  private router = inject(Router);
+
   private readonly destroyRef = inject(DestroyRef);
   private readonly sanitizer = inject(DomSanitizer);
 
@@ -30,9 +47,9 @@ export class EventsComponent {
 
   readonly ui = inject(EventUiStore);
 
-readonly t3ui = inject(T3UiStore);
+  readonly t3ui = inject(T3UiStore);
 
-   
+
 
   msMessageRefreshTime = 300000; // 5 minutes unless hard requery for long-term static messages
 
@@ -40,9 +57,24 @@ readonly t3ui = inject(T3UiStore);
   readonly t55_messages = signal<Record<string, SafeHtml | string>>({});
 
 
+  // Automatically syncs whenever eventId() changes, AND can be overwritten via .set()
+  currentEventId: any = linkedSignal(() => this.eventId());
+
+  // Automatically re-runs whenever currentEventId() changes
+  eventResource = rxResource({
+    params: () => this.currentEventId(),
+    stream: ({ params: id }) => {
+      // Skip the HTTP call if URL is /events or /events/training (no ID)
+      if (!id) return EMPTY;
+      alert(this.currentEventId())
+      return EMPTY
+      //   return this.eventsService.getEventById(id);
+    }
+  });
+
 
   // formMeta are business values used or required by the UI view to separate from some class this.* properties
-   
+
   formMeta: any = { // techincal debt from angularjs version
     eventOffset: -1, eventId: '-1', eventsListLength: -1, paymentIntent: { id: null }, paymentIntentAmount: -1,
     showChoices: false,
@@ -50,16 +82,15 @@ readonly t3ui = inject(T3UiStore);
   };
 
 
- 
 
   constructor() {
     console.log('events constructor: ' + this.tenantService.cId() + "   " + this.tenantService.isLiveSystem())
-
+    effect(() => console.log(this.eventId()))
   }
 
   ngOnInit(): void {
 
-
+    console.log(this.eventId()) // not available in constructor unless via effect
   }
 
 
@@ -70,7 +101,13 @@ readonly t3ui = inject(T3UiStore);
 
   }
 
-
+  selectEvent(newId: string | number): void {
+    // Adds to Browser History
+    this.router.navigate(['/events/training', newId], {
+      queryParamsHandling: 'preserve' // keeps existing ?query=params if any
+    });
+ //   this.currentEventId.set(newId)
+  }
 
   getMessage(tag: string, t: number): void {
     const filterBody = { cId: this.tenantService.cId(), tag };

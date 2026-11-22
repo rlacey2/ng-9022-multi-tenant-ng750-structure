@@ -2,9 +2,10 @@ import { inject } from '@angular/core';
 import { Routes, UrlMatchResult, UrlSegment } from '@angular/router';
 import { EventsResolver } from '../../shared/resolvers/events-resolver.service';
 
-export function eventsMatcher(segments: UrlSegment[]): UrlMatchResult { // for /#/events
+export function eventsMatcher(segments: UrlSegment[]): UrlMatchResult | null { // for /#/events
   // reports in segements the values after /#/
   // so if it ends in /#/ no values in UrlSegment
+  //                   0       1      2
   //    case 1)   /#/events
   //    case 2)   /#/events/training
   //    case 3)   /#/events/training/285
@@ -14,11 +15,54 @@ export function eventsMatcher(segments: UrlSegment[]): UrlMatchResult { // for /
   //    case 6)   /#/events + error
 
 
-  // console.log('eventsMatcher outer', segments); // fires multiple times
+    console.log('eventsMatcher outer', segments); // fires multiple times
+
+  if (segments.length === 0) { // 20260102 // case 7 
+    return { consumed: segments, posParams: {} };
+  }
+
+  if (segments[0].path !== 'events') {
+    return null;
+  }
+
+  if (segments.length === 1 || segments[1].path !== 'training') { // case 1 + 
+    return { consumed: segments, posParams: {} };
+  }
+
+  if (segments.length === 2) { // #/events/training now confirmed
+    return { consumed: segments, posParams: {} };
+  }
+
+  if (/^[1-9][0-9]*$/.test(segments[2].path)) {
+    const eventId = segments[2];
+
+    if (segments.length === 3) {  // segments[2] must be an eventId
+      return { consumed: segments, posParams: { eventId } };
+    }
+    if (segments.length === 4 && segments[3].path === 'choice') {
+      return { consumed: segments, posParams: { eventId, choice: segments[3] } };
+    }
+    // promotion or ebt
+    if (segments.length === 5 && segments[3].path === 'promotion') {
+      return { consumed: segments, posParams: { eventId, promotionCode: segments[4] } };
+    }
+    if (segments.length === 5 && segments[3].path === 'ebt') {
+      return { consumed: segments, posParams: { eventId, ebtCode: segments[4] } };
+    }
+    return null;
+  }
+
+  return {
+    consumed: [segments[0], segments[1]],
+    posParams: {},
+  };
+
+
+/*
 
   if (segments.length === 0) {
-    // 20260102
-    return { // case 7 
+    
+    return { 
       consumed: segments,
       posParams: {},
     };
@@ -95,6 +139,7 @@ export function eventsMatcher(segments: UrlSegment[]): UrlMatchResult { // for /
     return <UrlMatchResult>(null as any);
   }
   return <UrlMatchResult>(null as any);
+  */
 }
  
 
@@ -107,7 +152,7 @@ export const PUBLIC_ROUTES: Routes = [
     redirectTo: 'events', 
     pathMatch: 'full' 
   },
-  {
+  { // events via the eventsMatcher
     // Note: Do NOT include both 'path' and 'matcher' on the same route—matcher replaces path
     matcher: eventsMatcher,
     loadComponent: () => import('./events/events').then(m => m.EventsComponent),

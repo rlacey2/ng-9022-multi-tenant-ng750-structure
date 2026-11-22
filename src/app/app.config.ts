@@ -1,6 +1,7 @@
+// app.config.ts
 import { ApplicationConfig, provideAppInitializer, inject } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withRouterConfig } from '@angular/router';
 import { routes } from './app.routes';
 import { TenantService } from './core/http/tenant.service';
 import { CookieService } from './core/services/cookie.service';
@@ -8,7 +9,8 @@ import { CookieService } from './core/services/cookie.service';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding(),   withRouterConfig({ paramsInheritanceStrategy: 'always' })
+),
     provideAppInitializer(() => {
       const tenantService = inject(TenantService);
       const cookieService = inject(CookieService);
