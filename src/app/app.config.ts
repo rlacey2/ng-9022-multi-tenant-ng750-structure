@@ -11,10 +11,15 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAppInitializer(() => {
       const themeService = inject(ThemeService);
-
       const cookieService = inject(CookieService);
- 
       return themeService.initTenantTheme();
     })
+
+    /*
+    there can be multiples
+    provideAppInitializer(() => inject(AppInitService).Init()),
+    provideAppInitializer(() => inject(ThemeService).initTenantTheme()),
+    */
+
   ]
 }; 

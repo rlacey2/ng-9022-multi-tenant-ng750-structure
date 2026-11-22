@@ -58,7 +58,6 @@
       </div>
       }
 
-
       <button class="btn btn-sm px-3 fw-bold shadow-sm transition-all text-white border"
         [ngClass]="authService.isAuthenticated() ? 'btn-danger' : 'btn-success'"
         (click)="authService.toggleAuthenticationState()" style="min-width: 165px">

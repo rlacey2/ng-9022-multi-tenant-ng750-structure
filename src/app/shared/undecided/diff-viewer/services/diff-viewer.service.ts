@@ -59,7 +59,7 @@ public openDifference(
 
   });
 
-integrate session timeout  retro to ng-744
+ 
 
   return dialogRef.afterClosed();
 }

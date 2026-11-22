@@ -2,11 +2,56 @@
   <h1>LoginComponent Works!</h1>
 
 
-        <!-- INTERACTIVE DEMO AUTH TOGGLE BUTTON -->
-      <button 
-        class="btn btn-sm px-3 fw-bold shadow-sm transition-all text-white border"
-        [ngClass]="authService.isAuthenticated() ? 'btn-danger' : 'btn-success'"
-        (click)="authService.toggleAuthenticationState()">
-        {{ authService.isAuthenticated() ? '🔒 Simulate Logout' : '🔑 Simulate Login' }}
-      </button>    
+  <!-- INTERACTIVE DEMO AUTH TOGGLE BUTTON -->
+  <button class="btn btn-sm px-3 fw-bold shadow-sm transition-all text-white border"
+    [ngClass]="authService.isAuthenticated() ? 'btn-danger' : 'btn-success'"
+    (click)="authService.toggleAuthenticationState()">
+    {{ authService.isAuthenticated() ? '🔒 Simulate Logout' : '🔑 Simulate Login' }}
+  </button>
+
+
+
+  <div
+    style="max-width: 400px; margin: 4rem auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+    <h2 style="margin-top: 0; color: #1e3a8a; text-align: center;">Admin Account</h2>
+
+    @if (loading()) {
+    <p style="text-align: center; color: #2563eb;">Verifying credentials securely...</p>
+    }
+
+    <form [formRoot]="loginForm" style="display: flex; flex-direction: column; gap: 15px; margin-top: 1.5rem;">
+      <div>
+        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Email Address</label>
+        <input type="email" [formField]="loginForm.email"
+          style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
+          placeholder="test@example.com (or admin@...)">
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Password</label>
+        <input type="password" [formField]="loginForm.password"
+          style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+      </div>
+
+      <button type="submit" [disabled]="loginForm().invalid() || loginForm().submitting()"
+        style="background: #2563eb; color: white; border: none; padding: 0.75rem; border-radius: 4px; cursor: pointer; font-weight: bold;">
+        Login
+      </button>
+    </form>
+
+<!-- 
+    <div style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem;">
+      <a routerLink="/forgot-password" style="color: #2563eb; text-decoration: none;">Forgot password recovery
+        context?</a>
+    </div>
+-->
+  </div>
+
+
+
+
+
+
+
+
 </div>

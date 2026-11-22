@@ -1,6 +1,7 @@
 import { Injectable, inject, signal, computed, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
+import { AppInitService } from '../auth/services/appinit/appinit.service';
 
 // src/app/core/services/theme.service.ts
 
@@ -66,7 +67,16 @@ constructor() {
   });
   }
 
-  initTenantTheme(): Promise<boolean> {
+  private appInitService = inject(AppInitService);
+
+  //  initTenantTheme(): Promise<boolean> {
+  async initTenantTheme(): Promise<boolean> {
+    // 1. Must succeed first so cId / companyDetails are populated
+    await this.appInitService.Init();
+
+    // 2. Apply tenant theme using the loaded data
+    // await this.applyThemeForTenant(this.appInitService.appConfig);
+  
     this.loadMockTheme('tenant-a');
     return Promise.resolve(true);
   }
