@@ -1,0 +1,33 @@
+<div class="dialogContainer " role="dialog" aria-modal="true">
+    <div class="flex-shrink-0">
+        <div class="dialogHeader d-flex pt-3">
+            <span>Instructions</span> <!-- Instructions -->
+
+            <button type="button" class="btn btn-sm btn2026 border border-secondary dialogCloseX"
+                aria-label="Close Dialog" (click)="closeDialogX()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+
+     <!-- body for the messsage 90px allows for header and footer usage  -->
+    <mat-dialog-content style="height: calc(100% - 90px);  max-height: calc(100% - 90px);"
+        class="allowForScroll p-1"> <!-- height of dialog minus title and actions height -->
+
+        @if (t55_messages['instructions']) {
+        <div [innerHtml]="t55_messages['instructions']" class="">
+        </div>
+        }
+        @else {
+        <h4>Disabled</h4>
+        }
+
+    </mat-dialog-content>
+
+    <!-- footer action bar -->
+
+    <mat-dialog-actions class="d-flex justify-content-between p-0 pb-1">
+        <button type="button" class="btn btn-sm btn2026 ms-auto me-2 " (click)="closeDialogX()">Close</button>
+    </mat-dialog-actions>
+
+</div>
