@@ -7,6 +7,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
  
 import { AppInitService } from '../../auth/services/appinit/appinit.service';
 import { createCacheContext } from '../../../shared/utils/http-cache.util';
+import { MessageResponseT55 } from '../../models/message.response.model';
+
+
+
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -80,13 +86,13 @@ export class PublicAPIService {
   }
 
   // 20220531 caching responses for messages
-  getMessage(tag: string, body: object, t = 300000): Observable<any> {
+  getMessage(tag: string, body: object, t = 300000): Observable<MessageResponseT55[]> {
     // return a specific message: training || instructions || gdpr || EBT????
     // hardcoded to dbtasks messages task to allow for edits
     // caching of these messages are longterm static once downloaded to client
     // unlikely to change statistically, hard refresh will give latest anyway
     const cacheKey = `public:message:${this.cId}:${tag}`; //20261113 standardised on HttpContext caching instead of SharedReplayRefresh
-    return this.http.post('/public/data/message/' + tag, body, {
+    return this.http.post<MessageResponseT55[]>('/public/data/message/' + tag, body, {
       context: createCacheContext({ cacheKey, ttl: t }) //20261113
     });
   }

@@ -1,3 +1,6 @@
+// checked 20261122
+
+
 import { inject, Pipe, PipeTransform } from '@angular/core';
 import {
   DomSanitizer,

@@ -14,6 +14,8 @@ export class AuthService {
   
   private readonly TIMEOUT_MS = 15 * 60 * 1000; 
 
+  
+
   readonly currentUser = signal<UserProfile | null>(this.initializeUserFromStorage());
   readonly isAuthenticated = computed(() => this.currentUser() !== null);
   private accessToken: string | null = localStorage.getItem('access_token');

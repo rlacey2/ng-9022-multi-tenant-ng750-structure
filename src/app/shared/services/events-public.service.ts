@@ -1,4 +1,4 @@
- 
+ // to check
 /*
 
 SEARCHING RELATED ONLY OR SHOULD BE
@@ -9,13 +9,11 @@ may need to take into consideration promotion and ebt backdoors
 
 */
 
-import { Injectable , inject} from '@angular/core';
+import { Injectable , inject, signal} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { map, catchError, take } from 'rxjs/operators';
 
-
- 
  
 import { AppInitService } from '../../core/auth/services/appinit/appinit.service';
 import { PublicAPIService } from '../../core/services/public/public-api.service';
@@ -38,8 +36,8 @@ export class EventsPublicService {
   // ecListAvailableToPublic_Source$: BehaviorSubject<Object> = new BehaviorSubject({}); // need as array for display logic
   ecListAvailableToPublic$ = this.ecListAvailableToPublic_Source$.asObservable(); // hide behaviour features from client
 
-  ecEnabledPublic_Source$: BehaviorSubject<boolean> = new BehaviorSubject(true); // assume enabled unless server sends false
-  ecEnabledPublic$ = this.ecEnabledPublic_Source$.asObservable();
+ 
+  readonly eventsEnabledToPublic = signal(true); // assume enabled unless server sends false
 
   ecListLength = 0;
   ecMap: any;
@@ -73,6 +71,35 @@ export class EventsPublicService {
 
   }
 
+ 
+
+
+    // 20220509 this is new to see if the public events/training view is enabled
+    // this is the global admin related flag
+checkEventsEnabled(): void {
+  this.publicAPIService
+    .getEventsEnabled({ filter: { cId: this.appInit.cId } }) // no version on t99 table
+    .pipe(take(1))
+    .subscribe({
+      next: (result: any) => {
+        try {
+          const raw = result?.json_value;
+          // Safely handle both JSON strings and pre-parsed objects
+          const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+
+          // Always enabled unless explicitly false
+          this.eventsEnabledToPublic.set(parsed?.enabled !== false);
+        } catch {
+          this.eventsEnabledToPublic.set(true);
+        }
+      },
+      error: (e) => {
+        console.error(e);
+        this.eventsEnabledToPublic.set(true);
+      },
+    });
+}
+
   loadEvents(filters: any) {
     // there are two api calls here, the second one returns an array of events, that are filter relevant and may be empty
     // sets global variable on availabilty of training events
@@ -81,36 +108,20 @@ export class EventsPublicService {
      console.log('loadEvents()');
     this.isLoading$.next(true);
 
-    // 20220509 this is new to see if the public events/training view is enabled
 
-    // this is the global admin related flag
-    const enabledToPublic = this.publicAPIService.getEventsEnabled({ filter: { cId: this.appInit.cId } }) // no version on t99 table
-      .pipe(take(1))
-      .subscribe(
-        {
-          next: (result: any) => {
-            // console.log(result);
-            result = result || { json_value: {} };
+this.checkEventsEnabled()
 
-            // x = {id: 139, cId: 'jmbtest', name: 'eventsEnabled', json_value: '{enabled:false}'}
-            let x = JSON.parse(result['json_value']);
-            if (x['enabled'] === false) {
-              console.log('enabledToPublic = false')
-              // displays to the public:    Locked for administration tasks.
-              this.ecEnabledPublic_Source$.next(false);
-            }
-            else {
-              this.ecEnabledPublic_Source$.next(true); // always enabled unless explicitly false
-            }
-          },
-          error: (e : any) => {
-            console.log(e);
-          },
-          complete: () => { }
-   
-        }
 
-      ) // enabledToPublic
+
+
+
+
+
+
+
+
+
+
 
     /*
         console.log('filterObj 20230520 NB for loads')

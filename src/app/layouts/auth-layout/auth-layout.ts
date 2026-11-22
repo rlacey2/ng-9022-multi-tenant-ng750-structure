@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import {  WorkspaceSettingsService } from '../../core/services/workspace-settings.service';
  
 import { FallbackImgDirective } from '../../shared/directives/fallback-img.directive';
-import { ThemeService } from '../../core/http/theme.service';
+import { TenantService } from '../../core/http/tenant.service';
 import { AuthService } from '../../core/auth/services/auth.service';
 import { AppNavigationLink } from '../../shared/models/shared.models';
 import { GlobalHeaderComponent } from '../../shared/components/global-header/global-header';
@@ -22,7 +22,7 @@ import { NavigationService } from '../../core/services/navigation.service.ts';
 
 export class AuthLayoutComponent {
 
-  protected themeService = inject(ThemeService);
+  protected TenantService = inject(TenantService);
   protected settingsService = inject(WorkspaceSettingsService);
   protected authService = inject(AuthService);
    

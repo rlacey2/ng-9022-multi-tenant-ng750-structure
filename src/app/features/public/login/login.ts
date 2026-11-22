@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/auth/services/auth.service';
-import { FormBuilder, Validators } from '@angular/forms';
+ 
 import { Router } from '@angular/router';
 import { email, form, FormField, FormRoot, required, submit } from '@angular/forms/signals';
 

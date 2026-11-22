@@ -1,5 +1,5 @@
 import { Injectable, inject, signal, computed, effect } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+ 
 import { DOCUMENT } from '@angular/common';
 import { AppInitService } from '../auth/services/appinit/appinit.service';
 
@@ -32,9 +32,19 @@ export interface TenantTheme {
 
 
 @Injectable({ providedIn: 'root' })
-export class ThemeService {
-  private http = inject(HttpClient);
+export class TenantService {
+ 
   private document = inject(DOCUMENT);
+
+  private readonly _cId = signal<string | null>(null);  // _tenantId
+  readonly cId = this._cId.asReadonly();
+
+
+    private readonly _isLiveSystem = signal<boolean>(false);
+  readonly isLiveSystem = this._isLiveSystem.asReadonly();
+
+
+  // these are setup for hot swaps, does not really happen here
 
   // 1. Core State Signal
 private themeState = signal<TenantTheme | null>(null);
@@ -53,12 +63,17 @@ readonly logoSmall = computed(() => {
   return tenant.assets.logoSmallUrl || `assets/tenants/${tenant.meta.cId}/logo-small.svg`;
 });
 
+
+
+
   
 // 3. Dynamic Property Injector
 constructor() {
   effect(() => {
-    const theme = this.themeState();
-    if (theme && typeof window !== 'undefined' && document.documentElement) {
+        const theme = this.themeState();
+      const root = this.document?.documentElement;
+ 
+ if (theme && root) {
       const root = document.documentElement;
       // Pulling cleanly from the nested configuration layers
       root.style.setProperty('--primary-color', theme.colors.primary);
@@ -82,18 +97,20 @@ constructor() {
     // await this.applyThemeForTenant(this.appInitService.appConfig);
 
   
-    this.loadMockTheme(this.tenant['cId']);
+   //this.loadMockTheme(this.tenant['cId']);
+   this.loadTenantTheme(this.tenant );
+
     return Promise.resolve(true);
   }
 
-  loadTenantTheme(cId: string): void {
-    this.loadMockTheme(cId);
-  }
-
+ 
 // Inside src/app/core/services/theme.service.ts
 
-private loadMockTheme(cId: string): void {
-  const mocks: Record<string, TenantTheme> = {
+private loadTenantTheme(tenant: any): void {
+
+   const cId = tenant?.['cId'] ?? null;
+
+  const tenants: Record<string, TenantTheme> = {
     'jmb001': {
       meta: {
         cId: cId,
@@ -149,8 +166,16 @@ private loadMockTheme(cId: string): void {
 
   };
 
+  console.log('setting tenant')
+  this._cId.set(cId) 
+
+  
+  const live = !!tenant?.['liveSystem'];
+    this._isLiveSystem.set(live);
+
   // Safe runtime execution fallback selector
-  this.themeState.set(mocks[cId] || mocks['tenant-a']);
+
+  this.themeState.set(tenants[cId] || tenants['jmbtest']);
 }
 
 }

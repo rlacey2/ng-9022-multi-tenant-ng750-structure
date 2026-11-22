@@ -6,8 +6,8 @@
   <!-- Hover wrapper around the tenant logo -->
   <div class="brand-cookie-trigger position-relative d-inline-flex align-items-center me-2 ">
     <picture class="d-flex align-items-center m-0">
-      <source media="(min-width: 768px)" [srcset]="themeService.logoLarge()">
-      <img [src]="themeService.logoSmall()" appFallbackImg alt="Tenant Branding" class="img-fluid" style="max-height: 36px; object-fit: contain;">
+      <source media="(min-width: 768px)" [srcset]="TenantService.logoLarge()">
+      <img [src]="TenantService.logoSmall()" appFallbackImg alt="Tenant Branding" class="img-fluid" style="max-height: 36px; object-fit: contain;">
     </picture>
 
     <!-- Minimal floating button revealed on hover or keyboard focus -->

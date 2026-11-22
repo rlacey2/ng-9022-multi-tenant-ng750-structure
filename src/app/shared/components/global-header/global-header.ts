@@ -6,7 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { WorkspaceSettingsService } from '../../../core/services/workspace-settings.service';
 import { FallbackImgDirective } from '../../directives/fallback-img.directive';
-import { ThemeService } from '../../../core/http/theme.service';
+import { TenantService } from '../../../core/http/tenant.service';
 import { NavigationService } from '../../../core/services/navigation.service.ts';
 import { CookieService } from '../../../core/services/cookie.service';
 
@@ -17,7 +17,7 @@ import { CookieService } from '../../../core/services/cookie.service';
   templateUrl: './global-header.html'
 })
 export class GlobalHeaderComponent {
-  protected themeService = inject(ThemeService);
+  protected TenantService = inject(TenantService);
   protected navService = inject(NavigationService);
   protected authService = inject(AuthService);
   protected settingsService = inject(WorkspaceSettingsService);

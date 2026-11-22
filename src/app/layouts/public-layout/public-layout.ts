@@ -2,7 +2,7 @@ import { Component, inject, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ThemeService } from '../../core/http/theme.service';
+import { TenantService } from '../../core/http/tenant.service';
 import { AuthService } from '../../core/auth/services/auth.service';
  
 import { WorkspaceSettingsService } from '../../core/services/workspace-settings.service';
@@ -28,7 +28,7 @@ export class PublicLayoutComponent {
     protected settingsService = inject(WorkspaceSettingsService);
       
   authService = inject(AuthService)
-  themeService = inject(ThemeService);
+  TenantService = inject(TenantService);
   leftSidebarOpen = signal(false);
   rightSidebarOpen = signal(false);
   headerLevelTriggers = true;
