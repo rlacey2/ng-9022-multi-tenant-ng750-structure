@@ -9,5 +9,15 @@ import { WorkspaceViewComponent } from '../../../shared/components/workspace-vie
   templateUrl: './events.html',
   styleUrl: './events.scss'
 })
-export class EventsComponent {}
+export class EventsComponent {
+
+
+constructor() {
+  console.log('events constructor')
+}
+
+}
+
+
+
  

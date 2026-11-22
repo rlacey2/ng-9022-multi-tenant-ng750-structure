@@ -67,17 +67,22 @@ constructor() {
   });
   }
 
-  private appInitService = inject(AppInitService);
+  tenant : any;
 
+
+  private appInitService = inject(AppInitService);
+ 
   //  initTenantTheme(): Promise<boolean> {
   async initTenantTheme(): Promise<boolean> {
+    
     // 1. Must succeed first so cId / companyDetails are populated
-    await this.appInitService.Init();
+    this.tenant  =  await this.appInitService.init();
 
     // 2. Apply tenant theme using the loaded data
     // await this.applyThemeForTenant(this.appInitService.appConfig);
+
   
-    this.loadMockTheme('tenant-a');
+    this.loadMockTheme(this.tenant['cId']);
     return Promise.resolve(true);
   }
 
@@ -89,10 +94,10 @@ constructor() {
 
 private loadMockTheme(cId: string): void {
   const mocks: Record<string, TenantTheme> = {
-    'tenant-a': {
+    'jmb001': {
       meta: {
-        cId: 'tenant-a',
-        name: 'Apex Innovations',
+        cId: cId,
+        name: 'JMB LIVE',
         environment: 'production'
       },
       colors: {
@@ -106,10 +111,28 @@ private loadMockTheme(cId: string): void {
         logoSmallUrl: ''
       }
     },
-    'tenant-b': {
-      meta: {
-        cId: 'tenant-b',
-        name: 'BioSphere Labs',
+
+    'jmbtest': {
+        meta: {
+         cId: cId,
+        name: 'JMB TEST',
+        environment: 'production'
+      },
+      colors: {
+        primary: '#00cc99',     // Bright Mint/Teal
+        secondary: '#2b2b2b',   // Solid Dark Gray
+        navbarStyle: 'dark'
+      },
+      assets: {
+        logoLargeUrl: 'https://placehold.co',
+        logoSmallUrl: 'https://placehold.co'
+      }
+    },
+
+    'register101': {
+        meta: {
+         cId: cId,
+        name: 'register101',
         environment: 'production'
       },
       colors: {
@@ -122,6 +145,8 @@ private loadMockTheme(cId: string): void {
         logoSmallUrl: 'https://placehold.co'
       }
     }
+
+
   };
 
   // Safe runtime execution fallback selector

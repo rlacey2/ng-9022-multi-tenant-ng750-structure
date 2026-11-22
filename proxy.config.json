@@ -1,0 +1,24 @@
+{
+
+  "/alwaysRebuildAfterNewRoute/": {
+    "target": "https://127.0.0.1:4444",
+    "secure": false,
+    "logLevel": "debug"
+  },
+ 
+  "/public/": {
+    "target": "https://127.0.0.1:4444",
+    "secure": false,
+    "logLevel": "debug",
+    "timeout": 0
+  },
+
+  "/api/v3/admin/": {
+    "target": "https://127.0.0.1:4444",
+    "secure": false,
+    "logLevel": "debug",
+    "timeout": 0
+  }
+ 
+
+}

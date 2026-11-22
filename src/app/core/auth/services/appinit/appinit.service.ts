@@ -1,4 +1,4 @@
-import { Injectable, Optional, SkipSelf, inject } from '@angular/core';
+import { Injectable, Optional, SkipSelf, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { HttpCacheService } from '../../../interceptors/http-cache.service';
@@ -57,6 +57,45 @@ export class AppInitService {
         this.cId = cid;
     }
 
+
+  // 1. Use a Signal instead of a Subject/Observable
+  private _tenant = signal<any | null>(null);
+  public readonly tenant = this._tenant.asReadonly();
+  
+ 
+
+  async init(): Promise<any> {
+    try {
+      // 2. Await the HTTP call cleanly
+      const res: any = await firstValueFrom(this.http.get('/public/bycompany/cId'));
+
+      this.set_cId(res['cId']); // use set_cId so cache clears if re-initialized
+      
+      // 3. Merge environment properties cleanly
+    // do not confuse appInit.appConfig['versiondb'] which is a db row filter to appInit.appConfig['version'] from package.json
+
+      this.appConfig = {
+        ...res,
+        isProd: env.production,
+        envName: env.envName, 
+        version: env.versions.app,
+      };
+
+      // Update the signal
+      this._tenant.set(this.appConfig);
+
+      // 4. Return the data so the caller receives it
+      return this.appConfig;
+      
+    } catch (error) {
+      console.error('Failed to initialize app config:', error);
+      throw error; // Re-throw so Angular knows initialization failed
+    }
+  }
+
+
+
+/*
     Init(): Promise<any> { 
       console.log('/public/bycompany/cId')
         // does not  work as advertised as other code runs before promise resolved ?
@@ -66,10 +105,10 @@ export class AppInitService {
 
         //var  cId$ = Observable.of('some string');
 
-        /* firstValueFrom
-        Converts an observable to a promise by subscribing to the observable, and returning a promise that will resolve as 
-        soon as the first value arrives from the observable. The subscription will then be closed.
-        */
+       //  firstValueFrom
+       // Converts an observable to a promise by subscribing to the observable, and returning a promise that will resolve as 
+       // soon as the first value arrives from the observable. The subscription will then be closed.
+       
         const xxx = firstValueFrom(cId$) // the server side decides the cId based on url route
             .then( (res: any) => {
                 //   console.log(res);
@@ -82,10 +121,11 @@ export class AppInitService {
                 console.log(this.cId)
                 console.log("this.appConfig['jmbSystemURL']", this.appConfig['jmbSystemURL']);
                 console.log('package version ', this.appConfig['version']);
-                this.company$.next(res);
+                return this.company$.next(res);
             },
                 error => console.log(error));
         return xxx;
     }
 
+*/
 }

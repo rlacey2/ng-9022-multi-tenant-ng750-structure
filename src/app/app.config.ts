@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(() => {
       const themeService = inject(ThemeService);
       const cookieService = inject(CookieService);
-      return themeService.initTenantTheme();
+      return themeService.initTenantTheme(); //  // BOOT STRAP TO SERVER TO GET cId etc
     })
 
     /*
