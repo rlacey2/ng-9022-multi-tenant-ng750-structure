@@ -47,9 +47,6 @@ export class TenantService {
   readonly isAuthenticated = this._isAuthenticated.asReadonly();
 
   
-
-
-
   // these are setup for hot swaps, does not really happen here
 
   // 1. Core State Signal

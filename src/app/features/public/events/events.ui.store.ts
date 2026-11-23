@@ -12,7 +12,10 @@ export interface EventListItem {
 export class EventUiStore {
   // Independent granular signals 
 
- readonly eventId = signal('-1');
+  readonly eventId = signal('-1');
+  readonly selectedEvent = signal('-1'); // used in the dropdown of events
+ 
+   readonly ec = signal({});
  
   // 1. Store only the source of truth
   readonly eventsList = signal<EventListItem[]>([]);

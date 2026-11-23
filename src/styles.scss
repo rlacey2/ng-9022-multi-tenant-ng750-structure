@@ -1,6 +1,13 @@
 /* src/styles.scss */
 @import 'bootstrap/scss/bootstrap';
 
+/* In your global styles.scss (choose one prebuilt theme, or use your custom theme) */
+@import '@angular/material/prebuilt-themes/azure-blue.css';
+
+/* OR, if you only need the overlay positioning without a prebuilt theme: */
+//@import '@angular/cdk/overlay-prebuilt.css';
+
+
 // 1. Central Design System Fallbacks
 /* Dynamic Multi-Tenant Company Branding */
 :root {

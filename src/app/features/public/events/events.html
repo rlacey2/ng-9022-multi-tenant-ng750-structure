@@ -37,12 +37,6 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
 -->
         <!-- are there any Admin GLOBAL message -->
 
-        <button (click)="selectEvent(574)">
-          574
-        </button>
-        <button (click)="selectEvent(570)">
-          570
-        </button>
 
         <div class="ms-md-5 me-md-5">
           <!-- ability to display a system wide message to public users all events -->
@@ -65,61 +59,9 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
       </div>
 
       <!-- LEVEL 4 STICKY METADATA INFO BAR -->
-      <!-- Styled matching your yellow corporate matrix framework card -->
-
-      <div class="p-0 border rounded-3 mx-1 d-flex gap-3 shadow-sm"
-        style="background-color: #e9edc9 !important; border-color: #ccd5ae !important;">
-
-        <div class="flex-grow-1">
-          event name<br>ssssssssssssssssssssssss
-        </div>
-
-        <div class="px-3 border-start border-end text-center" style="min-width: 85px;">
-          <label class="extra-small text-muted d-block fw-bold mb-1 zztext-uppercase tracking-wider">EventId</label>
-          <div class="fw-bold text-dark fs-5">{{currentEventId()}}</div>
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- THE ACTUAL CONTENT -->
-    <div class="workspace-scroll-body p-3 d-flex flex-column gap-2">
 
 
-      <!-- main page body @else is render the event, @if() messages needed for this eventId -->
-
-      <!--  @if (( (eventsAvailable$ | async) && (eventsEnabledToPublic$ | async))) { -->
-      @if ( eventsPublicService.eventsEnabledToPublic()) { <!-- 20260501 refactored -->
-
-<!-- -->
-
-      @if (ui.eventsListLength() === 0 || t3ui.eventIdUnavailable()) {
-
-      <div class="d-flex  justify-content-center  rounded bg-warning-subtle p2" [ariaLabel]="'Warnings'">
-
-        <div class="d-flex flex-column " role="alert" aria-live="polite" [hidden]="ui.eventsListLength() > 0">
-
-          <h1>Information:</h1>
-
-          <h2>
-            <div>Event Unavailable / Invalid</div>
-
-          </h2>
-
-          @if (formMeta.t3_meta.isPromotion) {
-          <h2>
-            A promotion must be current
-          </h2>
-          }
-        </div>
-      </div>
-
-
-      }
-
-      @else{
-
+      @if (ui.eventsListLength() > 0 ) {
       <!-- does the combo select appear or is it a public user one liner  -->
 
       <div class="pull-right">
@@ -154,51 +96,61 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
  leaving the result landing page in place and forcing a requery for a public user 
  means quota logic and date windows may be refreshed   
 -->
+        <div class="p-0 border rounded-3 mx-1 d-flex gap-3 shadow-sm"
+          style="background-color: #e9edc9 !important; border-color: #ccd5ae !important;">
 
--------------- {{ui.eventsListLength()}}
+         <div class="flex-grow-1">
+            <label class="extra-small text-muted d-block fw-bold mb-1 zztext-uppercase tracking-wider">Name</label>
 
+            <div  >
+              {{t3ui.ec().name}}
+            </div>
+          </div>
+          <div class="px-3 border-start border-end text-center" style="min-width: 85px;">
+            <label class="extra-small text-muted d-block fw-bold mb-1 zztext-uppercase tracking-wider">EventId</label>
+            <div class="fw-bold text-dark fs-5">{{currentEventId()}}</div>
+          </div>
+
+        </div>
 
         @if ( showPublicView() ) {
         <!-- Public and not logged in -->
-        Public and not logged in
+
+
         } @else {
         <!-- Localhost / Non-live OR logged in viewers -->
-        <div class="d-flex pt-1">
-          Localhost / Non-live OR logged in viewers
 
-          fix this
+        <div class="d-flex pt-1">
+
+
 
           <!-- [(ngModel)]="formMeta.eventId" -->
-                <mat-form-field class="flex3 ms-3 me-2     ms-md-5 me-md-5 longerDropDown ecPublicSelect no-print"
-                      >
-                      <mat-label role="label">Event Selection</mat-label>
-                      <mat-select #selEventsList [(value)]="formMeta.eventId"  
-                        id="etescombo" panelClass="longerDropDown"
-                        (selectionChange)="isFormDirty({'fn':'onEventSelectChange', 'params' :{ 'eventId': formMeta.eventId}, 'fnCancelled': 'onEventSelectChangeCancelled' })">
-                        <mat-option [value]="-1">
-                          Select an event ...
-                        </mat-option>
-                        @for (e of ui.eventsList() ; track e.eventId) {
-                        <mat-option [value]="e['eventId'].toString()">
+          <mat-form-field class=" w-100  ms-3 me-2  ms-md-5 me-md-5 longerDropDown ecPublicSelect no-print">
+            <!--
+                                  (selectionChange)="isFormDirty({'fn':'onEventSelectChange', 'params' :{ 'eventId': formMeta.eventId}, 'fnCancelled': 'onEventSelectChangeCancelled' })">
+           
+                      -->
+            <!-- unidirection to allow a dirty state cancel; paired with  selectionChange -->
+            <mat-label role="label">Event Selection</mat-label>
+            <mat-select #selEventsList [value]="ui.selectedEvent" id="etescombo" panelClass="longerDropDown"
+              (selectionChange)="onEventIdSelectionChange($event)">
+              <mat-option [value]="-1">
+                Select an event ...
+              </mat-option>
+              @for (e of ui.eventsList() ; track e.eventId) {
+              <mat-option [value]="e['eventId'].toString()">
 
-                          <span class=" ">
-                            <span class="w-10 text-end me-2">{{e['eventId']}}</span>
-                            <!-- needed when event chosen, to populate the UI-->
-                            <!-- need to space the actual choice-->
-                            <span class="w-90 nowrapping ms-2">&nbsp;&nbsp; &nbsp;{{e['name']}}</span>
-                          </span>
+                <span class=" ">
+                  <span class="w-10 text-end me-2">{{e['eventId']}}</span>
+                  <!-- needed when event chosen, to populate the UI-->
+                  <!-- need to space the actual choice-->
+                  <span class="w-90 nowrapping ms-2">&nbsp;&nbsp; &nbsp;{{e['name']}}</span>
+                </span>
 
-                          <!--
-                            {{e.name}} / {{e.eventId}}
-                          <div class="d-flex justify-content-between">
-                            <span> {{e.name}}</span>
-                            <span>{{e.eventId}}</span>
-                          </div>
-                          -->
-                        </mat-option>
-                        }
-                      </mat-select>
-                </mat-form-field>
+              </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
 
 
 
@@ -216,18 +168,46 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
         }
       </div>
 
+      }
+
+    </div>
+
+    <!-- THE ACTUAL CONTENT -->
+    <div class="workspace-scroll-body p-3 d-flex flex-column gap-2">
 
 
+      <!-- main page body @else is render the event, @if() messages needed for this eventId -->
+
+      <!--  @if (( (eventsAvailable$ | async) && (eventsEnabledToPublic$ | async))) { -->
+      @if ( eventsPublicService.eventsEnabledToPublic()) { <!-- 20260501 refactored -->
+
+      <!-- -->
+
+      @if (ui.eventsListLength() === 0 || t3ui.eventIdUnavailable()) {
+
+      <div class="d-flex  justify-content-center  rounded bg-warning-subtle p2" [ariaLabel]="'Warnings'">
+
+        <div class="d-flex flex-column " role="alert" aria-live="polite" [hidden]="ui.eventsListLength() > 0">
+
+          <h1>Information:</h1>
+
+          <h2>
+            <div>Event Unavailable / Invalid</div>
+
+          </h2>
+
+          @if (formMeta.t3_meta.isPromotion) {
+          <h2>
+            A promotion must be current
+          </h2>
+          }
+        </div>
+      </div>
 
 
+      }
 
-
-
-
-
-
-
-
+      @else{
 
 
 
@@ -243,7 +223,7 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
       @if(1) {
       <div>
         <article aria-label="headings">
-          <h1>This is 1st level heading</h1>
+
           <p>This is a test paragraph.</p>
           <h2>This is 2nd level heading</h2>
           <p>This is a test paragraph.</p>
@@ -257,7 +237,7 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
           <p>This is a test paragraph.</p>
         </article>
         <article aria-label="headings">
-          <h1>This is 1st level heading</h1>
+
           <p>This is a test paragraph.</p>
           <h2>This is 2nd level heading</h2>
           <p>This is a test paragraph.</p>

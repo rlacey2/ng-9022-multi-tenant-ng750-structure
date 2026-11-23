@@ -11,11 +11,11 @@ import { EventsPublicService } from '../../../shared/services/events-public.serv
 import { EventUiStore } from './events.ui.store';
 import { T3UiStore } from './t3.ui.store';
 import { Router } from '@angular/router';
-import { delay, EMPTY, Subject, Subscription } from 'rxjs';
+import { delay, EMPTY, Subject, Subscription, take } from 'rxjs';
  
 import { FormField } from '@angular/forms/signals'; // Requires Angular v21+ (Signal Forms)
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 
 
@@ -117,6 +117,14 @@ export class EventsComponent {
   constructor() {
     console.log('events constructor: ' + this.tenantService.cId() + "   " + this.tenantService.isLiveSystem())
     effect(() => console.log(this.eventId()))
+
+
+
+    effect(() => {
+      const currentEvent = this.ui.selectedEvent();
+      this.selectEvent(currentEvent);
+    });
+
   }
 
   ngOnInit(): void {
@@ -343,6 +351,79 @@ export class EventsComponent {
     */
 
   } // isFormDirty
+
+
+
+  onEventIdSelectionChange(event: MatSelectChange): void {
+    const previous = this.ui.selectedEvent()
+    const next = event.value;
+
+    console.log("PUT DIRTY LOGIC IN HERE LATER FOR t3")
+    if (false) {
+      const confirmed = confirm(`You have unsaved changes. Switch to ${next}?`);
+      
+      if (!confirmed) {
+        // Force the MatSelect UI back to the previous value
+        event.source.writeValue(previous);
+        return;
+      }
+    }
+
+    // Only update the signal if clean or confirmed
+    this.ui.selectedEvent.set(next)
+    this.loadEventById( { eventId: next})
+  }
+
+ loadEventById(toLoad: any) {
+
+    console.log('loadEventById')
+    // from 20251206, direct call to server for the chosen event, not the array cache version
+
+    // 20260429 discovered I was not applying same constraints as to the combo
+    // i.e. bug, this code allowed closed event link from public user to present the input form
+    // AMCSS/JMB 39th Annual Conference 2026 has a person after closed and excel download
+ 
+    this.formMeta.t3_meta.eventIdUnavailable = false // 20260429
+    this.eventsPublicService.loadEventById(toLoad)
+
+      .pipe(take(1))
+      .subscribe(
+        {
+          next: ec => {
+           
+             console.log(ec);
+            ec = ec || {};
+            this.t3ui.ec.set(ec)
+
+         //   const hideSelectionCombo =  !this.ui.isAuthenticated() || this.liveSystem || this.params.isPromotion || (this.params.isChoice > 0) // 20230503 04
+
+            const options = {
+              filterOfferings: true,   // the public must always have filtered if quota reached etc.
+              adminCRUD: { adminMode: false }, // NB
+              hash: window.location.hash,// 20260501 for public side url etc
+
+          //    hideSelection: hideSelectionCombo,
+              ...this.params // sets isEBT and isPromotion and isChoice
+            };
+     //       this.ecT3CurrentService.setCurrentEventStatesReactive(ec, options, null);   // casades to watchers
+          },
+          error: (e: any) => {
+            console.log(e);
+            this.eventsUnavailableError()
+
+            //this.ecT3CurrentService.setCurrentEventStatesReactive({}, options, null);   // casades to watchers
+
+          },
+          complete: () => { 
+          
+          }
+        }
+      )
+  }
+
+
+
+
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed

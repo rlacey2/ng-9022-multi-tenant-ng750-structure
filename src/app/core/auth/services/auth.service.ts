@@ -139,8 +139,6 @@ console.log('login')
     }
   }
 
-
-
     // Handy runtime helper for testing responsive menu flags directly on screen canvases
   toggleAuthenticationState() {
     if (this.isAuthenticated()) {
@@ -149,7 +147,6 @@ console.log('login')
       this.simulateMockLogin();
     }
   }
-
 
   simulateMockLogin22() {
     console.log('simulateMockLogin()')
