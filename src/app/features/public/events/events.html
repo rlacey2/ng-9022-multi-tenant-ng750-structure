@@ -96,6 +96,10 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
  leaving the result landing page in place and forcing a requery for a public user 
  means quota logic and date windows may be refreshed   
 -->
+
+ 
+        @if ( showPublicView() ) {
+        <!-- Public and not logged in -->
         <div class="p-0 border rounded-3 mx-1 d-flex gap-3 shadow-sm"
           style="background-color: #e9edc9 !important; border-color: #ccd5ae !important;">
 
@@ -112,10 +116,6 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
           </div>
 
         </div>
-
-        @if ( showPublicView() ) {
-        <!-- Public and not logged in -->
-
 
         } @else {
         <!-- Localhost / Non-live OR logged in viewers -->

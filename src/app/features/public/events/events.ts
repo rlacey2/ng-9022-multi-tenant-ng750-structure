@@ -55,7 +55,7 @@ export class EventsComponent {
 
   readonly ui = inject(EventUiStore);
 
-  readonly t3ui = inject(T3UiStore);
+  readonly t3ui = inject(T3UiStore); 
 
   msMessageRefreshTime = 300000; // 5 minutes unless hard requery for long-term static messages
 
@@ -63,7 +63,8 @@ export class EventsComponent {
   readonly t55_messages = signal<Record<string, SafeHtml | string>>({});
 
   readonly showPublicView = computed(() =>
-    this.tenantService.isLiveSystem() && !this.tenantService.isAuthenticated()
+   // true && this.currentEventId() >  0
+   this.currentEventId() >  0 &&  this.tenantService.isLiveSystem() && !this.tenantService.isAuthenticated()
   );
 
   /*
@@ -393,6 +394,7 @@ export class EventsComponent {
            
              console.log(ec);
             ec = ec || {};
+      
             this.t3ui.ec.set(ec)
 
          //   const hideSelectionCombo =  !this.ui.isAuthenticated() || this.liveSystem || this.params.isPromotion || (this.params.isChoice > 0) // 20230503 04
