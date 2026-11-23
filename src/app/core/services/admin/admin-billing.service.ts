@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AppInitService } from '../../../shared/services/appinit/app-init.service';
+ 
 import { createCacheContext } from '../../../shared/utils/http-cache.util';
+import { AppInitService } from '../../auth/services/appinit/appinit.service';
 
 //20261113 extracted from SecureAPIService
 @Injectable({

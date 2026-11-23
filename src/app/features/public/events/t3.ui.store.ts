@@ -4,7 +4,8 @@ import { computed, Injectable, signal } from '@angular/core';
 export class T3UiStore {
  
   // Nested hierarchy state (or split this into its own store if large!)
-  readonly eventIdUnavailable = signal<any>({});
+
+  readonly eventIdUnavailable = signal<boolean>(false);
 
  
   

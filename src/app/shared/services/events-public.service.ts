@@ -36,7 +36,10 @@ export class EventsPublicService {
   // ecListAvailableToPublic_Source$: BehaviorSubject<Object> = new BehaviorSubject({}); // need as array for display logic
   ecListAvailableToPublic$ = this.ecListAvailableToPublic_Source$.asObservable(); // hide behaviour features from client
 
- 
+ //   ecEnabledPublic_Source$: BehaviorSubject<boolean> = new BehaviorSubject(true); // assume enabled unless server sends false
+//  ecEnabledPublic$ = this.ecEnabledPublic_Source$.asObservable();
+
+  readonly ecEnabledPublic = signal(true);
   readonly eventsEnabledToPublic = signal(true); // assume enabled unless server sends false
 
   ecListLength = 0;
@@ -112,15 +115,7 @@ checkEventsEnabled(): void {
 this.checkEventsEnabled()
 
 
-
-
-
-
-
-
-
-
-
+ 
 
 
     /*

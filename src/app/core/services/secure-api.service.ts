@@ -1,7 +1,7 @@
 // common tags for search:
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AppInitService } from '../../shared/services/appinit/app-init.service';
+ 
 import { PublicAPIService } from './public/public-api.service';
 import { AdminBillingService } from './admin/admin-billing.service';
 import { AdminDbTasksService } from './admin/admin-db-tasks.service';
@@ -11,6 +11,7 @@ import { AdminOrganisationsService } from './admin/admin-organisations.service';
 import { AdminReportsStatusService } from './admin/admin-reports-status.service';
 import { AdminSigninService } from './admin/admin-signin.service';
 import { AdminUsersService } from './admin/admin-users.service';
+import { AppInitService } from '../auth/services/appinit/appinit.service';
 
 /**
  * @deprecated //20261113 Thin delegation facade forwarding to domain services.

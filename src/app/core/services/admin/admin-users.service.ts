@@ -2,8 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
-import { AppInitService } from '../../../shared/services/appinit/app-init.service';
-
+import { AppInitService } from '../../auth/services/appinit/appinit.service';
+ 
 //20261113 extracted from SecureAPIService
 @Injectable({
   providedIn: 'root',
