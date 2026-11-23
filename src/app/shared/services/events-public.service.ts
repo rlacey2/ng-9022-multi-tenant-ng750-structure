@@ -16,7 +16,7 @@ import { map, catchError, take } from 'rxjs/operators';
 
  
 import { AppInitService } from '../../core/auth/services/appinit/appinit.service';
-import { PublicAPIService } from '../../core/services/public/public-api.service';
+import { PublicAPIService } from '../../core/services/api/public/public-api.service';
 import { BLOCKING_FULL_SCREEN_DIALOG_OPTIONS } from '../constants/constants';
 import { InstructionsPopupComponent } from '../../features/public/instructions/instructionspopup';
 

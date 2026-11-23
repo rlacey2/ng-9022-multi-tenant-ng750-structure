@@ -9,6 +9,8 @@ import { FallbackImgDirective } from '../../directives/fallback-img.directive';
 import { TenantService } from '../../../core/http/tenant.service';
 import { NavigationService } from '../../../core/services/navigation.service.ts';
 import { CookieService } from '../../../core/services/cookie.service';
+import { FormFieldSettingsDialogComponent } from '../../../core/services/formfieldoptions/dialog/form-field-settings-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-global-header',
@@ -17,6 +19,7 @@ import { CookieService } from '../../../core/services/cookie.service';
   templateUrl: './global-header.html'
 })
 export class GlobalHeaderComponent {
+     private readonly dialog = inject(MatDialog);
   protected TenantService = inject(TenantService);
   protected navService = inject(NavigationService);
   protected authService = inject(AuthService);
@@ -35,4 +38,15 @@ export class GlobalHeaderComponent {
     this.cookieService.resetConsent(this.router.url);
     this.router.navigate(['/consent']);
   }
+
+
+
+   openAppearanceSettings(): void {
+      // move to navbar later
+    this.dialog.open(FormFieldSettingsDialogComponent, {
+      width: '460px',
+      autoFocus: false,
+    });
+  }
+
 }

@@ -24,7 +24,7 @@
     <div class="d-flex align-items-center gap-2 ms-auto me-2 me-lg-0 order-lg-3">
  
       <!-- Only render Options dropdown when user is authenticated -->
-      @if (authService.isAuthenticated()) {
+      @if (1 || authService.isAuthenticated()) {
       <div class="dropdown">
         <button class="btn btn-sm btn-light dropdown-toggle px-3 fw-semibold shadow-sm text-dark" type="button"
           id="globalSettingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -54,6 +54,15 @@
                 Close</label>
             </div>
           </li>
+
+          <li class="px-2 py-1 mt-2">
+            <div class="form-check form-switch m-0">
+    <button mat-icon-button (click)="openAppearanceSettings()" aria-label="Form Field Settings">
+       Input Appearance Tuning
+    </button>
+            </div>
+          </li>
+
         </ul>
       </div>
       }

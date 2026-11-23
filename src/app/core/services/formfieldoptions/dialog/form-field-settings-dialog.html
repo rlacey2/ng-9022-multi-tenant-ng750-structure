@@ -1,0 +1,76 @@
+ 
+    <h2 mat-dialog-title>Form Field Appearance</h2>
+
+    <mat-dialog-content class="settings-content">
+      <!-- Style -->
+      <div class="setting-row">
+        <span class="setting-label">Field Style</span>
+        <mat-button-toggle-group
+          [value]="prefs.appearance()"
+          (change)="prefs.appearance.set($event.value)"
+          aria-label="Field Style"
+        >
+          <mat-button-toggle value="fill">Fill</mat-button-toggle>
+          <mat-button-toggle value="outline">Outline</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <!-- Height / Density -->
+      <div class="setting-row">
+        <span class="setting-label">Height</span>
+        <mat-button-toggle-group
+          [value]="prefs.density()"
+          (change)="prefs.density.set($event.value)"
+          aria-label="Field Height"
+        >
+          <mat-button-toggle value="comfortable">Comfortable</mat-button-toggle>
+          <mat-button-toggle value="normal">Normal</mat-button-toggle>
+          <mat-button-toggle value="compact">Compact</mat-button-toggle>
+          <mat-button-toggle value="small">Small</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <!-- Helper / Error Spacing -->
+      <div class="setting-row">
+        <span class="setting-label">Helper Spacing</span>
+        <mat-button-toggle-group
+          [value]="prefs.subscriptSizing()"
+          (change)="prefs.subscriptSizing.set($event.value)"
+          aria-label="Helper Spacing"
+        >
+          <mat-button-toggle value="dynamic">Dynamic</mat-button-toggle>
+          <mat-button-toggle value="fixed">Fixed</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="preview-box">
+        <span class="preview-caption">Live Preview</span>
+        <mat-form-field class="preview-field">
+          <mat-label>Sample Input</mat-label>
+          <input matInput value="Preview text" />
+          <mat-hint>Helper text spacing preview</mat-hint>
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="dialog-actions">
+      <button
+        mat-button
+        type="button"
+        (click)="prefs.reset()"
+        [disabled]="prefs.isDefault()"
+      >
+        Reset
+      </button>
+
+      <div class="right-actions">
+        <button mat-button type="button" (click)="cancel()">
+          Cancel
+        </button>
+        <button mat-flat-button color="primary" (click)="save()" [disabled]="!hasChanges()">
+          Save
+        </button>
+      </div>
+    </mat-dialog-actions>
+ 

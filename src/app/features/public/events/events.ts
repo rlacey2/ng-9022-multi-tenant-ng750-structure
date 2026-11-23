@@ -1,11 +1,11 @@
 import { Component, computed, DestroyRef, effect, inject, input, linkedSignal, signal } from '@angular/core';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { WorkspaceViewComponent } from '../../../shared/components/workspace-view/workspace-view';
 import { TenantService } from '../../../core/http/tenant.service';
 import { SafeHtml } from '@angular/platform-browser';
-import { PublicAPIService } from '../../../core/services/public/public-api.service';
+import { PublicAPIService } from '../../../core/services/api/public/public-api.service';
 import { MessageResponseT55 } from '../../../core/models/message.response.model';
 import { EventsPublicService } from '../../../shared/services/events-public.service';
 import { EventUiStore } from './events.ui.store';
@@ -30,7 +30,7 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
   ],
   templateUrl: './events.html',
   styleUrl: './events.scss',
-  providers: [EventUiStore, T3UiStore]
+  providers: [EventUiStore, T3UiStore, JsonPipe]
 })
 
 export class EventsComponent {

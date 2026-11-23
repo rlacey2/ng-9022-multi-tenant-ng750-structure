@@ -2,15 +2,15 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
  
-import { PublicAPIService } from './public/public-api.service';
-import { AdminBillingService } from './admin/admin-billing.service';
-import { AdminDbTasksService } from './admin/admin-db-tasks.service';
-import { AdminEmailService } from './admin/admin-email.service';
-import { AdminEventsService } from './admin/admin-events.service';
-import { AdminOrganisationsService } from './admin/admin-organisations.service';
-import { AdminReportsStatusService } from './admin/admin-reports-status.service';
-import { AdminSigninService } from './admin/admin-signin.service';
-import { AdminUsersService } from './admin/admin-users.service';
+import { PublicAPIService } from './api/public/public-api.service';
+import { AdminBillingService } from './api/admin/admin-billing.service';
+import { AdminDbTasksService } from './api/admin/admin-db-tasks.service';
+import { AdminEmailService } from './api/admin/admin-email.service';
+import { AdminEventsService } from './api/admin/admin-events.service';
+import { AdminOrganisationsService } from './api/admin/admin-organisations.service';
+import { AdminReportsStatusService } from './api/admin/admin-reports-status.service';
+import { AdminSigninService } from './api/admin/admin-signin.service';
+import { AdminUsersService } from './api/admin/admin-users.service';
 import { AppInitService } from '../auth/services/appinit/appinit.service';
 
 /**

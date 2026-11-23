@@ -97,16 +97,17 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
  means quota logic and date windows may be refreshed   
 -->
 
- 
+
+
         @if ( showPublicView() ) {
         <!-- Public and not logged in -->
         <div class="p-0 border rounded-3 mx-1 d-flex gap-3 shadow-sm"
           style="background-color: #e9edc9 !important; border-color: #ccd5ae !important;">
 
-         <div class="flex-grow-1">
+          <div class="flex-grow-1">
             <label class="extra-small text-muted d-block fw-bold mb-1 zztext-uppercase tracking-wider">Name</label>
 
-            <div  >
+            <div>
               {{t3ui.ec().name}}
             </div>
           </div>
@@ -121,8 +122,6 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
         <!-- Localhost / Non-live OR logged in viewers -->
 
         <div class="d-flex pt-1">
-
-
 
           <!-- [(ngModel)]="formMeta.eventId" -->
           <mat-form-field class=" w-100  ms-3 me-2  ms-md-5 me-md-5 longerDropDown ecPublicSelect no-print">
@@ -208,128 +207,23 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
       }
 
       @else{
-
-
-
-
-
-
-
-
-
-
-
       <!-- main public rendering of event area -->
-      @if(1) {
-      <div>
-        <article aria-label="headings">
 
-          <p>This is a test paragraph.</p>
-          <h2>This is 2nd level heading</h2>
-          <p>This is a test paragraph.</p>
-          <h3>This is 3rd level heading</h3>
-          <p>This is a test paragraph.</p>
-          <h4>This is 4th level heading</h4>
-          <p>This is a test paragraph.</p>
-          <h5>This is 5th level heading</h5>
-          <p>This is a test paragraph.</p>
-          <h6>This is 6th level heading</h6>
-          <p>This is a test paragraph.</p>
-        </article>
-        <article aria-label="headings">
 
-          <p>This is a test paragraph.</p>
-          <h2>This is 2nd level heading</h2>
-          <p>This is a test paragraph.</p>
-          <h3>This is 3rd level heading</h3>
-          <p>This is a test paragraph.</p>
-          <h4>This is 4th level heading</h4>
-          <p>This is a test paragraph.</p>
-          <h5>This is 5th level heading</h5>
-          <p>This is a test paragraph.</p>
-          <h6>This is 6th level heading</h6>
-          <p>This is a test paragraph.</p>
-        </article>
-        <article aria-label="headings">
-          <h1>This is 1st level heading</h1>
-          <p>This is a test paragraph.</p>
-          <h2>This is 2nd level heading</h2>
-          <p>This is a test paragraph.</p>
-          <h3>This is 3rd level heading</h3>
-          <p>This is a test paragraph.</p>
-          <h4>This is 4th level heading</h4>
-          <p>This is a test paragraph.</p>
-          <h5>This is 5th level heading</h5>
-          <p>This is a test paragraph.</p>
-          <h6>This is 6th level heading</h6>
-          <p>This is a test paragraph.</p>
-        </article>
-        <article aria-label="headings">
-          <h1>This is 1st level heading</h1>
-          <p>This is a test paragraph.</p>
-          <h2>This is 2nd level heading</h2>
-          <p>This is a test paragraph.</p>
-          <h3>This is 3rd level heading</h3>
-          <p>This is a test paragraph.</p>
-          <h4>This is 4th level heading</h4>
-          <p>This is a test paragraph.</p>
-          <h5>This is 5th level heading</h5>
-          <p>This is a test paragraph.</p>
-          <h6>This is 6th level heading</h6>
-          <p>This is a test paragraph.</p>
-        </article>
-        <article aria-label="headings">
-          <h1>This is 1st level heading</h1>
-          <p>This is a test paragraph.</p>
-          <h2>This is 2nd level heading</h2>
-          <p>This is a test paragraph.</p>
-          <h3>This is 3rd level heading</h3>
-          <p>This is a test paragraph.</p>
-          <h4>This is 4th level heading</h4>
-          <p>This is a test paragraph.</p>
-          <h5>This is 5th level heading</h5>
-          <p>This is a test paragraph.</p>
-          <h6>This is 6th level heading</h6>
-          <p>This is a test paragraph.</p>
-        </article>
-        <article aria-label="headings">
-          <h1>This is 1st level heading</h1>
-          <p>This is a test paragraph.</p>
-          <h2>This is 2nd level heading</h2>
-          <p>This is a test paragraph.</p>
-          <h3>This is 3rd level heading</h3>
-          <p>This is a test paragraph.</p>
-          <h4>This is 4th level heading</h4>
-          <p>This is a test paragraph.</p>
-          <h5>This is 5th level heading</h5>
-          <p>This is a test paragraph.</p>
-          <h6>This is 6th level heading</h6>
-          <p>This is a test paragraph.</p>
-        </article>
-      </div>
-      }
+      <pre>
+  {{ t3ui.ec() | json }}
+      </pre>
 
 
       }
 
-
-
       }
-
-
-
-
 
     </div>
 
   </div>
 
-
-
 </app-workspace-view>
-
-
-
 
 <div class="events-container">
   <h1>EventsComponent Works!</h1>

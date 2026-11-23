@@ -11,7 +11,7 @@ import { Location } from '@angular/common';
  
 import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatIcon } from "@angular/material/icon";
-import { PublicAPIService } from '../../../core/services/public/public-api.service';
+import { PublicAPIService } from '../../../core/services/api/public/public-api.service';
 import { AppInitService } from '../../../core/auth/services/appinit/appinit.service';
 import { SafePipe } from '../../../core/pipes/safe-pipe';
 import { delay } from 'rxjs/operators';
