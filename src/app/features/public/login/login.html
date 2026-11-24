@@ -1,18 +1,15 @@
 <div class="login-container">
-  <h1>LoginComponent Works!</h1>
-
-
+ 
   <!-- INTERACTIVE DEMO AUTH TOGGLE BUTTON -->
   <button class="btn btn-sm px-3 fw-bold shadow-sm transition-all text-white border"
     [ngClass]="authService.isAuthenticated() ? 'btn-danger' : 'btn-success'"
     (click)="authService.toggleAuthenticationState()">
     {{ authService.isAuthenticated() ? '🔒 Simulate Logout' : '🔑 Simulate Login' }}
   </button>
-
-
+ 
 
   <div
-    style="max-width: 400px; margin: 4rem auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+    style="max-width: 400px; margin: 4rem auto; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
     <h2 style="margin-top: 0; color: #1e3a8a; text-align: center;">Admin Account</h2>
 
     @if (loading()) {
@@ -34,7 +31,8 @@
       </div>
 
       <button type="submit" [disabled]="loginForm().invalid() || loginForm().submitting()"
-        style="background: #2563eb; color: white; border: none; padding: 0.75rem; border-radius: 4px; cursor: pointer; font-weight: bold;">
+        style="background: #2563eb; color: white; border: none; padding: 0.75rem; border-radius: 4px; cursor: pointer; font-weight: bold;"
+        (click)="onSubmit($event)">
         Login
       </button>
     </form>

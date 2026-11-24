@@ -194,7 +194,13 @@ give your active tab highlights a clean, polished appearance that coordinates be
     }
   }
 }
-
+ 
 .spacer { 
   flex: 1; 
+}
+
+ .workspace-sidebar {
+  width: var(--sidebar-right-width);
+  min-width: var(--sidebar-right-width);
+  /* Optional: add flex-shrink: 0; if this sits inside a flex row */
 }

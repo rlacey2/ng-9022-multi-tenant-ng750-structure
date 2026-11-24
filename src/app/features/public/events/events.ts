@@ -437,11 +437,23 @@ currentEventId = linkedSignal<number>(( ) => {
         event.source.writeValue(previous);
         return;
       }
-    }
+    } 
 
     // Only update the signal if clean or confirmed
     this.ui.selectedEvent.set(next)
   //  this.loadEventById( { eventId: next}) not needed a route change triggers an effect()
+  }
+  
+  clearView() { // called from a button
+    console.log('DIRTY CHECK HERE')
+  //  this.isFormDirty({ fn: 'resetView', params: {} });
+
+    this.t3ui.ec.set({})
+    this.router.navigate(['/events/training'], {
+      queryParamsHandling: 'preserve' // keeps existing ?query=params if any
+    });
+
+
   }
 
  loadEventById(toLoad: any): null {

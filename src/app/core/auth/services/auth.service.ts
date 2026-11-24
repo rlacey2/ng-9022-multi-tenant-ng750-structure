@@ -1,9 +1,11 @@
 import { Injectable, signal, computed, inject, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
+import { EMPTY, firstValueFrom, Observable, of, throwError } from 'rxjs';
+import { catchError, delay, map, tap } from 'rxjs/operators';
 import { AuthResponse, UserProfile, LoginCredentials } from '../models/auth.models';
+import { TenantService } from '../../http/tenant.service';
+import { User } from '../../../shared/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +13,17 @@ import { AuthResponse, UserProfile, LoginCredentials } from '../models/auth.mode
 export class AuthService {
   private router = inject(Router);
   private ngZone = inject(NgZone);
+  private readonly http = inject(HttpClient);
+
+ private tenantService = inject(TenantService);
+ // private publicAPIService = inject(PublicAPIService)
+
   
   private readonly TIMEOUT_MS = 15 * 60 * 1000; 
+
+  private BASE_URL = '';
+  cId: any = ""
+  
 
   
 
@@ -39,8 +50,38 @@ export class AuthService {
     localStorage.setItem('last_activity_timestamp', Date.now().toString());
   }
 
-  login(credentials: LoginCredentials): Observable<AuthResponse> {
+  async login(credentials: LoginCredentials): Promise<Observable<AuthResponse>> {
 console.log('login')
+
+  try {
+    const response = await firstValueFrom(this.login2({ Username: credentials.email, password: credentials.password }));
+    console.log('Logged in:', response);
+    let userData = response
+    this.handleAuthentication({ UserId: userData.user.UserId, token: userData.token, email: credentials.email, role: userData.user.role })
+    // { UserId: userData.user.UserId, token: userData.token, email: payload.email, role: userData.user.role }
+    return response
+  } catch (err) {
+    console.error('Login error:', err);
+     return EMPTY
+  }
+
+ 
+/*
+ 
+          return this.logIn({ Username: credentials.email, password: credentials.password }).pipe(
+            map((userData: any) => {
+               console.log(userData);
+               return userData
+          //    return new LogInSuccess({ UserId: userData.user.UserId, token: userData.token, email: payload.email, role: userData.user.role });
+            }),
+            catchError((error: any) => {
+              console.log(error);
+                return EMPTY; // Completes the stream cleanly
+           //   return of(new LogInFailure({ error: error }));
+            })
+          );
+
+*/
 
     // Simulated Mock API response
     const mockResponse: AuthResponse = {
@@ -62,6 +103,36 @@ console.log('login')
       tap(res => this.handleAuthentication(res))
     );
   }
+
+  // logIn(email: string, password: string): Observable<any> {
+  login2(credentials: any): Observable<any> {
+  //  console.log('auth.Login()');
+    //  let data: any = {};
+    const data = credentials;
+    this.cId = this.tenantService.cId() 
+    data.cId = this.cId;
+/*
+Notice LogIn$ passes Username (capital U), while AuthService reads credentials.username (lowercase u). 
+*/
+
+    data.email = credentials.username;
+    const url = `${this.BASE_URL}/public/admin/login`; // '/public/admin/login
+    //  const username = email;
+
+    //  console.log('cId = ' + this.cId);
+    //  const data = { username, email, password, cId: this.cId };
+
+    //  data.username = credentials.email;
+    //  data.password = credentials.password;
+    //  data.InSessionReauthenticate = credentials.InSessionReauthenticate || false;
+    // console.log(data);
+    return this.http.post<User>(url, { userValues: data }); // .post('/login') 
+  }
+
+
+
+
+
 
   refreshToken(): Observable<string | null> {
     const currentRefresh = localStorage.getItem('refresh_token');
@@ -113,8 +184,36 @@ console.log('login')
   /**
    * Process and save updated tokens & user profiles
    */
-  private handleAuthentication(response: AuthResponse): void {
+  private handleAuthentication(user: any): void {
+
     console.log('handleAuthentication')
+
+        //    console.log('LogInSuccess, localStorage used * 4, refactor?');
+       console.log(user);
+          localStorage.setItem('accessToken', user.token); // the refreshToken is a separate cookie
+          localStorage.setItem('currentUser', user.email);
+          localStorage.setItem('role', user.role);
+          localStorage.setItem('UserId', user.UserId);
+
+            // Update the signal value to trigger UI rerenders where bound
+            delete user.token
+    this.currentUser.set(user);
+
+          if (user.role === "checkin") {
+            /*
+            this was 2025 wip to allow staff not at hq handle event logins,
+            not completed, also feature to allow attendees register on the day themselves also wip
+            never deployed these, as the heat when off
+            */
+            this.router.navigateByUrl('/secure/checkin'); // 20250828 restricted user
+          }
+          else {
+            this.router.navigateByUrl('/secure/status'); // normal admin
+          }
+
+
+return
+/*
     this.accessToken = response.accessToken;
     
     localStorage.setItem('access_token', response.accessToken);
@@ -123,6 +222,7 @@ console.log('login')
 
     // Update the signal value to trigger UI rerenders where bound
     this.currentUser.set(response.user);
+    */
   }
  
   /**

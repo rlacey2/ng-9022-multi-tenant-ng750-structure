@@ -14,16 +14,11 @@ interface LoginModel {
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormField, FormRoot],
-
- 
- 
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
 
-
 export class LoginComponent {
- 
  
   private authService = inject(AuthService);
   private router = inject(Router);
