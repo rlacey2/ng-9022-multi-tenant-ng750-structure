@@ -76,15 +76,22 @@ export class EventsComponent {
 
 
 
-  // 2. Parse to a valid number (or null if missing/invalid)
-  parsedEventId = computed(() => {
-    const id = Number(this.eventId());
-    return Number.isInteger(id) && id > 0 ? id : null;
-  });
+// 1. Keep parsedEventId if you also need the original route/input value separately
+parsedEventId = computed<number>(() => {
+  let eventId = Number(this.eventId());
+  eventId = Number.isInteger(eventId) && eventId > 0 ? eventId : -1;
+ 
+  return eventId 
+});
+
+// 2. Link currentEventId to parsedEventId so both initial load and mat-select use number | null
+currentEventId = linkedSignal<number>(( ) => {
+   
+  return this.parsedEventId()
+});
 
 
-  // Automatically syncs whenever eventId() changes, AND can be overwritten via .set()
-  currentEventId: any = linkedSignal(() => this.eventId());
+
 
   // 3. Automatically loads from server whenever parsedEventId() changes
 
@@ -133,7 +140,16 @@ export class EventsComponent {
 
   constructor() {
     console.log('events constructor: ' + this.tenantService.cId() + "   " + this.tenantService.isLiveSystem())
-    effect(() => console.log(this.eventId()))
+ //   effect(() => console.log(this.eventId()))
+
+
+    // catch the eventId passed in from the url
+    // Syncs the service signal whenever the component input changes
+    effect(() => {
+      console.log(this.parsedEventId())
+      this.ui.selectedEvent.set(this.parsedEventId()); // set the mat-select
+    });
+
 
 
 
@@ -144,10 +160,10 @@ export class EventsComponent {
       }
     });
 
-from combo
-https://localhost:5200/events/training/537
+ 
 
-fires twice
+
+ 
 
     /*
     effect(() => {
@@ -170,18 +186,19 @@ fires twice
 
 
 
-
+/*
       this.router.events
     .pipe(filter((e): e is NavigationStart => e instanceof NavigationStart && e.id === 2))
     .subscribe(() => {
       console.trace('Redirected to /events from here:');
     });
+    */
 
   }
 
   ngOnInit(): void {
 
-    console.log(this.eventId()) // not available in constructor unless via effect
+ //   console.log(this.eventId()) // not available in constructor unless via effect
   }
 
 
@@ -411,7 +428,7 @@ fires twice
     const previous = this.ui.selectedEvent()
     const next = event.value;
 
-    console.log("PUT DIRTY LOGIC IN HERE LATER FOR t3")
+    console.log("DIRTY HERE")
     if (false) {
       const confirmed = confirm(`You have unsaved changes. Switch to ${next}?`);
       
@@ -424,7 +441,7 @@ fires twice
 
     // Only update the signal if clean or confirmed
     this.ui.selectedEvent.set(next)
-    this.loadEventById( { eventId: next})
+  //  this.loadEventById( { eventId: next}) not needed a route change triggers an effect()
   }
 
  loadEventById(toLoad: any): null {
@@ -436,7 +453,7 @@ fires twice
     // i.e. bug, this code allowed closed event link from public user to present the input form
     // AMCSS/JMB 39th Annual Conference 2026 has a person after closed and excel download
  
-    this.formMeta.t3_meta.eventIdUnavailable = false // 20260429
+    this.t3ui.eventIdUnavailable.set(true)  // 20260429
     this.eventsPublicService.loadEventById(toLoad)
 
       .pipe(take(1))

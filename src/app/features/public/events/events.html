@@ -131,13 +131,13 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
                       -->
             <!-- unidirection to allow a dirty state cancel; paired with  selectionChange -->
             <mat-label role="label">Event Selection</mat-label>
-            <mat-select #selEventsList [value]="ui.selectedEvent" id="etescombo" panelClass="longerDropDown"
+            <mat-select #selEventsList [(value)]="ui.selectedEvent" id="etescombo" panelClass="longerDropDown"
               (selectionChange)="onEventIdSelectionChange($event)">
               <mat-option [value]="-1">
                 Select an event ...
               </mat-option>
               @for (e of ui.eventsList() ; track e.eventId) {
-              <mat-option [value]="e['eventId'].toString()">
+              <mat-option [value]="e['eventId']" >
 
                 <span class=" ">
                   <span class="w-10 text-end me-2">{{e['eventId']}}</span>
@@ -182,7 +182,7 @@ CHECK FOR MESSAGES/WARNINGS before rendering <t3-generic
 
       <!-- -->
 
-      @if (ui.eventsListLength() === 0 || t3ui.eventIdUnavailable()) {
+      @if (ui.eventsListLength() === 0  ) {
 
       <div class="d-flex  justify-content-center  rounded bg-warning-subtle p2" [ariaLabel]="'Warnings'">
 

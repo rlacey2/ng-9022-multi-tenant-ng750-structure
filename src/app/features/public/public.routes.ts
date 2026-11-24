@@ -58,89 +58,7 @@ export function eventsMatcher(segments: UrlSegment[]): UrlMatchResult | null { /
     posParams: {},
   };
 
-
-/*
-
-  if (segments.length === 0) {
-    
-    return { 
-      consumed: segments,
-      posParams: {},
-    };
-  }
-
-  if (segments.length > 0 && segments[0].path.match(/events/gm)) {   //    #/events ... i.e. one of the cases 
-    // will be called for other like status but allow fall to their own resolver
-    // console.log('eventsMatcher', segments); // fires multiple times
-    //  console.log(UrlSegment.toString());
-    if (segments.length === 1) {
-      return { // case 1
-        consumed: segments,
-        posParams: {},
-      };
-    }
-
-    else
-      // negation here
-      if (!segments[1].path.match(/training/gm)) { // 2nd segment #/events/???? but an error
-        return { // case 6
-          consumed: segments,
-          posParams: {},
-        };
-      } else { // #/events/training now confirmed
-        if (segments.length === 2) {
-          return { // case 2
-            consumed: segments,
-            posParams: {},
-          };
-        } else
-          if (segments[2].path.match(/^[1-9][0-9]*$/)) {
-            // segments[2] must be an eventId
-            if (segments.length === 3) {
-              return { // case 3
-                consumed: segments,
-                posParams: { eventId: segments[2] },
-              };
-            } else
-              if (segments.length === 4) { // 20230503 choice specific
-
-                if (segments[3].path.match(/choice/gm)) {
-
-                  return { // case 3b
-                    consumed: segments,
-                    posParams: { eventId: segments[2], choice: segments[2] }
-                  };
-                }
-
-              }
-              else
-                if (segments.length === 5) { // promotion or ebt
-
-                  if (segments[3].path.match(/promotion/gm)) {
-
-                    return { // case 4
-                      consumed: segments,
-                      posParams: { eventId: segments[2], promotionCode: segments[4] }
-                    };
-                  }
-                  if (segments[3].path.match(/ebt/gm)) {
-                    return { // case 5
-                      consumed: segments,
-                      posParams: { eventId: segments[2], ebtCode: segments[4] }
-                    };
-                  }
-                }
-          } else { // make it a case 2 to stay on the view
-            return { // case 2
-              consumed: [segments[0], segments[1]], // segments,
-              posParams: {}
-            };
-          }
-      }
-    return <UrlMatchResult>(null as any);
-  }
-  return <UrlMatchResult>(null as any);
-  */
+ 
 }
  
 
@@ -168,7 +86,8 @@ export const PUBLIC_ROUTES: Routes = [
     resolve: { 
       eventsLoaded: EventsResolver 
     },
-    runGuardsAndResolvers: 'always',
+   // runGuardsAndResolvers: 'always',
+     runGuardsAndResolvers: (from, to) => from.routeConfig !== to.routeConfig // /events/training/10 → /events/training/20 are the same config
   }, 
 
 

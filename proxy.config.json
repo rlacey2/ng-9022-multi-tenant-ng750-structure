@@ -20,12 +20,5 @@
     "timeout": 0
   }
  
-,
-
-  "/events/": {
-    "target": "https://127.0.0.1:4444",
-    "secure": false,
-    "logLevel": "debug",
-    "timeout": 0
-  }
+ 
 }
