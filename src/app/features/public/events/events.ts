@@ -10,8 +10,8 @@ import { MessageResponseT55 } from '../../../core/models/message.response.model'
 import { EventsPublicService } from '../../../shared/services/events-public.service';
 import { EventUiStore } from './events.ui.store';
 import { T3UiStore } from './t3.ui.store';
-import { Router } from '@angular/router';
-import { delay, EMPTY, Subject, Subscription, take } from 'rxjs';
+import { NavigationStart, Router } from '@angular/router';
+import { delay, EMPTY, filter, Subject, Subscription, take } from 'rxjs';
  
 import { FormField } from '@angular/forms/signals'; // Requires Angular v21+ (Signal Forms)
 import { MatInputModule } from '@angular/material/input';
@@ -75,20 +75,36 @@ export class EventsComponent {
 */
 
 
+
+  // 2. Parse to a valid number (or null if missing/invalid)
+  parsedEventId = computed(() => {
+    const id = Number(this.eventId());
+    return Number.isInteger(id) && id > 0 ? id : null;
+  });
+
+
   // Automatically syncs whenever eventId() changes, AND can be overwritten via .set()
   currentEventId: any = linkedSignal(() => this.eventId());
 
-  // Automatically re-runs whenever currentEventId() changes
+  // 3. Automatically loads from server whenever parsedEventId() changes
+
+    // Usage in class or template:
+  // this.eventResource.value()     -> The loaded event object
+  // this.eventResource.isLoading() -> Boolean loading spinner state
+  // this.eventResource.error()     -> Any HTTP error
+/*
   eventResource = rxResource({
-    params: () => this.currentEventId(),
-    stream: ({ params: id }) => {
+    params: () => this.parsedEventId(),
+    stream: ({ params: eventId }) => {
       // Skip the HTTP call if URL is /events or /events/training (no ID)
-      if (!id) return EMPTY;
+      if (!eventId) return EMPTY;
       console.log(this.currentEventId() + "    to load")
-      return EMPTY
-      //   return this.eventsService.getEventById(id);
+      
+      return this.loadEventById({eventId: eventId})
+       return EMPTY
     }
   });
+*/
 
 
   // formMeta are business values used or required by the UI view to separate from some class this.* properties
@@ -123,7 +139,42 @@ export class EventsComponent {
 
     effect(() => {
       const currentEvent = this.ui.selectedEvent();
+      if (currentEvent > -1) {
       this.selectEvent(currentEvent);
+      }
+    });
+
+from combo
+https://localhost:5200/events/training/537
+
+fires twice
+
+    /*
+    effect(() => {
+      const currentEvent = Number(this.eventId() )
+      if (currentEvent > -1) {
+      this.selectEvent(currentEvent);
+      }
+    });
+*/
+      effect(() => {
+      const eventId = Number(this.eventId());
+      if (eventId > 0) {
+        this.loadEventById({eventId: eventId})
+      }
+    });
+
+
+
+
+
+
+
+
+      this.router.events
+    .pipe(filter((e): e is NavigationStart => e instanceof NavigationStart && e.id === 2))
+    .subscribe(() => {
+      console.trace('Redirected to /events from here:');
     });
 
   }
@@ -188,6 +239,7 @@ export class EventsComponent {
 
   selectEvent(newId: string | number): void {
     // Adds to Browser History
+    
     this.router.navigate(['/events/training', newId], {
       queryParamsHandling: 'preserve' // keeps existing ?query=params if any
     });
@@ -375,7 +427,7 @@ export class EventsComponent {
     this.loadEventById( { eventId: next})
   }
 
- loadEventById(toLoad: any) {
+ loadEventById(toLoad: any): null {
 
     console.log('loadEventById')
     // from 20251206, direct call to server for the chosen event, not the array cache version
@@ -421,6 +473,8 @@ export class EventsComponent {
           }
         }
       )
+
+      return null
   }
 
 

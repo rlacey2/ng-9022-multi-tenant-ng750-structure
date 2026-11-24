@@ -1,7 +1,7 @@
 // app.config.ts
 import { ApplicationConfig, provideAppInitializer, inject, provideZonelessChangeDetection } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideRouter, withComponentInputBinding, withRouterConfig } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withDebugTracing, withRouterConfig } from '@angular/router';
 import { routes } from './app.routes';
 import { TenantService } from './core/http/tenant.service';
 import { CookieService } from './core/services/cookie.service';
@@ -17,7 +17,10 @@ export const appConfig: ApplicationConfig = {
 
 
     provideHttpClient(),
-    provideRouter(routes, withComponentInputBinding(), withRouterConfig({ paramsInheritanceStrategy: 'always' })
+    provideRouter(routes,  
+      // withDebugTracing(),
+     withComponentInputBinding(),
+       withRouterConfig({ paramsInheritanceStrategy: 'always' })
     ),
     provideAppInitializer(() => {
       const tenantService = inject(TenantService);

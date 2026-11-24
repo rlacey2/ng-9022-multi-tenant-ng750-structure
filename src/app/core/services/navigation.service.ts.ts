@@ -11,7 +11,7 @@ export class NavigationService {
 
   // Single source of truth for all application header links
   private readonly allLinks: AppNavigationLink[] = [
-    { label: '📅 Events', path: '/events', visibility: 'always' },
+    { label: '📅 Events', path: '/events/training', visibility: 'always' },
     { label: '🔑 Login', path: '/login', visibility: 'publicOnly' },
     { label: 'Status', path: '/status', visibility: 'authenticatedOnly' },
     { label: 'CMS', path: '/cms', visibility: 'authenticatedOnly' },

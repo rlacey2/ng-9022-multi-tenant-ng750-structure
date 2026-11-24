@@ -15,7 +15,7 @@ export const adminMatcher: UrlMatcher = (segments) => pathMatcher('admin', segme
 
 
 export const cmsMatcher: UrlMatcher = (segments: UrlSegment[]) => {
- console.log('ddddd')
+ console.log('cmsMatcher, to reach here must be authenticated')
   // Check the first segment (index 0)
   if (segments[0]?.path !== 'cms') {
     return null;

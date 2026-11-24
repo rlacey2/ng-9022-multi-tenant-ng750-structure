@@ -18,6 +18,7 @@ export function eventsMatcher(segments: UrlSegment[]): UrlMatchResult | null { /
     console.log('eventsMatcher outer', segments); // fires multiple times
 
   if (segments.length === 0) { // 20260102 // case 7 
+ 
     return { consumed: segments, posParams: {} };
   }
 

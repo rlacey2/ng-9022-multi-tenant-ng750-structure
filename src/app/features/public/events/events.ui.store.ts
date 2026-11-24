@@ -13,7 +13,7 @@ export class EventUiStore {
   // Independent granular signals 
 
   readonly eventId = signal(-1);
-  readonly selectedEvent = signal('-1'); // used in the dropdown of events
+  readonly selectedEvent = signal(-1); // used in the dropdown of events
  
    readonly ec = signal({});
  

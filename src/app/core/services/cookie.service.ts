@@ -12,7 +12,7 @@ export class CookieService {
   private readonly document = inject(DOCUMENT);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  private readonly defaultPage = '/events'
+  private readonly defaultPage = '/events/training'
 
   // 20261105: Null means the user has not made a choice.
   readonly consent = signal<CookieConsent | null>(this.readInitialConsent());
