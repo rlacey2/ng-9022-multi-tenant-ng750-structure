@@ -49,4 +49,8 @@ export class GlobalHeaderComponent {
     });
   }
 
+  logout() {
+    this.authService.logout()
+  }
+
 }

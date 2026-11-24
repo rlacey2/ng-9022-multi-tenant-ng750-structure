@@ -1,13 +1,9 @@
 <div class="login-container">
  
-  <!-- INTERACTIVE DEMO AUTH TOGGLE BUTTON -->
-  <button class="btn btn-sm px-3 fw-bold shadow-sm transition-all text-white border"
-    [ngClass]="authService.isAuthenticated() ? 'btn-danger' : 'btn-success'"
-    (click)="authService.toggleAuthenticationState()">
-    {{ authService.isAuthenticated() ? '🔒 Simulate Logout' : '🔑 Simulate Login' }}
-  </button>
+  <!-- INTERACTIVE DEMO AUTH TOGGLE BUTTON 
+   🔒 Simulate Logout' : '🔑 Simulate Login' 
+   -->
  
-
   <div
     style="max-width: 400px; margin: 4rem auto; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
     <h2 style="margin-top: 0; color: #1e3a8a; text-align: center;">Admin Account</h2>
