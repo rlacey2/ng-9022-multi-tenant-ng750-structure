@@ -11,6 +11,7 @@ import { AuthService } from '../../core/auth/services/auth.service';
 import { AppNavigationLink } from '../../shared/models/shared.models';
 import { GlobalHeaderComponent } from '../../shared/components/global-header/global-header';
 import { NavigationService } from '../../core/services/navigation.service.ts';
+import { SessionTimeoutService } from '../../core/auth/services/session-timeout.service';
  
 @Component({
   selector: 'app-auth-layout',
@@ -25,6 +26,7 @@ export class AuthLayoutComponent {
   protected TenantService = inject(TenantService);
   protected settingsService = inject(WorkspaceSettingsService);
   protected authService = inject(AuthService);
+   private timeoutService = inject(SessionTimeoutService);
    
 
   // Responsive layout state tracking signals
@@ -36,6 +38,17 @@ export class AuthLayoutComponent {
   constructor() {
     this.checkScreenSize();
   }
+
+  ngOnInit(): void {
+    this.timeoutService.startTracking();
+  }
+
+  ngOnDestroy(): void {
+    this.timeoutService.stopTracking();
+  }
+
+
+
 
 @HostListener('window:resize', ['$event'])
 onResize(event: UIEvent) { // 👈 Add the parameter here
@@ -65,4 +78,9 @@ onResize(event: UIEvent) { // 👈 Add the parameter here
     this.leftSidebarOpen.set(false);
     this.rightSidebarOpen.set(false);
   }
+
+
+
+
+
 }

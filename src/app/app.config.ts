@@ -7,6 +7,7 @@ import { TenantService } from './core/http/tenant.service';
 import { CookieService } from './core/services/cookie.service';
 import { provideSignalFormFieldOptions } from './core/services/formfieldoptions/form-field-preferences.service';
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import { SessionTimeoutService } from './core/auth/services/session-timeout.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,8 +28,20 @@ export const appConfig: ApplicationConfig = {
       const cookieService = inject(CookieService);
       return tenantService.initTenantTheme(); //  // BOOT STRAP TO SERVER TO GET cId etc
     }),
+ 
+
+        //   Validate stored session & start tracking if valid
+    provideAppInitializer(() => {
+      const sessionService = inject(SessionTimeoutService);
+      const isValid = sessionService.checkStoredSessionValidity();
+      
+      if (isValid) {
+        sessionService.startTracking();
+      }
+    }),
 
     provideSignalFormFieldOptions()
+
 
 
 

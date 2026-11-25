@@ -15,7 +15,7 @@ export function eventsMatcher(segments: UrlSegment[]): UrlMatchResult | null { /
   //    case 6)   /#/events + error
 
 
-    console.log('eventsMatcher outer', segments); // fires multiple times
+  //  console.log('eventsMatcher outer', segments); // fires multiple times
 
   if (segments.length === 0) { // 20260102 // case 7 
  

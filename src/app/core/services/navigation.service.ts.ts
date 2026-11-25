@@ -13,12 +13,13 @@ export class NavigationService {
   private readonly allLinks: AppNavigationLink[] = [
     { label: '📅 Events', path: '/events/training', visibility: 'always' },
     { label: '🔑 Login', path: '/login', visibility: 'publicOnly' },
-    { label: 'Status', path: '/status', visibility: 'authenticatedOnly' },
-    { label: 'CMS', path: '/cms', visibility: 'authenticatedOnly' },
 
-    { label: 'Admin', path: '/admin', visibility: 'authenticatedOnly' },
-    { label: 'Draft', path: '/draft', visibility: 'authenticatedOnly' },
-    { label: '⚙️ Settings', path: '/useraccount', visibility: 'authenticatedOnly' } 
+    { label: 'Status', path: '/secure/status', visibility: 'authenticatedOnly' },
+    { label: 'CMS', path: '/secure/cms', visibility: 'authenticatedOnly' },
+
+    { label: 'Admin', path: '/secure/admin', visibility: 'authenticatedOnly' },
+    { label: 'Draft', path: '/secure/draft', visibility: 'authenticatedOnly' },
+    { label: '⚙️ Settings', path: '/secure/useraccount', visibility: 'authenticatedOnly' } 
   ];
 
   // Automatically updates whenever authService.isAuthenticated() changes

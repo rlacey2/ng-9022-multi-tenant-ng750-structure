@@ -13,6 +13,7 @@ export const authGuard: CanActivateFn = (_route, state) => {
   }
 
   // Redirect unauthenticated users to /login and pass the attempted URL as a query param
+console.log('aaaaaaaaaafffffffffff')
   return router.createUrlTree(['/login'], {
     queryParams: { returnUrl: state.url }
   });

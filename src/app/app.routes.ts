@@ -35,7 +35,7 @@ export const routes: Routes = [
 
       // Authenticated routes at the same root level (/cms, /admin, /draft, /status)
       {
-        path: '',
+        path: 'secure',
         canActivate: [authGuard],
         canActivateChild: [authGuard],
         loadChildren: () =>

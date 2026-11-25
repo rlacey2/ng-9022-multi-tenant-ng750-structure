@@ -17,23 +17,18 @@ export class AuthService {
 
   private tenantService = inject(TenantService);
   // private publicAPIService = inject(PublicAPIService)
-
-
-  private readonly TIMEOUT_MS = 15 * 60 * 1000;
+ 
 
   private BASE_URL = '';
   cId: any = ""
-
-
-
 
   readonly currentUser = signal<UserProfile | null>(this.initializeUserFromStorage());
   readonly isAuthenticated = computed(() => this.currentUser() !== null);
   private accessToken: string | null = localStorage.getItem('access_token');
 
 
-  private currentUserSignal = signal<UserProfile | null>(null);
-  private tokenSignal = signal<string | null>(null);
+  //private currentUserSignal = signal<UserProfile | null>(null);
+ // private tokenSignal = signal<string | null>(null);
 
 
 
@@ -55,7 +50,7 @@ export class AuthService {
 
     try {
       const response = await firstValueFrom(this.login2({ Username: credentials.email, password: credentials.password }));
-      console.log('Logged in:', response);
+    //  console.log('Logged in:', response);
       let userData = response
       this.handleAuthentication({ UserId: userData.user.UserId, token: userData.token, email: credentials.email, role: userData.user.role })
       // { UserId: userData.user.UserId, token: userData.token, email: payload.email, role: userData.user.role }
@@ -98,6 +93,8 @@ export class AuthService {
 
 
   refreshToken(): Observable<string | null> {
+console.log('refreshToken   FIX THIS ')
+
     const currentRefresh = localStorage.getItem('refresh_token');
     if (!currentRefresh) return of(null);
 
@@ -130,6 +127,9 @@ export class AuthService {
   }
 
   private listenToCrossTabEvents(): void {
+    /*
+    Listen to tabs, and see if they do anything with the user_profile
+    */
     window.addEventListener('storage', (event) => {
       if (event.key !== 'user_profile') return;
       this.ngZone.run(() => {
@@ -151,17 +151,21 @@ export class AuthService {
 
     console.log('handleAuthentication')
 
-    //    console.log('LogInSuccess, localStorage used * 4, refactor?');
+      // console.log('LogInSuccess, localStorage used * 4, refactor?');
     console.log(user);
     localStorage.setItem('accessToken', user.token); // the refreshToken is a separate cookie
-    localStorage.setItem('currentUser', user.email);
-    localStorage.setItem('role', user.role);
+ //   localStorage.setItem('currentUser', user.email);
+  
+  //  localStorage.setItem('role', user.role);
     localStorage.setItem('UserId', user.UserId);
+
 
     // Update the signal value to trigger UI rerenders where bound
     delete user.token
+      localStorage.setItem('user_profile',JSON.stringify(user) )
     this.currentUser.set(user);
 
+   
     if (user.role === "checkin") {
       /*
       this was 2025 wip to allow staff not at hq handle event logins,
@@ -179,15 +183,23 @@ export class AuthService {
   /**
    * Helper to hydrate the signal on page refreshes
    */
-  private initializeUserFromStorage(): UserProfile | null {
-    const storedUser = localStorage.getItem('user_profile');
-    if (!storedUser) return null;
 
-    try {
-      return JSON.parse(storedUser) as UserProfile;
-    } catch {
-      return null;
-    }
+
+  
+private initializeUserFromStorage(): UserProfile | null {
+ console.log('initializeUserFromStorage');
+    const storedUser = localStorage.getItem('user_profile');
+ 
+  if (!storedUser) return null;
+
+  try {
+    this.accessToken = localStorage.getItem('access_token');
+    return JSON.parse(storedUser) as UserProfile;
+  } catch {
+    localStorage.clear();
+    return null;
   }
+}
+
 
 }

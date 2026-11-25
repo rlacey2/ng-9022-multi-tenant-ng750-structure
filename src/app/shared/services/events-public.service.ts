@@ -73,10 +73,7 @@ export class EventsPublicService {
     return this.publicAPIService.getEventById(options)
 
   }
-
  
-
-
     // 20220509 this is new to see if the public events/training view is enabled
     // this is the global admin related flag
 checkEventsEnabled(): void {
