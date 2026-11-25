@@ -115,6 +115,8 @@ console.log('refreshToken   FIX THIS ')
   }
 
   logout(isCrossTabEviction = false): void {
+    // isCrossTabEviction === true means a sibling tab has timed out and will force this session to logout also
+    console.trace('LOGOUT CALLED, isCrossTabEviction:', isCrossTabEviction);
     this.accessToken = null;
     if (!isCrossTabEviction) {
       localStorage.removeItem('access_token');
@@ -134,6 +136,7 @@ console.log('refreshToken   FIX THIS ')
       if (event.key !== 'user_profile') return;
       this.ngZone.run(() => {
         if (event.newValue === null) {
+          // force all other tabs to log out if true is passed in
           this.logout(true);
         } else if (event.newValue && !this.isAuthenticated()) {
           this.loginWithPropagatedTokens();
@@ -180,8 +183,10 @@ console.log('refreshToken   FIX THIS ')
 
   }
 
+ 
   /**
-   * Helper to hydrate the signal on page refreshes
+   * Defensive Bootstrapping Check
+   * * Helper to hydrate the signal on page refreshes
    */
 
 

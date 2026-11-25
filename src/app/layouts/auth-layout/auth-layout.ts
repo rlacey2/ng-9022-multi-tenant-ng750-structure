@@ -12,11 +12,12 @@ import { AppNavigationLink } from '../../shared/models/shared.models';
 import { GlobalHeaderComponent } from '../../shared/components/global-header/global-header';
 import { NavigationService } from '../../core/services/navigation.service.ts';
 import { SessionTimeoutService } from '../../core/auth/services/session-timeout.service';
+import { TimeoutModalComponent } from '../../shared/components/timeout-modal/timeout-modal.component';
  
 @Component({
   selector: 'app-auth-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule,  GlobalHeaderComponent],
+  imports: [CommonModule, RouterModule,  GlobalHeaderComponent, TimeoutModalComponent],
   templateUrl: './auth-layout.html',
   styleUrls: ['./auth-layout.scss']
 })
@@ -35,16 +36,26 @@ export class AuthLayoutComponent {
   rightSidebarOpen = signal<boolean>(false);
 
  
+/*
+Only track inactivity while the user is logged into the application. 
+Tracking while they are on the public landing page or login screen wastes CPU cycles.
+By initiating tracking inside your AuthLayoutComponent's lifecycle hook, the monitoring automatically 
+activates the moment they pass the authGuard and shuts down cleanly the moment they leave.
+
+*/
+
+
   constructor() {
     this.checkScreenSize();
   }
 
   ngOnInit(): void {
-    this.timeoutService.startTracking();
+   // this.timeoutService.startTracking(); covered by SessionTimeoutService effect in constructor
+       
   }
 
   ngOnDestroy(): void {
-    this.timeoutService.stopTracking();
+  //  this.timeoutService.stopTracking(); // this.timeoutService.startTracking(); covered by SessionTimeoutService effect in constructor
   }
 
 

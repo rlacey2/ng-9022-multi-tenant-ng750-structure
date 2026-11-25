@@ -2,6 +2,8 @@
 
 <!-- Level 1: Application-level Global Header (Themed with responsive burger collapse) -->
 <!-- Inside auth-layout.component.html  -->
+
+ <app-timeout-modal /> <!-- popups when needed, triggered by a signal -->
 <app-global-header 
 (toggleLeft)="toggleLeftSidebar()"
 (toggleRight)="toggleRightSidebar()">

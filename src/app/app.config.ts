@@ -32,12 +32,17 @@ export const appConfig: ApplicationConfig = {
 
         //   Validate stored session & start tracking if valid
     provideAppInitializer(() => {
+/*
+Ensure SessionTimeoutService is injected at least once at app startup 
+e.g., in AppComponent or provideAppInitializer—so its constructor and effect() are initialized.)
+*/
       const sessionService = inject(SessionTimeoutService);
       const isValid = sessionService.checkStoredSessionValidity();
-      
+      /* do when hitting the auth.layout 
       if (isValid) {
         sessionService.startTracking();
       }
+        */
     }),
 
     provideSignalFormFieldOptions()
