@@ -13,11 +13,12 @@ import { GlobalHeaderComponent } from '../../shared/components/global-header/glo
 import { NavigationService } from '../../core/services/navigation.service.ts';
 import { SessionTimeoutService } from '../../core/auth/services/session-timeout.service';
 import { TimeoutModalComponent } from '../../shared/components/timeout-modal/timeout-modal.component';
+import { ToastContainerComponent } from '../../core/services/toast/toast-container';
  
 @Component({
   selector: 'app-auth-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule,  GlobalHeaderComponent, TimeoutModalComponent],
+  imports: [CommonModule, RouterModule, GlobalHeaderComponent, TimeoutModalComponent, ToastContainerComponent],
   templateUrl: './auth-layout.html',
   styleUrls: ['./auth-layout.scss']
 })

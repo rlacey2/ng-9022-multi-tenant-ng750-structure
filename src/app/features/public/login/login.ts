@@ -27,7 +27,7 @@ export class LoginComponent {
 
 
   constructor() {
-    console.log('CONVERT TO SIGNALS')
+    
   }
 
   loginModel = signal({

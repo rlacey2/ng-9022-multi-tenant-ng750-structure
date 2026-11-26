@@ -139,6 +139,11 @@ currentEventId = linkedSignal<number>(( ) => {
 
 
   constructor() {
+
+    console.log('later integrate ng-845-pure-spinner-loading-service')
+
+
+
     console.log('events constructor: ' + this.tenantService.cId() + "   " + this.tenantService.isLiveSystem())
  //   effect(() => console.log(this.eventId()))
 

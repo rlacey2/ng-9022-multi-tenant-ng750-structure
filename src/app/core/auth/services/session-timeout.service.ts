@@ -10,12 +10,12 @@ export class SessionTimeoutService {
   private authService = inject(AuthService);
   private ngZone = inject(NgZone);
 
-  //  private readonly TIMEOUT_MS = 15 * 60 * 1000;
-  private readonly TIMEOUT_MS = 9900;
-  // private readonly WARNING_AT_MS = 13 * 60 * 1000;
-  private readonly WARNING_AT_MS = 6000;
-  // private readonly COUNTDOWN_DURATION_SEC = 2 * 60;
-  private readonly COUNTDOWN_DURATION_SEC = 4;
+     private readonly TIMEOUT_MS = 20 * 60 * 1000;
+  //private readonly TIMEOUT_MS = 9900;
+   private readonly WARNING_AT_MS = 18 * 60 * 1000;   // set 2 minutes less than IMEOUT_MS
+ // private readonly WARNING_AT_MS = 6000;
+    private readonly COUNTDOWN_DURATION_SEC = 2 * 60;
+  // private readonly COUNTDOWN_DURATION_SEC = 4;
 
 
   private activitySubscription?: Subscription;

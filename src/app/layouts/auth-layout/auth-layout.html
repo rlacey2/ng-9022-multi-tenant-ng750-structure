@@ -4,6 +4,10 @@
 <!-- Inside auth-layout.component.html  -->
 
  <app-timeout-modal /> <!-- popups when needed, triggered by a signal -->
+
+      <!-- GLOBAL FLOATING NOTIFICATION WRAPPER -->
+      <app-toast-container></app-toast-container>
+
 <app-global-header 
 (toggleLeft)="toggleLeftSidebar()"
 (toggleRight)="toggleRightSidebar()">
