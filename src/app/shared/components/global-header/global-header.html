@@ -25,12 +25,25 @@
 
       <!-- Only render Options dropdown when user is authenticated -->
       @if ( authService.isAuthenticated()) {
+
+
+ <!-- to keep it out of the public bundle: -->
+  @defer {
+    <app-utility-menu />
+  }
+ 
+
+
+
+
+
+<!--
       <div class="dropdown">
         <button class="btn btn-sm btn-light dropdown-toggle px-3 fw-semibold shadow-sm text-dark" type="button"
           id="globalSettingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
           ⚙️ Options
         </button>
-        <!-- Dropdown items -->
+        <! -- Dropdown items -- >
         <ul class="dropdown-menu dropdown-menu-end shadow-lg p-3 mt-2 rounded-3" style="width: 310px; z-index: 1060;"
           aria-labelledby="globalSettingsDropdown">
           <li>
@@ -55,24 +68,25 @@
             </div>
           </li>
 
-          <li class="px-2 py-1 mt-2">
-            <div class="form-check form-switch m-0">
-              <button mat-icon-button (click)="openAppearanceSettings()" aria-label="Form Field Settings">
-                Input Appearance Tuning
-              </button>
-            </div>
-          </li>
+     
 
         </ul>
       </div>
 
+    -->
+
+
+
+    
+      <!-- 
       <button class="btn btn-sm px-1 fw-bold shadow-sm transition-all text-white border"
         [ngClass]="authService.isAuthenticated() ? 'btn bg-danger-subtle text-danger-emphasis border-danger-subtle' : 'btn-success'" (click)="logout()"
         style="min-width: 50px">
         Logout
       </button>
-
+-->
       }
+      <!-- floating buttons appear as need-->
       @if (settingsService.headerLaunchButtons() && (settingsService.activeLeftSidebar() ||
       settingsService.activeRightSidebar())) {
       <div class="d-flex gap-1 d-lg-none">
@@ -88,6 +102,7 @@
       }
     </div>
 
+ 
     <!-- 3. Far Right: Mobile Burger Toggle (No ms-auto, sits flush on the right edge) -->
     <button class="navbar-toggler border-0 shadow-none order-lg-4" type="button" data-bs-toggle="collapse"
       data-bs-target="#appHeaderNavbar" aria-controls="appHeaderNavbar" aria-expanded="false"
@@ -108,6 +123,7 @@
         }
       </ul>
     </div>
+ 
 
   </div>
 </header>

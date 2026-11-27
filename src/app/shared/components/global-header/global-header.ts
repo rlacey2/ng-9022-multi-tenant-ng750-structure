@@ -9,17 +9,17 @@ import { FallbackImgDirective } from '../../directives/fallback-img.directive';
 import { TenantService } from '../../../core/http/tenant.service';
 import { NavigationService } from '../../../core/services/navigation.service.ts';
 import { CookieService } from '../../../core/services/cookie.service';
-import { FormFieldSettingsDialogComponent } from '../../../core/services/formfieldoptions/dialog/form-field-settings-dialog';
-import { MatDialog } from '@angular/material/dialog';
+ 
+import { UtilityMenuComponent } from '../../../features/authenticated/utility-menu/utility-menu';
 
 @Component({
   selector: 'app-global-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, UtilityMenuComponent],
   templateUrl: './global-header.html'
 })
 export class GlobalHeaderComponent {
-     private readonly dialog = inject(MatDialog);
+  
   protected TenantService = inject(TenantService);
   protected navService = inject(NavigationService);
   protected authService = inject(AuthService);
@@ -41,14 +41,7 @@ export class GlobalHeaderComponent {
 
 
 
-   openAppearanceSettings(): void {
-      // move to navbar later
-    this.dialog.open(FormFieldSettingsDialogComponent, {
-      width: '460px',
-      autoFocus: false,
-    });
-  }
-
+ 
   logout() {
     this.authService.logout()
   }

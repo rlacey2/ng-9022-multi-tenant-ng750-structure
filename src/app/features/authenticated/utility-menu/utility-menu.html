@@ -1,0 +1,65 @@
+<button class="btn btn-sm btn-light dropdown-toggle px-3 fw-semibold shadow-sm text-dark" type="button"
+  [matMenuTriggerFor]="utility" aria-label="Utility menu" aria-expanded="false">
+  ⚙️ Utility
+</button>
+
+<mat-menu #utility="matMenu" class="menu-a">
+  <a mat-menu-item routerLink="/secure/dbtasks">DB Tasks</a>
+  <button mat-menu-item [matMenuTriggerFor]="subTasks">Task Tab...</button>
+  <a mat-menu-item class="font0_625" routerLink="/secure/useraccount">
+    {{ user()?.email }}
+  </a>
+  <button mat-menu-item (click)="openAppearanceSettings()" aria-label="Form Field Tuning Settings">
+
+    Tuning</button>
+
+
+<button mat-menu-item [matMenuTriggerFor]="frameModifiers">Frame Modifiers</button>
+ 
+
+
+
+
+  <button class="btn   px-1 fw-bold shadow-sm transition-all text-white border w-100"
+    [attr.Class]="authService.isAuthenticated() ? 'btn bg-danger-subtle text-danger-emphasis border-danger-subtle w-100' : 'btn-success'"
+    (click)="logout()">
+    <span>
+      Logout
+    </span>
+
+  </button>
+
+
+
+</mat-menu>
+
+
+
+<mat-menu #subTasks="matMenu" class="menu-b">
+  @for (tab of dbTaskTabs; track tab.index) {
+  <a mat-menu-item routerLink="/se cure/dbtasks" [queryParams]="tab.index === 0 ? null : { tab: tab.index }">
+    {{ tab.label }}
+  </a>
+  }
+</mat-menu>
+
+
+<mat-menu #frameModifiers="matMenu" class="menu-b frame-modifiers-menu">
+  <!-- stop clicks reaching the menu so it stays open while toggling -->
+  <div class="frame-modifiers gap-2" role="group" aria-labelledby="fm-heading"
+       (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+    <div id="fm-heading" class="frame-modifiers__title">Global Frame Modifiers</div>
+
+    <mat-slide-toggle
+      [checked]="settingsService.headerLaunchButtons()"
+      (change)="settingsService.headerLaunchButtons.set($event.checked)">
+      Header Launch Buttons
+    </mat-slide-toggle>
+
+    <mat-slide-toggle
+      [checked]="settingsService.touchOverlayClose()"
+      (change)="settingsService.touchOverlayClose.set($event.checked)">
+      Touch Overlay Close
+    </mat-slide-toggle>
+  </div>
+</mat-menu>
